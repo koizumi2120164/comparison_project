@@ -10,18 +10,17 @@
 {% endblock %}
 
 {% block contents %}
-<form action="">
-    <form action="">
+<form action="/search-results/" method="get">
         <div class="card mb-4">
             <div class="card-body">
-                <label><input class="form-control" type="text" name="search" placeholder="高度な検索" aria-label="Enter search term..." aria-describedby="button-search" /></label>
+                <label><input class="form-control" type="text" name="keyword" id="keyword" placeholder="高度な検索" aria-label="Enter search term..." aria-describedby="button-search" /></label>
             </div>
         </div>
 
         <br>
 
         <div class="select">
-            <select name="hyouzi">
+            <select name="brand" id="brand">
                 <option value="" selected="selected">ブランド</option>
                 <option value="amazon">amazon</option>
                 <option value="楽天">楽天</option>
@@ -30,7 +29,7 @@
         </div>
 
         <div class="select">
-            <select name="value">
+            <select name="value" id="value">
                 <option value="" selected="selected">価格</option>
                 <option value="～500円">～500円</option>
                 <option value="500円～1000円">500円～1000円</option>
@@ -40,16 +39,15 @@
         </div>
     
         <div class="select">
-            <select name="hyouzi">
+            <select name="display" id="display">
                 <option value="ninki" selected="selected">人気順</option>
                 <option value="new">新着順</option>
             </select>
         </div>
 
-    </form>
     <br>
-    <input type="reset">
-    <button class="btn btn-primary" id="button-search" type="button">検索</button>
+    <input type="reset" value="リセット">
+    <input type="submit" value="送信">
 </form>
 
 {% endblock %}
