@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'project.apps.ProjectConfig',
+    'rakutenapi.apps.ProjectConfig',
 ]
 
 MIDDLEWARE = [

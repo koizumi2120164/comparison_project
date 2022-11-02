@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} 企業情報 | マップハウジング {% endblock %}
+{% block about %} active {% endblock %}
+{% load static %}
+
+{% block contents %}   
+
+<body>
+    <section class="page-section about-heading">
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3">いらっしゃいませ</span>
+            <span class="site-heading-lower">マップハウジングへようこそ</span>
+        </h1>
+        <div class="container">
+            <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="{% static 'assets/img/about.jpg' %}" alt="..." />
+            <div class="about-heading-content">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-10 mx-auto">
+                        <div class="bg-faded rounded p-5">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper">はじめまして</span>
+                                <span class="section-heading-lower">サービスにつきましては、</span>
+                            </h2>
+                            <p>2022年にABCさんによって作られた私たちのサービスは安全、安い、奇麗の3つ基準を持っている部屋を提供してきました。私たちのサービスにおいで、最高の部屋を探し、理想な部屋にあなたを連れて行くことに専念しています。</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+{% endblock %}
