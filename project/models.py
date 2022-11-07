@@ -2,7 +2,7 @@ from accounts.models import CustomUser
 from django.db import models
 
 
-<<<<<<< HEAD
+
 class Diary(models.Model):
     """口コミ掲示板"""
 
@@ -20,7 +20,9 @@ class Diary(models.Model):
 
     def __str__(self):
         return self.title
-=======
+
+
+
 class Review(models.Model):
     """レビューモデル"""
 
@@ -34,4 +36,4 @@ class Review(models.Model):
     created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日', auto_now=True)
     like_review = models.ManyToManyField(verbose_name='いいね', )
->>>>>>> d9fd165d7acb684f66cbd6d75ea934ac480f78cc
+
