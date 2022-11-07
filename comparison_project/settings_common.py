@@ -33,7 +33,8 @@ INSTALLED_APPS = [
 
     'project.apps.ProjectConfig',
     'rakutenapi.apps.RakutenapiConfig',
-    'acconts.apps.AccountsConfig'
+    'bbs.apps.BbsConfig',
+    'register.apps.RegisterConfig',
 ]
 
 MIDDLEWARE = [
@@ -136,5 +137,3 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert alert-success',
     messages.INFO: 'alert alert-info',
 }
-
-AUTH_USER_MODEL = 'accounts.CustomUser'

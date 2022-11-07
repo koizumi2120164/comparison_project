@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}レビュー詳細{% endblock %}
+
+{% block active_diary_list %}active{% endblock %}
+
+
+{% block contents %}
+<div class="container my-div-style">
+    <div class="row">
+        <div class="col-3">
+            <strong>レビュータイトル</strong>
+        </div>
+        <div class="col-9">
+            {{ object.review_title }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-3">
+            <strong>ユーザーID</strong>
+        </div>
+        <div class="col-9">
+            {{ object.userID }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-3">
+            <strong>商品名</strong>
+        </div>
+        <div class="col-9">
+            {{ object. }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-9">
+            {{ object.review }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-3">
+            <strong>写真</strong>
+        </div>
+        <div class="col-3">
+            {% if object.photo %}
+            <img src="{{ object.photo.url }}" width="200" height="200"/>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-3">
+            <strong>レビュー内容</strong>
+        </div>
+        <div class="col-9">
+            {{ object.review_text }}
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    <a class="btn btn-success mt-5 mb-3" href="{% url 'project:review_edit' object.pk %}">修正</a>
+    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'prefectures:prefectures_delete' object.pk %}">削除</a>
+    {% endif %}
+</div>
+{% endblock %}
