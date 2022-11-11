@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('project.urls')),
     path('', include('rakutenapi.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
