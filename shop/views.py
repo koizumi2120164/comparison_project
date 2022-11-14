@@ -7,7 +7,7 @@ import requests
 SEARCH_URL = 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&applicationId=[1059665974949401126]'
 
 def get_api_data(params):
-    api = requests.get(SEARCH_URL, params=params)
+    api = requests.get(SEARCH_URL, params=params).text
     result = json.loads(api)
     items = result['Items']
     return items
@@ -16,7 +16,7 @@ class IndexView(View):
     def get(self, request, *args, **kwargs):
         form = SearchForm(request.POST or None)
 
-        return render(request, 'app/index.html', {
+        return render(request, 'testindex.html', {
             'form':form,
         })
     
@@ -24,7 +24,7 @@ class IndexView(View):
         form = SearchForm(request.POST or None)
 
         if form.is_valid():
-            keyword = form.clean_data['title']
+            keyword = form.cleaned_data['title']
             params = {
                 'title': keyword,
                 'hits': 28

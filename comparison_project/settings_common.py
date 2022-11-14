@@ -34,12 +34,15 @@ INSTALLED_APPS = [
     'django_bootstrap5',
 
     'project.apps.ProjectConfig',
-    'rakutenapi.apps.RakutenapiConfig',
+    'shop.apps.ShopConfig',
     'bbs.apps.BbsConfig',
+    
 
     'accounts.apps.AccountsConfig',
     'allauth',
     'allauth.account',
+
+    'widget_tweaks'
 
 ]
 
