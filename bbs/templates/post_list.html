@@ -1,0 +1,23 @@
+<!-- bbs/templates/bbs/post_list.html -->
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}comparison site{% endblock %}
+
+{% block contents %}
+<section class="mt-5">
+  <div class="d-flex justify-content-end mb-4">
+    <a class="btn btn-primary float-right" href="{% url 'bbs:create' %}">新規作成</a>
+  </div>
+  {% for post in post_list %}
+  <article class="article mb-5">
+    <h2 class="mt-2">
+      <a class="text-dark" href="{% url 'bbs:post_detail' post.pk %}"> #{{ post.pk }} {{ post.title }}</a>
+    </h2>
+    <i class="far fa-calendar-alt"></i>
+    <span class="ms-1">{{ post.created_at | date:'Y-m-d' }}</span>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}レビュー編集{% endblock %}
+{% block title %}レビュー投稿{% endblock %}
 
 {% block active_review_edit %}active{% endblock %}
 
@@ -13,7 +13,7 @@
             <table class="table">
                 {{ form.as_table }}
             </table>
-            <button class="btn btn-primary" type="submit">保存</button>
+            <button class="btn btn-primary" type="submit">投稿</button>
             <input type="reset" class="btn btn-primary" value="リセット">
         </form>
     </div>

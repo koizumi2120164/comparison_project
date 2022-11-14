@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Review
-from .forms import ReviewForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import Word
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -24,32 +24,63 @@ class OnlyYouMixin(UserPassesTestMixin):
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
-
-
-class InquiryView(generic.FormView):
-    template_name = "inquiry.html"
-    form_class = InquiryForm
-    success_url = reverse_lazy('project:inquiry')
-
-    def form_valid(self, form):
-        form.send_email()
-        messages.success(self.request, 'メッセージを送信しました。')
-        logger.info('Inquiry sent by {}'.format(form.cleaned_data['name']))
-        return super().form_valid(form)
+    
 
 class SearchAdvancedView(generic.TemplateView):
-    template_name = "search.html"
+    template_name = 'search_advanced.html'
 
 
-class DiaryListView(LoginRequiredMixin, generic.ListView):
-    model = project
-    template_name = 'project_list.html'
-    paginate_by = 2
+"""検索結果"""
+"""class SearchResultsView(generic.TemplateView):
+    template_name = "search_results.html"
+    model = Product
+    paginate_by = 3
 
-    def get_queryset(self):
-        diaries = project.objects.filter(user=self.request.user).order_by('-created_at')
-        return diaries
 
+    def get_queryset(self, request):
+        keyword = request.GET.get("keyword")
+        brand = request.GET.get("brand")
+        value = request.GET.get("value")
+        display = request.GET.get("display")
+
+        def Value():
+            if value == "～500円":
+                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_lt=500) | Q(price2_lt=500) | Q(price3_lt=500))
+            elif value == "500円～1000円":
+                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gte=500) & Q(price1_lt=1000) | Q(price2_gte=500) & Q(price2_lt=1000) | Q(price3_gte=500) & Q(price3_lt=1000))
+            elif value == "1000円～5000円":
+                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gte=1000) & Q(price1_lt=5000) | Q(price2_gte=1000) & Q(price2_lt=5000) | Q(price3_gte=1000) & Q(price3_lt=5000))
+            elif value == "5000円～10000円":
+                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gte=5000) & Q(price1_lt=10000) | Q(price2_gte=5000) & Q(price2_lt=10000) | Q(price3_gte=5000) & Q(price3_lt=10000))
+            elif value == "10000円～":
+                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gt=10000) | Q(price2_gt=10000) | Q(price3_gt=10000))
+            else:
+                product = Product.objects.filter(Q(product_name__contains=keyword))
+
+
+        if brand == "amazon" or brand == "楽天" or brand == "Yahoo":
+            if display == "popular":
+                Value()
+                product |=  Q(product_brand_exact=brand)
+                product = Product.object.order_by('like_product').reverse()
+            else:
+                Value()
+                product |=  Q(product_brand_exact=brand)
+                product = Product.object.order_by('productID').reverse()
+
+        else:
+            if display == "popular":
+                Value()
+                product = Product.object.order_by('like_product').reverse()
+
+            else:
+                Value()
+                product = Product.object.order_by('productID').reverse()
+        
+        return product"""
+
+
+"""
 
 class DiaryDetailView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     model = project
@@ -100,18 +131,19 @@ class DiaryDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         messages.success(self.request, "日記を削除しました。")
         return super().delete(request, *args, **kwargs)
         return keyword,brand,value,display
+"""
 
-
-class PrefecturesDetailView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
+"""class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     model = Review
     template_name = 'review.html'
-        
 
-class ReviewEditView(generic.TemplateView):
+
+class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Review
-    template_name = 'review_edit.html'
+    template_name = 'review_create.html'
     form_class = ReviewForm
     # success_url = reverse_lazy('prefectures:prefectures_list')
+    # ↑商品詳細ページへ遷移する
 
     def form_valid(self, form):
         review = form.save(commit=False)
@@ -123,13 +155,85 @@ class ReviewEditView(generic.TemplateView):
     def form_invalid(self, form):
         messages.error(self.request, "レビューの作成に失敗しました。")
         return super().form_invalid(form)
+        
+
+class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
+    model = Review
+    template_name = 'review_edit.html'
+    form_class = ReviewForm
+
+    def get_success_url(self):
+        return reverse_lazy('project:review_detail', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.userID = self.request.user
+        review.save()
+        messages.success(self.request, 'レビューを編集しました。')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "レビューの編集に失敗しました。")
+        return super().form_invalid(form)
 
 
 class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Review
-    template_name = 'prefectures_delete.html'
-    success_url = reverse_lazy('prefectures:prefectures_list')
+    template_name = 'review_delete.html'
+    # success_url = reverse_lazy('project:review_delete')
+    # ↑商品詳細ページへ遷移する
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "日記を削除しました。")
         return super().delete(request, *args, **kwargs)
+
+
+class UserReviewPageView(generic.ListView):
+    model = Review
+    template_name = 'user_review_page.html'
+
+    def get_queryset(self):
+        review = Review.objects.filter(created_by=self.request.user).order_by('-created_at')
+        return review
+
+    def get_queryset(self):
+        word = Word.objects.filter(created_by=self.request.user).order_by('-created_at')
+        return word
+
+    def get_queryset(self):
+        account = Word.objects.filter(created_by=self.request.user).order_by('-created_at')
+        return account"""
+
+
+"""商品一覧（新着順）ページ"""
+"""class ProductAllView(generic.ListView):
+    model = Product
+    template_name = 'product_all.html'
+    paginate_by = 3
+
+    def get_queryset(self):
+        product_all = Product.objects.order_by('-created_at')
+        return product_all"""
+
+
+"""商品詳細ページ"""
+"""class ItemView(generic.DetailView):
+    model = Product
+    template_name = 'item.html'
+    form_class = ItemForm
+
+    def recently(request):
+        recently = Recently_viewed(userID=self.request.user, productID=product.productID)
+        recently.save()
+        return super().form_valid(form)"""
+
+
+"""閲覧履歴"""
+"""class RecentlyViewedView(LoginRequiredMixin, OnlyYouMixin, generic.ListView):
+    model = Recently_viewed
+    template_name = 'recently_viewed.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        recently = Recently_viewed.objects.filter(user=self.request.user).order_by('-last_visited')
+        return recently"""

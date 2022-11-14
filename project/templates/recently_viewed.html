@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}公開ブログ一覧 | Prefecture blog{% endblock %}
+{% block title %}作成ブログ一覧 | Prefecture blog{% endblock %}
 
 {% block active_prefectures_list %}active{% endblock %}
 
@@ -9,35 +9,36 @@
 <div class="container px-4 px-lg-5 my-div-style">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <div class="d-flex justify-content-end mb-4">
-            </div>
-
-            <hr class="my-4">
-            
-            {% for prefectures in prefectures_list %}
+            <h1>閲覧履歴</h1>
+            {% for recently in recently_viewed %}
             <div class="post-preview">
                 <h3 class="gazo-box">
-                    <img src="{{ product.photo1.url }}" width="200" height="200"/>
+                    {% if product.image1 %}
+                    <img src="{{ product.image1.url }}" width="200" height="200"/>
+                    {% endif %}
+                    {% if product.image2 %}
+                    <img src="{{ product.image2.url }}" width="200" height="200"/>
+                    {% endif %}
+                    {% if product.image3 %}
+                    <img src="{{ product.image3.url }}" width="200" height="200"/>
+                    {% endif %}
                 </h3>
-
-                <a href="{% url 'project:item' project.pk %}">
+                <a href="{% url 'project:商品詳細ページ' project.pk %}">
                     <h2 class="post-title">
                         {{ product.product_name }}
-                        {{ product.price1 }}
-                        {{ product.price2 }}
-                        {{ product.price3 }}
-                        {{ product.rating }}
                     </h2>
                 </a>
-                
-                <p class="post-meta">{{ prefectures.created_at }}　{{prefectures.open_private}}</p>
+                <h2>
+                    {{ product.price1 }}
+                    {{ product.price2 }}
+                    {{ product.price3 }}
+                </h2>
             </div>
             <hr class="my-4">
-
             {% empty %}
-            <p>検索結果に合う商品がありません。</p>
+            <p>閲覧した商品がありません。</p>
             {% endfor %}
-            
+
             <!-- ページネーション処理 -->
             {% if is_paginated %}
             <ul class="pagination">

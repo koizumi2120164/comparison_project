@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}レビュー編集{% endblock %}
+{% block title %}ブログ作成 | Prefecture blog{% endblock %}
 
-{% block active_review_edit %}active{% endblock %}
+{% block active_prefectures_list %}active{% endblock %}
 
 {% block contents %}
 <div class="container my-div-style">
@@ -13,8 +13,7 @@
             <table class="table">
                 {{ form.as_table }}
             </table>
-            <button class="btn btn-primary" type="submit">保存</button>
-            <input type="reset" class="btn btn-primary" value="リセット">
+            <button class="btn btn-primary" type="submit">作成</button>
         </form>
     </div>
 </div>

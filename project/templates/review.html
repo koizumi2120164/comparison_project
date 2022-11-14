@@ -24,7 +24,7 @@
             <strong>ユーザーID</strong>
         </div>
         <div class="col-9">
-            {{ object.userID }}
+            <a href="ユーザー詳細ページへのリンク">{{ object.userID }}</a>
         </div>
     </div>
 
@@ -73,7 +73,7 @@
 
     {% if user.is_authenticated %}
     <a class="btn btn-success mt-5 mb-3" href="{% url 'project:review_edit' object.pk %}">修正</a>
-    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'prefectures:prefectures_delete' object.pk %}">削除</a>
+    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:review_delete' object.pk %}">削除</a>
     {% endif %}
 </div>
 {% endblock %}

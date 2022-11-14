@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block contents %}
-<form action="/search-results/" method="get">
+<form action="{% url 'project:search_advanced' %}" method="get">
         <div class="card mb-4">
             <div class="card-body">
                 <label><input class="form-control" type="text" name="keyword" id="keyword" placeholder="高度な検索" aria-label="Enter search term..." aria-describedby="button-search" /></label>
@@ -35,12 +35,13 @@
                 <option value="500円～1000円">500円～1000円</option>
                 <option value="1000円～5000円">1000円～5000円</option>
                 <option value="5000円～10000円">5000円～10000円</option>
+                <option value="10000円～">10000円～</option>
             </select>
         </div>
     
         <div class="select">
             <select name="display" id="display">
-                <option value="ninki" selected="selected">人気順</option>
+                <option value="popular" selected="selected">人気順</option>
                 <option value="new">新着順</option>
             </select>
         </div>
