@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 
 
 class Post(models.Model):
+    """投稿"""
     writer = models.CharField('投稿者', default='名無し', max_length=32)
     title = models.CharField('タイトル', max_length=256)
     text = models.TextField('本文')
@@ -14,7 +15,8 @@ class Post(models.Model):
 
 
 class LikeForPost(models.Model):
-    userID = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    wished_item = models.ForeignKey(Post, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True, blank=True)
-    added_date = models.DateTimeField(default=timezone.now)
+    """投稿に対するいいね"""
+    target = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=timezone.now)
+
