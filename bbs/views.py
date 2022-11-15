@@ -1,7 +1,7 @@
 from django.views import generic
 from .models import Post, LikeForPost
-from django.http import JsonResponse  # 追加
-from django.shortcuts import get_object_or_404  # 追加
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from . forms import CreateForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -17,8 +17,10 @@ class PostDetail(generic.DetailView):
     model = Post
 
 
-    def get_context_data(self, request, *args, **kwargs):
-        post_pk = request.POST.get('post_pk')
+    def get_context_data(self,*args, **kwargs):
+        #print(vars(self.request))
+        #post_pk = self.request.POST.get('post_pk')
+        post_pk = self.kwargs['pk']
         context = super().get_context_data(**kwargs)
         post = get_object_or_404(Post, pk=post_pk)
         like_for_post_count = LikeForPost.objects.filter(target=post).count()
@@ -52,6 +54,7 @@ def like_for_post(request):
     context['like_for_post_count'] = post.likeforpost_set.count()
 
     return JsonResponse(context)
+
 
 class CreateView(generic.CreateView):
     model = Post
