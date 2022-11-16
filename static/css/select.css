@@ -75,14 +75,14 @@ select::-ms-expand {
 }
 
 body{
-    margin:0px;          /* ページ全体のmargin */
-    padding:0px;         /* ページ全体のpadding */
-    text-align:center;   /* 下記のautoに未対応用のセンタリング */
+    margin:0px;       
+    padding:0px;      
+    text-align:center;
 }
            
 #main{
-    margin-left:auto;    /* 左側マージンを自動的に空ける */
-    margin-right:auto;   /* 右側マージンを自動的に空ける */
-    text-align:left;     /* 中身を左側表示に戻す */
-    width:650px;         /* 幅を決定する */
+    margin-left:auto; 
+    margin-right:auto;
+    text-align:left;  
+    width:650px;      
 }

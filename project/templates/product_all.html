@@ -43,7 +43,7 @@
                             <ul class="list-unstyled mb-0">
                                 {% rank = 1 %}
                                 {% for ranking in rank_list %}
-                                <li><a href="#!">#{{ rank }}　{{ ranking.product_name }}</a></li>
+                                <li><a href="{% url 'project:商品詳細ページ' project.pk %}">#{{ rank }}　{{ ranking.product_name }}</a></li>
                                 {% rank += 1 %}
                                 {% endfor %}
                             </ul>

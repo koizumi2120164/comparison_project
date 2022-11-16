@@ -13,12 +13,13 @@
 <form action="{% url 'project:search_advanced' %}" method="get">
         <div class="card mb-4">
             <div class="card-body">
-                <label><input class="form-control" type="text" name="keyword" id="keyword" placeholder="高度な検索" aria-label="Enter search term..." aria-describedby="button-search" /></label>
+                <label><input class="form-control" type="text" name="keyword" id="keyword" placeholder="高度な検索" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
             </div>
         </div>
 
         <br>
 
+        
         <div class="select">
             <select name="brand" id="brand">
                 <option value="" selected="selected">ブランド</option>
@@ -47,6 +48,7 @@
         </div>
 
     <br>
+    <ul style="list-style: none;"><li>検索結果０件</li></ul>
     <input type="reset" value="リセット">
     <input type="submit" class="btn btn-primary" value="送信">
 </form>
