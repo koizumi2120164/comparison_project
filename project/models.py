@@ -46,4 +46,17 @@ class Recently_viewed(models.Model):
     productID = models.ForeignKey(Product,verbose_name='商品ID', on_delete=models.PROTECT, max_length=50)
     last_visited = models.DateTimeField(verbose_name='更新日', auto_now=True)
 
+
+class Wishlist(models.Model):
+    userID = models.UUIDField(CustomUser, verbose_name='ユーザーID', editable=False)
+    wished_item = models.UUIDField(Product, verbose_name='商品ID', editable=False)
+    slug = models.SlugField(verbose_name='管理番号')
+    added_date = models.DateTimeField(verbose_name='追加された日時', auto_now=True)
+
+"""
+
+"""
+target = wished_item
+user = userID
+timestamp = added_date
 """
