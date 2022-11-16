@@ -237,6 +237,41 @@ class ProductAllView(generic.ListView):
         recently.save()
         return super().form_valid(form)
 
+    いいねすうのひ
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # ログイン中のユーザーがイイねしているかどうか
+        if Wishlist.objects.filter(userID=self.request.user).exists():
+            context['like'] = True
+        else:
+            context['like'] = False
+        
+        return context
+
+
+お気に入り
+def like_for_post(request):
+    post_pk = request.POST.get('post_pk')
+
+    context = {
+        'user': f'{request.user.last_name} {request.user.first_name}',
+    }
+    
+    post = get_object_or_404(Post, pk=post_pk)
+    like = Wishlist.objects.filter(wish_item=post, userID=request.user)
+
+    if like.exists():
+        like.delete()
+        context['method'] = 'delete'
+
+    else:
+        like.create(wish_item=post, userID=request.user)
+        context['method'] = 'create'
+
+    context['like_for_post_count'] = post.likeforpost_set.count()
+
+    return JsonResponse(context)    
+
 
 閲覧履歴
 class RecentlyViewedView(LoginRequiredMixin, OnlyYouMixin, generic.ListView):
