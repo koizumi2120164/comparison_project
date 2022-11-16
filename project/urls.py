@@ -12,4 +12,6 @@ urlpatterns = [
     # path('review_delete/', views.ReviewDeleteView.as_view(), name="review_delete"),
     # path('user_review_page/', views.UserReviewPageView.as_view(), name="user_review_page"), 
     # path('product_all/', views.ProductAllView.as_view(), name="product_all"),
+    # path('wish_list/', views.WishListView.as_view(), name="wish_list"),
+    # path('rank_list/', views.RankListView.as_view(), name="rank_list"),
 ]

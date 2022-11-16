@@ -35,8 +35,6 @@ INSTALLED_APPS = [
 
     'project.apps.ProjectConfig',
     'shop.apps.ShopConfig',
-    'bbs.apps.BbsConfig',
-    
 
     'accounts.apps.AccountsConfig',
     'allauth',
