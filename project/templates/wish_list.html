@@ -26,7 +26,7 @@
                 <h2>
                     {{ wish_list.added_date }}
                 </h2>
-                <a class="btn btn-primary" href="{% url 'project:お気に入り削除' project.pk %}">削除</a>
+                <a class="btn btn-primary" href="{% url 'project:wish_delete' project.pk %}">削除</a>
             </div>
             <hr class="my-4">
             {% empty %}

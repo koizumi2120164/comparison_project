@@ -27,6 +27,16 @@ class OnlyYouMixin(UserPassesTestMixin):
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
+
+"""
+    def get_queryset(self):
+        ranking = Product.objects.order_by('-like_product')[0:10]
+        return ranking
+
+    def get_queryset(self):
+        word = Word.objects.order_by('-updated_at')[0:10]
+        return word
+"""
     
 
 class SearchAdvancedView(generic.TemplateView):
@@ -58,6 +68,8 @@ class SearchResultsView(generic.TemplateView):
                 product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gt=10000) | Q(price2_gt=10000) | Q(price3_gt=10000))
             else:
                 product = Product.objects.filter(Q(product_name__contains=keyword))
+
+            return product
 
 
         if brand == "amazon" or brand == "楽天" or brand == "Yahoo":
@@ -145,7 +157,7 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Review
     template_name = 'review_create.html'
     form_class = ReviewForm
-    # success_url = reverse_lazy('prefectures:prefectures_list')
+    # success_url = reverse_lazy('project:item')
     # ↑商品詳細ページへ遷移する
 
     def form_valid(self, form):
@@ -183,12 +195,12 @@ class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
 class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Review
     template_name = 'review_delete.html'
-    # success_url = reverse_lazy('project:review_delete')
-    # ↑商品詳細ページへ遷移する
+    success_url = reverse_lazy('project:review_delete')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, "日記を削除しました。")
+        messages.success(self.request, "を削除しました。")
         return super().delete(request, *args, **kwargs)
+
 
 """
 class UserReviewPageView(generic.ListView):
@@ -218,7 +230,7 @@ class ProductAllView(generic.ListView):
         return product_all
 
     def get_queryset(self):
-        ranking = Product.objects.order_by('-like_product')
+        ranking = Product.objects.order_by('-like_product')[0:10]
         return ranking
 
 
@@ -247,8 +259,8 @@ class ItemView(generic.DetailView):
 
 
 
-def like_for_post(request):
-    post_pk = request.POST.get('post_pk')
+def like_for_post(self, request, *args, **kwargs):
+    post_pk = self.kwargs['pk']
 
     context = {
         'user': f'{request.user.last_name} {request.user.first_name}',
@@ -302,4 +314,15 @@ class WishListView(LoginRequiredMixin, OnlyYouMixin, generic.ListView)
     def get_queryset(self):
         wish = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
         product = Product.object.filter(productID=wish.wished_item)
-        return product, wish"""
+        return product, wish
+        
+
+お気に入り削除   
+class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
+    model = Wishlist
+    template_name = 'wish_delete.html'
+    success_url = reverse_lazy('project:wish_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "お気に入りリストから削除しました。")
+        return super().delete(request, *args, **kwargs)"""

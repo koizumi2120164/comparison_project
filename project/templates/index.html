@@ -11,9 +11,8 @@
     <div class="card mb-4">
         <div class="card-header">簡単検索機能</div>
         <div class="card-body">
-                <form action="/search-results/" method="get">
-                    <input class="form-con
-                    " type="text" style=": 300px; height: 30px;" name="keyword" id="keyword" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                <form action="{% url 'project:search_result' %}" method="get">
+                    <label><input class="form-control" type="text" name="keyword" id="keyword" placeholder="簡単検索" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
                     <input type="submit" class="btn btn-primary" value="検索">
                 </form>
             <br><a href="{% url 'project:search_advanced'%}">高度な検索</a>
@@ -108,12 +107,12 @@
             <!-- Side widget-->
             <div class="card mb-4">
                 <div class="card-header">ランキング</div>
-                <div class="card-body">ランキング</div>
+                <div class="card-body"></div>
                 <br><a href="{% url 'project:search_advanced'%}">もっと見る</a>
             </div>
             <div class="card mb-4">
                 <div class="card-header">新着口コミ</div>
-                <div class="card-body">新着口コミ</div>
+                <div class="card-body"></div>
                 <br><a href="{% url 'project:search_advanced'%}">もっと見る</a>
         </div>
     </div>

@@ -9,7 +9,8 @@
 <div class="container px-4 px-lg-5 my-div-style">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <h1>新着商品</h1>
+            <br>
+            <h3>新着商品</h3>
             {% for product in product_all %}
             <div class="post-preview">
                 <h3 class="gazo-box">
@@ -25,9 +26,6 @@
                     {{ product.rating }}
                 </h2>
                 <a class="btn btn-primary" href="{% url 'project:商品詳細ページ' project.pk %}">詳細</a>
-                <h2>
-                    {{ wish_list.added_date }}
-                </h2>
             </div>
             <hr class="my-4">
             {% empty %}
@@ -37,17 +35,10 @@
             <!-- ランキング　-->
             <div class="card mb-4">
                 <div class="card-header">ランキング</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                {% rank = 1 %}
-                                {% for ranking in rank_list %}
-                                <li><a href="{% url 'project:商品詳細ページ' project.pk %}">#{{ rank }}　{{ ranking.product_name }}</a></li>
-                                {% rank += 1 %}
-                                {% endfor %}
-                            </ul>
-                        </div>
+                    <div class="card-body">
+                        {% for ranking in rank_list %}
+                            <li><a href="{% url 'project:商品詳細ページ' project.pk %}">{{ ranking.product_name }}</a></li>
+                        {% endfor %}
                     </div>
                 </div>
             </div>            

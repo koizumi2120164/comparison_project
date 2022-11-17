@@ -16,4 +16,5 @@ urlpatterns = [
     # path('rank_list/', views.RankListView.as_view(), name="rank_list"),
     path('like_for_post/', views.like_for_post, name="like_for_post"),
     path('item/', views.ItemView.as_view(), name="item"),
+    # path('wish_delete/', views.WishDeleteView.as_view(), name="wish_delete"),
 ]
