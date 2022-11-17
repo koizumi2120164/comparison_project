@@ -11,5 +11,7 @@ urlpatterns = [
     # path('review_edit/', views.ReviewEditView.as_view(), name="review_edit"), 
     # path('review_delete/', views.ReviewDeleteView.as_view(), name="review_delete"),
     # path('user_review_page/', views.UserReviewPageView.as_view(), name="user_review_page"), 
-    # path('product_all/', views.ProductAllView.as_view(), name="product_all"),
+    path('shop/<slug:category_slug>/', views.ProductListView.category_list, name='category_list'),
+    path('product_all/', views.ProductListView.product_all, name="product_all"),
+    path('item/<int:pk>-<slug:slug>', views.ProductDetailView.as_view(), name='detail'),
 ]
