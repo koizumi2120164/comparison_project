@@ -294,7 +294,7 @@ class ItemView(generic.DetailView):
 
 
 
-def like_for_post(self, request, *args, **kwargs):
+"""def like_for_post(self, request, *args, **kwargs):
     post_pk = self.kwargs['pk']
 
     context = {
@@ -317,7 +317,7 @@ def like_for_post(self, request, *args, **kwargs):
     return JsonResponse(context)    
 
 
-"""閲覧履歴
+閲覧履歴
 class RecentlyViewedView(LoginRequiredMixin, OnlyYouMixin, generic.ListView):
     model = Recently_viewed
     template_name = 'recently_viewed.html'
