@@ -49,39 +49,43 @@
         </div>
     </div>
 
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-            {% for project in word %}
-            <h1>口コミ掲示板</h1>
-            <div class="post-preview">
-                <a href="{% url 'project:word_edit' project.pk %}">
-                    <h2 class="post-title">
-                        {{ Word.word_title }}　　{{ Word.created_at }}
-                    </h2>
-                </a>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                {% for project in word %}
+                <h1>口コミ掲示板</h1>
+                <div class="post-preview">
+                    <a href="{% url 'project:word_edit' project.pk %}">
+                        <h2 class="post-title">
+                            {{ Word.word_title }}　　{{ Word.created_at }}
+                        </h2>
+                    </a>
+                </div>
+                <hr class="my-4">
+                {% empty %}
+                <p>口コミがありません。</p>
+                {% endfor %}
             </div>
-            <hr class="my-4">
-            {% empty %}
-            <p>口コミがありません。</p>
-            {% endfor %}
         </div>
     </div>
 
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
             {% for project in review %}
-            <h1>ユーザーレビュー</h1>
-            <div class="post-preview">
-                <a href="{% url 'project:review_edit' project.pk %}">
-                    <h2 class="post-title">
-                        {{ Review.review_title }}　　{{ Review.created_at }}
-                    </h2>
-                </a>
+                <h1>ユーザーレビュー</h1>
+                <div class="post-preview">
+                    <a href="{% url 'project:review_edit' project.pk %}">
+                        <h2 class="post-title">
+                            {{ Review.review_title }}　　{{ Review.created_at }}
+                        </h2>
+                    </a>
+                </div>
+                <hr class="my-4">
+                {% empty %}
+                <p>レビューがありません。</p>
+                {% endfor %}
             </div>
-            <hr class="my-4">
-            {% empty %}
-            <p>レビューがありません。</p>
-            {% endfor %}
         </div>
     </div>
 </div>

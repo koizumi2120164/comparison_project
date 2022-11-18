@@ -4,11 +4,13 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Word
+from .models import Review, Recently_viewed, Wishlist
+from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.http import HttpResponse
-from shop.models import Product, Category
+from django.http import JsonResponse
+from . forms import *
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +27,16 @@ class OnlyYouMixin(UserPassesTestMixin):
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
+
+"""
+    def get_queryset(self):
+        ranking = Product.objects.order_by('-like_product')[0:10]
+        return ranking
+
+    def get_queryset(self):
+        word = Word.objects.order_by('-updated_at')[0:10]
+        return word
+"""
     
 
 class SearchAdvancedView(generic.TemplateView):
@@ -66,8 +78,7 @@ class ProductDetailView(generic.DetailView):
     context_object_name = 'product'
     success_url = reverse_lazy('project:product_all')
 
-"""検索結果"""
-"""class SearchResultsView(generic.TemplateView):
+class SearchResultsView(generic.TemplateView):
     template_name = "search_results.html"
     model = Product
     paginate_by = 3
@@ -93,6 +104,8 @@ class ProductDetailView(generic.DetailView):
             else:
                 product = Product.objects.filter(Q(product_name__contains=keyword))
 
+            return product
+
 
         if brand == "amazon" or brand == "楽天" or brand == "Yahoo":
             if display == "popular":
@@ -113,7 +126,7 @@ class ProductDetailView(generic.DetailView):
                 Value()
                 product = Product.object.order_by('productID').reverse()
         
-        return product"""
+        return product
 
 
 """
@@ -169,7 +182,8 @@ class DiaryDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         return keyword,brand,value,display
 """
 
-"""class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
+
+class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     model = Review
     template_name = 'review.html'
 
@@ -178,7 +192,7 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Review
     template_name = 'review_create.html'
     form_class = ReviewForm
-    # success_url = reverse_lazy('prefectures:prefectures_list')
+    # success_url = reverse_lazy('project:item')
     # ↑商品詳細ページへ遷移する
 
     def form_valid(self, form):
@@ -216,14 +230,14 @@ class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
 class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Review
     template_name = 'review_delete.html'
-    # success_url = reverse_lazy('project:review_delete')
-    # ↑商品詳細ページへ遷移する
+    success_url = reverse_lazy('project:review_delete')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, "日記を削除しました。")
+        messages.success(self.request, "を削除しました。")
         return super().delete(request, *args, **kwargs)
 
 
+"""
 class UserReviewPageView(generic.ListView):
     model = Review
     template_name = 'user_review_page.html'
@@ -241,35 +255,109 @@ class UserReviewPageView(generic.ListView):
         return account"""
 
 
-"""商品一覧（新着順）ページ"""
-"""class ProductAllView(generic.ListView):
+class ProductAllView(generic.ListView):
     model = Product
     template_name = 'product_all.html'
     paginate_by = 3
 
     def get_queryset(self):
         product_all = Product.objects.order_by('-created_at')
-        return product_all"""
+        return product_all
+
+    def get_queryset(self):
+        ranking = Product.objects.order_by('-like_product')[0:10]
+        return ranking
 
 
-"""商品詳細ページ"""
-"""class ItemView(generic.DetailView):
+
+class ItemView(generic.DetailView):
     model = Product
     template_name = 'item.html'
     form_class = ItemForm
 
-    def recently(request):
-        recently = Recently_viewed(userID=self.request.user, productID=product.productID)
+    def recently(self,*args, **kwargs):
+        post_pk = self.kwargs['pk']
+        post = get_object_or_404(Product, pk=post_pk)
+        recently = Recently_viewed(userID=self.request.user, productID=post)
         recently.save()
-        return super().form_valid(form)"""
+
+    #いいねしてるかどうか
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # ログイン中のユーザーがイイねしているかどうか
+        if Wishlist.objects.filter(userID=self.request.user).exists():
+            context['like'] = True
+        else:
+            context['like'] = False
+        
+        return context
 
 
-"""閲覧履歴"""
-"""class RecentlyViewedView(LoginRequiredMixin, OnlyYouMixin, generic.ListView):
+
+def like_for_post(self, request, *args, **kwargs):
+    post_pk = self.kwargs['pk']
+
+    context = {
+        'user': f'{request.user.last_name} {request.user.first_name}',
+    }
+    
+    post = get_object_or_404(Product, pk=post_pk)
+    like = Wishlist.objects.filter(wish_item=post, userID=request.user)
+
+    if like.exists():
+        like.delete()
+        context['method'] = 'delete'
+
+    else:
+        like.create(wish_item=post, userID=request.user)
+        context['method'] = 'create'
+
+    context['like_for_post_count'] = post.likeforpost_set.count()
+
+    return JsonResponse(context)    
+
+
+"""閲覧履歴
+class RecentlyViewedView(LoginRequiredMixin, OnlyYouMixin, generic.ListView):
     model = Recently_viewed
     template_name = 'recently_viewed.html'
     paginate_by = 6
 
     def get_queryset(self):
         recently = Recently_viewed.objects.filter(user=self.request.user).order_by('-last_visited')
-        return recently"""
+        product = Product.object.filter(productID=recently.productID)
+        return recently, product
+        
+        
+ランキング
+class RankListView(generic.ListView):
+    model = Product
+    template_name = 'rank_list.html'
+    paginate_by = 3
+
+    def get_queryset(self):
+        ranking = Product.objects.order_by('-like_product')
+        return ranking
+        
+        
+お気に入り
+class WishListView(LoginRequiredMixin, OnlyYouMixin, generic.ListView)
+    model = Wishlist
+    template_name = 'wish_list.html'
+    paginate_by = 2
+
+    def get_queryset(self):
+        wish = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
+        product = Product.object.filter(productID=wish.wished_item)
+        return product, wish
+        
+
+お気に入り削除   
+class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
+    model = Wishlist
+    template_name = 'wish_delete.html'
+    success_url = reverse_lazy('project:wish_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "お気に入りリストから削除しました。")
+        return super().delete(request, *args, **kwargs)"""
