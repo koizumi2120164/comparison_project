@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .models import Review, Recently_viewed, Wishlist
 from shop.models import *
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -42,6 +42,41 @@ class IndexView(generic.TemplateView):
 class SearchAdvancedView(generic.TemplateView):
     template_name = 'search_advanced.html'
 
+class ProductListView(generic.ListView):
+    model = Product, Category
+    
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        slug = self.kwargs.get('slug')
+        product = get_object_or_404(Product, id=pk,slug=slug)
+        return product
+        
+    def categories(request):
+        return {
+            'categories': Category.objects.all()
+        }
+
+    def product_all(request):
+        products = Product.objects.all()
+        return render(request, 'shop/product_list.html', {'products': products})
+
+    def category_list(request, category_slug=None):
+        category = get_object_or_404(Category, slug=category_slug)
+        products = Product.objects.filter(category=category)
+        return render(request, 'shop/category.html', {'category': category, 'products':products})
+
+class ProductDetailView(generic.DetailView):
+    template_name = 'shop/product_detail.html'
+    
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        slug = self.kwargs.get('slug')
+        product = get_object_or_404(Product, id=pk,slug=slug)
+        return product
+
+    queryset = Product.objects.all()
+    context_object_name = 'product'
+    success_url = reverse_lazy('project:product_all')
 
 class SearchResultsView(generic.TemplateView):
     template_name = "search_results.html"
