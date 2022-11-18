@@ -7,6 +7,13 @@
 
 {% block head %}
 <link href="{% static 'css/star.css' %}" rel="stylesheet">
+<link href="{% static 'css/select.css' %}" rel="stylesheet">
+<style>
+  .center{
+    width:200px;
+    margin: 0 auto;
+  }
+</style>
 {% endblock %}
 
 {% block contents %}
@@ -16,15 +23,19 @@
             {% csrf_token %}
             <table class="table">
                 <div class="review">
-                    <p>レビュー</p>
+                  <h3>商品名</h3>
                     <div class="stars">
-                      <span>
-                        <input id="review01" type="radio" name="review"><label for="review01">★</label>
-                        <input id="review02" type="radio" name="review"><label for="review02">★</label>
-                        <input id="review03" type="radio" name="review"><label for="review03">★</label>
-                        <input id="review04" type="radio" name="review"><label for="review04">★</label>
-                        <input id="review05" type="radio" name="review"><label for="review05">★</label>
-                      </span>
+                      <div class="center">
+                        
+                        <span>
+                          <ul>商品の評価</ul>
+                          <input id="review01" type="radio" name="review"><label for="review01">★</label>
+                          <input id="review02" type="radio" name="review"><label for="review02">★</label>
+                          <input id="review03" type="radio" name="review"><label for="review03">★</label>
+                          <input id="review04" type="radio" name="review"><label for="review04">★</label>
+                          <input id="review05" type="radio" name="review"><label for="review05">★</label>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 {{ form.as_table }}
