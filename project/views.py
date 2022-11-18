@@ -76,7 +76,7 @@ class ProductDetailView(generic.DetailView):
 
     queryset = Product.objects.all()
     context_object_name = 'product'
-    success_url = reverse_lazy('project:product_all')
+    success_url = reverse_lazy('project:product_list')
 
 class SearchResultsView(generic.TemplateView):
     template_name = "search_results.html"
