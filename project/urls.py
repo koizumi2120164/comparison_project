@@ -1,6 +1,7 @@
 from django.urls import path
 from .import views
-
+from comparison_project import settings_common, settings_dev
+from django.contrib.staticfiles.urls import static
 
 app_name = 'project'
 urlpatterns = [
@@ -22,3 +23,6 @@ urlpatterns = [
     path('item/', views.ItemView.as_view(), name="item"),
     # path('wish_delete/', views.WishDeleteView.as_view(), name="wish_delete"),
 ]
+
+if settings_dev.DEBUG:
+    urlpatterns += static(settings_common.MEDIA_URL, document_root=settings_dev.MEDIA_ROOT)

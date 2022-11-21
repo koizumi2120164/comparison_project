@@ -86,22 +86,13 @@
             <div class="card mb-4">
                 <div class="card-header">カテゴリー</div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#!"></a></li>
-                                <li><a href="#!">HTML</a></li>
-                                <li><a href="#!">Freebies</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#!">JavaScript</a></li>
-                                <li><a href="#!">CSS</a></li>
-                                <li><a href="#!">Tutorials</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <ul class="list-unstyled mb-1">
+                        {% for c in categories %}
+                        <li  class="{% if category.slug == c.slug %}{% endif %}" >
+                            <a href="{{ c.get_absolute_url }}">{{ c.category_name|title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
             <!-- Side widget-->
