@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('project.urls')),
     path('', include('shop.urls')),
     path('accounts/', include('allauth.urls')),
+    # path('marketing/', include('marketing.urls'))
 ]
 
 if settings_dev.DEBUG:

@@ -5,9 +5,10 @@ from shop.models import *
 
 
 class ReviewForm(forms.ModelForm):
+
     class Meta:
         model = Review
-        fields = ('review_title', 'review_text')
+        fields = ('review','review_title', 'review_text', 'photo')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

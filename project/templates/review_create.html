@@ -6,14 +6,7 @@
 {% block active_review_edit %}active{% endblock %}
 
 {% block head %}
-<link href="{% static 'css/star.css' %}" rel="stylesheet">
 <link href="{% static 'css/select.css' %}" rel="stylesheet">
-<style>
-  .center{
-    width:200px;
-    margin: 0 auto;
-  }
-</style>
 {% endblock %}
 
 {% block contents %}
@@ -21,27 +14,30 @@
     <div class="row">
         <form method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
-            <table class="table">
-                <div class="review">
-                  <h3>商品名</h3>
-                    <div class="stars">
-                      <div class="center">
-                        
-                        <span>
-                          <ul>商品の評価</ul>
-                          <input id="review01" type="radio" name="review"><label for="review01">★</label>
-                          <input id="review02" type="radio" name="review"><label for="review02">★</label>
-                          <input id="review03" type="radio" name="review"><label for="review03">★</label>
-                          <input id="review04" type="radio" name="review"><label for="review04">★</label>
-                          <input id="review05" type="radio" name="review"><label for="review05">★</label>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                {{ form.as_table }}
-            </table>
-            <button class="btn btn-primary" type="submit">投稿</button>
-            <input type="reset" class="btn btn-primary" value="リセット">
+            <table>
+              <br>
+              <tbody>
+                  <tr>
+                    <th width="500" height="50">{{ form.review.label_tag }}</th>
+                    <td>{{ form.review }}</td>
+                  </tr>
+                  <tr>
+                      <th width="500" height="50">{{ form.review_title.label_tag }}</th>
+                      <td>{{ form.review_title }}</td>
+                  </tr>
+                  <tr>
+                      <th width="500" height="50">{{ form.review_text.label_tag }}</th>
+                      <td>{{ form.review_text }}</td>
+                  </tr>
+                  <tr>
+                    <th width="500" height="50">{{ form.photo.label_tag }}</th>
+                    <td>{{ form.photo }}</td>
+                  </tr>
+              </tbody>
+          </table>
+          <br>
+          <button class="btn btn-primary" type="submit">投稿</button>
+          <input type="reset" class="btn btn-primary" value="リセット">
         </form>
     </div>
 </div>
