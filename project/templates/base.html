@@ -12,6 +12,13 @@
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico'}" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-4CTETP5YM8"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}gtag('js', new Date());            
+        gtag('config', 'G-4CTETP5YM8');           
+        </script>
         {% block head %}{% endblock %}
     </head>
     <body>
@@ -30,10 +37,10 @@
                             <li class="nav-item"><a class="nav-link" href="#!">お気に入り</a></li>
                             <li class="nav-item"><a class="nav-link" href="#!">閲覧履歴</a></li>
                             <li class="nav-item"><a class="nav-link" href="#!">アカウント</a></li>
-                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">Logout</a></li>
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">ログアウト</a></li>
                         {% else %}
-                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_login' %}">LogIn</a></li>
-                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_signup' %}">SignUp</a></li>
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_login' %}">ログイン</a></li>
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_signup' %}">サインアップ</a></li>
                         {% endif %}
                     </ul>
                 </div>
