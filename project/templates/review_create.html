@@ -7,6 +7,7 @@
 
 {% block head %}
 <link href="{% static 'css/select.css' %}" rel="stylesheet">
+<link href="{% static 'css/star.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block contents %}
@@ -19,7 +20,18 @@
               <tbody>
                   <tr>
                     <th width="500" height="50">{{ form.review.label_tag }}</th>
-                    <td>{{ form.review }}</td>
+                    <td><div class="review">
+                      <div class="stars">
+                        <span>
+                          <input id="review01" type="radio" name="review"><label for="review01">★</label>
+                          <input id="review02" type="radio" name="review"><label for="review02">★</label>
+                          <input id="review03" type="radio" name="review"><label for="review03">★</label>
+                          <input id="review04" type="radio" name="review"><label for="review04">★</label>
+                          <input id="review05" type="radio" name="review"><label for="review05">★</label>
+                        </span>
+                      </div>
+                    </div>
+                    </td>
                   </tr>
                   <tr>
                       <th width="500" height="50">{{ form.review_title.label_tag }}</th>
