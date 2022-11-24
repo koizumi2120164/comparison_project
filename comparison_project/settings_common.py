@@ -153,6 +153,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+ACCOUNT_FORMS   = { "signup":"accounts.forms.SignupForm"}
 
 # django-allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
 SITE_ID = 1
@@ -165,8 +166,9 @@ AUTHENTIATION_BACKENDS =(
 )
 
 # メールアドレス認証に変更する設定
-ACCOUNT_AUTHENIATION_METHOD = 'email'
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False 
 
 #サインアップにメールアドレス確認をはさむように設定
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'

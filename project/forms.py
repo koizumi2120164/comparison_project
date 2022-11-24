@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from shop.models import *
+from accounts.models import CustomUser
 # from .models import Review
 
 
@@ -22,6 +23,17 @@ class ItemForm(forms.ModelForm):
         fields = ('product_name', 'description', 'image1', 'image2', 'image3',
                   'price1', 'link1', 'price2', 'link2', 'price3', 'link3',
                   'rating', 'like_product', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('user_photo','user_name', 'user_birthday', 'user_gender', 'user_address')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
