@@ -12,6 +12,8 @@
         <div class="col-3">
             {% if object.user_photo %}
             <img src="{{ object.user_photo.url }}" width="200" height="200"/>
+            {% else %}
+            <img class="card-img-top" src="{% static 'assets/img/no_image.jpeg' %}" alt="No image file" />
             {% endif %}
         </div>
 
