@@ -120,9 +120,9 @@ var myLineChart = new Chart(ctx, {
     ],
     },
     title: {
-      display: false,
+      display: true,
       text: 'サイトに訪れた人の人数（万人）',
-      fontSize: 20,
+      fontSize: 30,
       fontColor: "#2F4F4F"
     },
 
