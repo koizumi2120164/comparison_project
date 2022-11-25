@@ -19,14 +19,13 @@ class OnlyYouMixin(UserPassesTestMixin):
     raise_exception = True
 
     def test_func(self):
-        # URLに埋め込まれた主キーから日記データを1件取得。取得できなかった場合は404エラー
-        project = get_object_or_404(project, pk=self.kwargs['pk'])
-        # ログインユーザーと日記の作成ユーザーを比較し、異なればraise_exceptionの設定に従う
-        return self.request.user == project.user
+        user = self.request.user
+        return user.pk == self.kwargs['pk'] or user.is_superuser
 
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
+
 
 """
     def get_queryset(self):
@@ -361,3 +360,25 @@ class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "お気に入りリストから削除しました。")
         return super().delete(request, *args, **kwargs)"""
+
+
+class ProfileEditView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
+    model = CustomUser
+    template_name = "profile_edit.html"
+
+
+class ProfileUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
+    model = CustomUser
+    template_name = "profile_update.html"
+    form_class = ProfileEditForm
+
+    def get_success_url(self):
+        return reverse_lazy('project:profile_edit', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        messages.success(self.request, '情報は保存されました。')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "情報の保存に失敗しました。")
+        return super().form_invalid(form)

@@ -22,6 +22,8 @@ urlpatterns = [
     #path('like_for_post/', views.like_for_post, name="like_for_post"),
     path('item/', views.ItemView.as_view(), name="item"),
     # path('wish_delete/', views.WishDeleteView.as_view(), name="wish_delete"),
+    path('profile_edit/<int:pk>/', views.ProfileEditView.as_view(), name="profile_edit"),
+    path('profile_update/<int:pk>/', views.ProfileUpdateView.as_view(), name="profile_update"),
 ]
 
 if settings_dev.DEBUG:
