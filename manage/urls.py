@@ -4,7 +4,7 @@ from .import views
 
 app_name = 'manage'
 urlpatterns = [
-   
-    path('', views.IndexView.as_view(), name="index"),
-    path('manage_top/', managetopviews.View.as_view(), name=""),
+    path('top/', views.ManageTopView.as_view(), name="top"),
+    path('table/', views.ManageTableView.as_view(), name="table"),
+    path('search/', views.SearchView.as_view(), name="search"),
 ]
