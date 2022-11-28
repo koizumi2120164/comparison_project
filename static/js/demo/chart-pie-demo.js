@@ -30,7 +30,7 @@ var myPieChart = new Chart(ctx, {
     title: {
       display: true,
       text: 'サイトを閲覧した人の年齢割',
-      fontSize: 30,
+      fontSize: 25,
       fontColor: "#2F4F4F"
     },
     legend: {
