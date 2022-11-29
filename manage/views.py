@@ -18,6 +18,18 @@ class SearchAdvancedView(generic.TemplateView):
     template_name = "search.html"
 
 
+class Managetopview(generic.TemplateView):
+    template_name = "manage_top.html"
+
+
+class Managetoptableview(generic.TemplateView):
+    template_name = "manage_toptable.html"
+
+
+class Managesearchresultview(generic.TemplateView):
+    template_name = "manage_searchresult.html"
+
+
 
 
 
