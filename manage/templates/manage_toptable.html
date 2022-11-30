@@ -39,7 +39,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="manage_top.html" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{% url 'manage:top' %}" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <p class="text-dark">チャート</p>
@@ -49,8 +49,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="manage_toptable.html" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="{% url 'manage:table' %}" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <p class="text-dark">テーブル</p>
                 </a>
@@ -79,9 +78,9 @@
             <!-- Main Content -->
             <div id="content">
                 <h1 class="h3 mb-2 text-gray-800"></h1>
-                <p class="mb-4"><h6 style="text-align:right">こんにちは＜ユーザーID＞。<a href="html">ログアウト？</a></h6></p>
-                    
-                    </h2>
+                <p class="mb-4">
+                    <h4 style="text-align:right" font size="3">こんにちは、{{ user.username }}さん。<a href="{% url 'account_logout' %}">ログアウト？</a></a></p>
+                    </h4>
                  
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -100,32 +99,26 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        
-
-                    
                         <div class="col-xl-12" >
                                <div class="card shadow mb-4">
                                  <div class="card-header py-3">
+                                    <h5 class="m-0 font-weight-bold">
                                     <span style="color:black">
-                                       <h6 style="text-align:center">サイトに登録したユーザーの情報モデル</h6></h5></div>
+                                       <h4 style="text-align:center">サイトに登録したユーザーの情報モデル</h4></h5></div>
                                        
                                 
-                        <div class="col-xl-12" > 
-                           <div class="card-body">
-                             <div class="table-responsive">
+                    <div class="col-xl-12" >
+                            <div class="card" style="width: 70rem;"> 
+                              <div class="card-body">
+
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ユーザーID</th>
-                                            <th>ユーザー名</th>
-                                            <th>年齢</th>
-                                            <th>性別</th>
-                                            <th>住んでいる地域</th>
+                                            <td>ユーザーID</td>
+                                            <td>ユーザー名</td>
+                                            <td>年齢</td>
+                                            <td>性別</td>
+                                            <td>住んでいる地域</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -220,24 +213,8 @@
                                         
                                     </tbody>
                                     
-                                </table>
-                                <p class="text-dark"><span>結果の数を表示しています</span></p>
-                                <h6 style="text-align:right"><div class="nav-links">
-                                    <a>ページ</a>
-                                    <a class="page-numbers" href="">1<a>|</a></a>
-                                    <a class="page-numbers" href="">2<a>|</a></a>
-                                    <a class="page-numbers" href="">3<a>|</a></a>
-                                    <a class="page-numbers" href="">4<a>|</a></a>
-                                    <a class="page-numbers" href="">5<a>|</a></a>
-                                    <a class="page-numbers" href="">6<a>|</a></a>
-                                    <a class="page-numbers" href="">7<a>|</a></a>
-                                    <a class="page-numbers" href="">8<a>|</a></a>
-                                    <a class="page-numbers" href="">9<a>|</a></a>
-                                    <span class="page-numbers dots">…</span>
-                                    <a class="next page-numbers" href="">»</a>
-                                  </div></h6>
-                                    
-                                
+                                </table>              
+                               </div>  
                             </div>
                         </div>
                     </div>

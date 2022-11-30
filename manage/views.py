@@ -66,6 +66,18 @@ class SearchView(generic.TemplateView):
         return user
 
 
+class Managetopview(generic.TemplateView):
+    template_name = "manage_top.html"
+
+
+class Managetoptableview(generic.TemplateView):
+    template_name = "manage_toptable.html"
+
+
+class Managesearchresultview(generic.TemplateView):
+    template_name = "manage_searchresult.html"
+
+
 
 
 
