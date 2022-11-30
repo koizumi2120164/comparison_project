@@ -5,7 +5,8 @@ from django.contrib.staticfiles.urls import static
 
 app_name = 'project'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name="index"),
+    path('', views.staff, name="staff"),
+    path('top', views.IndexView.as_view(), name="index"),
     path('search_advanced/', views.SearchAdvancedView.as_view(), name="search_advanced"),
     path('shop/<slug:category_slug>/', views.ProductListView.category_list, name='category_list'),
     path('product_list/', views.ProductListView.product_all, name="product_list"),

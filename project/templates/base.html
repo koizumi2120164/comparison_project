@@ -12,13 +12,17 @@
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico'}" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        {% block analytics %}
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-4CTETP5YM8"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-249987756-1"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}gtag('js', new Date());            
-        gtag('config', 'G-4CTETP5YM8');           
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-249987756-1');
         </script>
+        {% endblock analytics %}
         {% block head %}{% endblock %}
     </head>
     <body>
@@ -37,6 +41,7 @@
                             <li class="nav-item"><a class="nav-link" href="#!">お気に入り</a></li>
                             <li class="nav-item"><a class="nav-link" href="#!">閲覧履歴</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'project:profile_edit' user.pk %}">アカウント</a></li>
+                            <li class="nav-link active">こんにちは{{ user.username }}さん</li>
                             <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">ログアウト</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_login' %}">ログイン</a></li>
