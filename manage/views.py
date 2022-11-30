@@ -33,7 +33,6 @@ def age(request):
                 adulthood += 1
 
     params = {
-        'age' : [other, young, adulthood, senior],
         'other' : other,
         'young' : young, 
         'adulthood' : adulthood,
@@ -43,14 +42,14 @@ def age(request):
     return render(request, 'manage_top.html', params)
     
     
-class ManageTableView(LoginRequiredMixin, generic.TemplateView):
+class ManageTableView(LoginRequiredMixin, generic.ListView):
     template_name = "manage_toptable.html"
     model = CustomUser
     paginate_by = 10
 
     def get_queryset(self):
-        account = CustomUser.objects.order_by('-date_joined')
-        return account
+        user_list = CustomUser.objects.order_by('-date_joined')
+        return user_list
     
 
 class SearchView(generic.TemplateView):
@@ -66,19 +65,5 @@ class SearchView(generic.TemplateView):
         return user
 
 
-class Managetopview(generic.TemplateView):
-    template_name = "manage_top.html"
-
-
 class Managetoptableview(generic.TemplateView):
     template_name = "manage_toptable.html"
-
-
-class Managesearchresultview(generic.TemplateView):
-    template_name = "manage_searchresult.html"
-
-
-
-
-
-

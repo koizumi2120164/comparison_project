@@ -4,10 +4,11 @@ from apiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 import re
+import datetime
 
 
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
-KEY_FILE_LOCATION = './comparisonproject-369302-d5be4cad2468.json'
+KEY_FILE_LOCATION = './json/comparisonproject-369302-d5be4cad2468.json'
 VIEW_ID = '280731815'
 
 
@@ -56,6 +57,7 @@ def calc(response):
     calc_res = dict()
     pv_summary = []
     report = response.get('reports', [])[0]
+    today = str(datetime.date.today())
     for report_data in report.get('data', {}).get('rows', []):
         # get page path
         page_path = report_data.get('dimensions', [])[0]
@@ -74,6 +76,7 @@ def calc(response):
         pv_summary.append({
             'page_path': path,
             'page_views': calc_res[path],
+            'input_date': today
         })
 
     # sort by page views
@@ -99,7 +102,7 @@ def main():
     analytics = initialize_analyticsreporting()
     response = get_report(analytics)
     summary = calc(response)
-    save_as_json(summary, './summary.json')
+    save_as_json(summary, './json/summary.json')
 
 
 if __name__ == '__main__':

@@ -78,14 +78,15 @@
                 <h2 style="text-align:right" font size="3">こんにちは、{{ user.username }}さん。<a href="{% url 'account_logout' %}">ログアウト？</a></a></p>
                 </h2>
 
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
-                    <form action="{% url 'manage:search' %}" method="get">
-                        <label><input class="form-control" style="width: 500px; height: 39px;" type="text" name="keyword" id="keyword" placeholder="検索したい商品を入力" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
-                        <input type="submit" class="btn btn-primary" value="検索">
-                    </form>
+
+                <form action="{% url 'manage:search' %}" method="get">
+                    <label><input class="form-control" style="width: 500px; height: 39px;" type="text" name="keyword" id="keyword" placeholder="検索したい商品を入力" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
+                    <input type="submit" class="btn btn-primary" value="検索">
+                </form>
+
                 </div>
-            </form></a></p>
+                <br>
                     
                 <!-- End of Topbar -->
                  

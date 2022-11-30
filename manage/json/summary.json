@@ -1,0 +1,62 @@
+[
+  {
+    "page_path": "/",
+    "page_views": 16,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/top",
+    "page_views": 13,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/accounts/login/",
+    "page_views": 12,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/product_list/",
+    "page_views": 10,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/profile_edit/7/",
+    "page_views": 6,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/accounts/confirm-email/",
+    "page_views": 3,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/search_advanced/",
+    "page_views": 3,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/search_result/",
+    "page_views": 3,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/profile_edit/2/",
+    "page_views": 2,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/accounts/confirm-email/Ng:1oyOmT:6qPOmbbBZO99WugYP9tDUhBlVNHI2ctNBr5mj81ttkA/",
+    "page_views": 1,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/accounts/confirm-email/NQ:1oyO9V:k2rNl4O-sVmtllwiCSxVWecI-Vb4iFmL9mliqXQeDsY/",
+    "page_views": 1,
+    "input_date": "2022-11-30"
+  },
+  {
+    "page_path": "/accounts/signup/",
+    "page_views": 1,
+    "input_date": "2022-11-30"
+  }
+]
