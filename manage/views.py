@@ -8,42 +8,40 @@ import datetime
 from django.shortcuts import render
 
 
-class ManageTopView(LoginRequiredMixin, generic.TemplateView):
-    template_name = "manage_top.html"
-    model = CustomUser
+def age(request):
+    days = CustomUser.objects.order_by('-date_joined')
+    young = 0
+    adulthood = 0
+    senior = 0
+    other = 0
 
-    def age(request):
-        days = CustomUser.objects.order_by('-date_joined')
-        young = 0
-        adulthood = 0
-        senior = 0
-        other = 0
+    for day in days:
+        today = datetime.date.today()
 
-        for day in days:
-            today = datetime.date.today()
-            birthday = datetime.date(day.user_birthday)
-            age = int(today.strftime("%Y%m%d")) - int(birthday.strftime("%Y%m%d"))
+        if day.user_birthday is None:
+            other += 1
 
-            if age <= 18:
+        else:
+            age = int(today.strftime("%Y%m%d")) - int(day.user_birthday.strftime("%Y%m%d"))
+            age2 = age//10000
+
+            if age2 <= 18:
                 young += 1
-            elif age >= 60:
+            elif age2 >= 60:
                 senior += 1
-            elif 18 > age > 60:
-                adulthood += 1
             else:
-                other += 1
+                adulthood += 1
 
-        params = { 
-            'other': other,
-            'young': young,
-            'adulthood' : adulthood,
-            'senior' : senior,
-        }
+    params = {
+        'age' : [other, young, adulthood, senior],
+        'other' : other,
+        'young' : young, 
+        'adulthood' : adulthood,
+        'senior' : senior
+    }
 
-        return render(request, 'manage_top.html', params)
-
-
-
+    return render(request, 'manage_top.html', params)
+    
     
 class ManageTableView(LoginRequiredMixin, generic.TemplateView):
     template_name = "manage_toptable.html"

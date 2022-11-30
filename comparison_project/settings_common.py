@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'project.apps.ProjectConfig',
     'shop.apps.ShopConfig',
+    'manage.apps.ManageAppConfig',
 
     'accounts.apps.AccountsConfig',
     'allauth',
