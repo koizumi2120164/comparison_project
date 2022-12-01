@@ -2,23 +2,21 @@
 {% load static %}
 
 {% block title %}comparison site{% endblock %}
+
 {% block head %}
 <link href="{% static 'css/select.css' %}" rel="stylesheet">
 {% endblock %}
+
 {% block header%}
 <!-- Page header with logo and tagline-->
 <header class="py-5 bg-light border-bottom mb-4">
-    <div class="card mb-4">
-        <div class="card-header">簡単検索機能</div>
-        <div class="card-body">
-                <form action="{% url 'project:search_result' %}" method="get">
-                    <label><input class="form-control" style="width: 500px; height: 39px;" type="text" name="keyword" id="keyword" placeholder="簡単検索" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
-                    <input type="submit" class="btn btn-primary" value="検索">
-                </form>
-            <br><a href="{% url 'project:search_advanced'%}">高度な検索</a>
-            </div>
-    </div>
-    </div>
+    <br>
+    <form action="{% url 'project:search_result' %}" method="get">
+        <label><input class="form-control" style="width: 500px; height: 39px;" type="text" name="keyword" id="keyword" placeholder="簡単検索" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
+        <input type="submit" class="btn btn-primary" value="検索">
+    </form>
+    <br>
+    <a href="{% url 'project:search_advanced'%}">高度な検索</a>
 </header>
 {% endblock %}
 

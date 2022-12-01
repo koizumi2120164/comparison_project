@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>検索結果</title>
 
     <!-- Custom fonts for this template -->
     <link href="../../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,7 +42,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="manage_top.html" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link collapsed" href="{% url 'manage:top' %}" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <p class="text-dark">チャート</p>
@@ -113,15 +113,14 @@
                         </div></span>
                     <div class="card" style="width: 70rem;">  
                         <div class="card-body">
-                            
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <style>
                                             
                                         </style>
-                                        <button class="nenri">年齢割合</button>
-                                        <button class="horizontal">性別割合</button>
-                                        <button class="horizontal">住んでいる地域割合</button>
+                                        <button id="age" onclick="age()">年齢割合</button>
+                                        <button id="gender" onclick="gender()">性別割合</button>
+                                        <button id="address" onclick="address()">住んでる地域割合</button>
                                        
                                         <tr>
                                             <th>商品名</th>
@@ -264,6 +263,14 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <script>
+        function age() {
+            document.getElementById("age");
+        
+        }
+
+    </script>
+
     
 
     <!-- Bootstrap core JavaScript-->
@@ -277,7 +284,7 @@
     <script src="../../static/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../../static/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="../../static/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->

@@ -2,6 +2,8 @@
 
 from apiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime, date
+from apscheduler.schedulers.background import BackgroundScheduler
 import json
 import re
 import datetime
@@ -76,7 +78,7 @@ def calc(response):
         pv_summary.append({
             'page_path': path,
             'page_views': calc_res[path],
-            'input_date': today
+            'input_date': today,
         })
 
     # sort by page views
@@ -102,8 +104,14 @@ def main():
     analytics = initialize_analyticsreporting()
     response = get_report(analytics)
     summary = calc(response)
-    save_as_json(summary, './json/summary.json')
+    save_as_json(summary, 'manage/json/summary.json')
 
 
 if __name__ == '__main__':
     main()
+
+
+def start():
+  scheduler = BackgroundScheduler()
+  scheduler.add_job(main, 'interval', minutes=5)
+  scheduler.start()
