@@ -102,7 +102,7 @@ def main():
     analytics = initialize_analyticsreporting()
     response = get_report(analytics)
     summary = calc(response)
-    save_as_json(summary, './json/summary.json')
+    save_as_json(summary, 'manage/json/summary.json')
 
 
 if __name__ == '__main__':

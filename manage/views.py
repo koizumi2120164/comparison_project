@@ -6,9 +6,25 @@ from project.models import *
 from django.db.models import Q
 import datetime
 from django.shortcuts import render
+import json
 
 
-def age(request):
+def top(request):
+    # ページの閲覧数
+    json_file = open('manage/json/summary.json', 'r')
+    json_date = json.load(json_file)
+
+    for date in json_date:
+        if date["page_path"] == "/top":
+            top = date["page_views"]
+        elif date["page_path"] == "/search_advanced/": # 今は検索画面
+            rank = date["page_views"]
+        elif date["page_path"] == "/product_list/":
+            product = date["page_views"]
+        elif date["page_path"] == "/accounts/login/": # 今はログイン画面
+            word = date["page_views"]
+
+    # 年齢割合
     days = CustomUser.objects.order_by('-date_joined')
     young = 0
     adulthood = 0
@@ -32,11 +48,16 @@ def age(request):
             else:
                 adulthood += 1
 
+    # 渡す変数
     params = {
         'other' : other,
         'young' : young, 
         'adulthood' : adulthood,
-        'senior' : senior
+        'senior' : senior,
+        'top' : top,
+        'rank' : rank,
+        'product' : product,
+        'word' : word,
     }
 
     return render(request, 'manage_top.html', params)

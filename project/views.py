@@ -14,13 +14,6 @@ from . forms import *
 logger = logging.getLogger(__name__)
 
 
-def staff(request):
-    if request.user.is_staff:
-        return redirect('manage:top')
-    else:
-        return redirect('project:index')
-
-
 class OnlyYouMixin(UserPassesTestMixin):
     raise_exception = True
 
