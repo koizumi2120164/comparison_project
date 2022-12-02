@@ -17,11 +17,11 @@ def top(request):
     for date in json_date:
         if date["page_path"] == "/":
             top = date["page_views"]
-        elif date["page_path"] == "/search_advanced/": # 今は検索画面
+        elif date["page_path"] == "/rank_list/":
             rank = date["page_views"]
         elif date["page_path"] == "/product_list/":
             product = date["page_views"]
-        elif date["page_path"] == "/accounts/login/": # 今はログイン画面
+        elif date["page_path"] == "/search_advanced/": # 今は検索画面
             word = date["page_views"]
 
     # 年齢割合
@@ -70,11 +70,6 @@ class ManageTableView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user_list = CustomUser.objects.order_by('-date_joined')
-        return user_list
-
-    def get_queryset(self):
-        age = []
-        user_list = CustomUser.objects.order_by('-date_joined')
 
         for user in user_list:
             today = datetime.date.today()
@@ -84,6 +79,7 @@ class ManageTableView(LoginRequiredMixin, generic.ListView):
                 birthday = int(today.strftime("%Y%m%d")) - int(user.user_birthday.strftime("%Y%m%d"))
                 age = birthday//10000
                 user.user_birthday = age
+
         return user_list
     
 
