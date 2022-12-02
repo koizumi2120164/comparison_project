@@ -3,6 +3,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from django.db import models
+import uuid
 
 class CustomUser(AbstractUser):
     """拡張ユーザーモデル"""
@@ -23,6 +24,7 @@ class CustomUser(AbstractUser):
         ("その他", "その他"),
     ]
 
+    userID = models.UUIDField(default=uuid.uuid4, verbose_name='ユーザーID', editable=False)
     user_name = models.CharField(verbose_name='ユーザー名', max_length=120, default="")
     user_birthday = models.DateField(verbose_name='生年月日', blank=True, null=True)
     user_gender = models.CharField(verbose_name="性別", choices=GENDER, blank=True, null=True, max_length=5)

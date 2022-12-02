@@ -5,3 +5,4 @@ class SignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model   = CustomUser
         fields  = ("email","username")
+        labels={'username':'ユーザーID'}

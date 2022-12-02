@@ -15,7 +15,7 @@ def top(request):
     json_date = json.load(json_file)
 
     for date in json_date:
-        if date["page_path"] == "/top":
+        if date["page_path"] == "/":
             top = date["page_views"]
         elif date["page_path"] == "/search_advanced/": # 今は検索画面
             rank = date["page_views"]
@@ -70,6 +70,20 @@ class ManageTableView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user_list = CustomUser.objects.order_by('-date_joined')
+        return user_list
+
+    def get_queryset(self):
+        age = []
+        user_list = CustomUser.objects.order_by('-date_joined')
+
+        for user in user_list:
+            today = datetime.date.today()
+            if user.user_birthday is None:
+                None
+            else:
+                birthday = int(today.strftime("%Y%m%d")) - int(user.user_birthday.strftime("%Y%m%d"))
+                age = birthday//10000
+                user.user_birthday = age
         return user_list
     
 

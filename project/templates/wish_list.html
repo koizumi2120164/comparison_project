@@ -5,32 +5,39 @@
 
 {% block active_prefectures_list %}active{% endblock %}
 
+{% block head %}
+<link href="{% static 'css/select.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block contents %}
 <div class="container px-4 px-lg-5 my-div-style">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            {% for wish in wish_list %}
+            <br>
+            <h1>お気に入りリスト</h1>
+            {% for wish in wish_product %}
             <div class="post-preview">
                 <h3 class="gazo-box">
-                    {% if product.image1 %}
+                    {% if wish.image1 %}
                     <img src="{{ product.image1.url }}" width="200" height="200"/>
                     {% endif %}
                 </h3>
                 <h2 class="post-title">
-                    {{ product.product_name }}
-                    {{ product.price1 }}
-                    {{ product.price2 }}
-                    {{ product.price3 }}
+                    {{ wish.product_name }}
+                    {{ wish.price1 }}
+                    {{ wish.price2 }}
+                    {{ wish.price3 }}
                 </h2>
                 <a class="btn btn-primary" href="{% url 'project:商品詳細ページ' project.pk %}">詳細</a>
                 <h2>
-                    {{ wish_list.added_date }}
+                    {{ wish.added_date }}
                 </h2>
                 <a class="btn btn-primary" href="{% url 'project:wish_delete' project.pk %}">削除</a>
             </div>
             <hr class="my-4">
             {% empty %}
-            <p>閲覧した商品がありません。</p>
+            <br>
+            <p>お気に入り登録した商品がありません。</p>
             {% endfor %}
 
             <!-- ページネーション処理 -->
