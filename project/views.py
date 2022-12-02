@@ -315,19 +315,21 @@ class ItemView(generic.DetailView):
     return JsonResponse(context)    
 
 
-閲覧履歴
-class RecentlyViewedView(LoginRequiredMixin, OnlyYouMixin, generic.ListView):
+"""
+class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     model = Recently_viewed
     template_name = 'recently_viewed.html'
     paginate_by = 6
 
     def get_queryset(self):
-        recently = Recently_viewed.objects.filter(user=self.request.user).order_by('-last_visited')
-        product = Product.object.filter(productID=recently.productID)
-        return recently, product
+        recently_viewd = []
+        recently = Recently_viewed.objects.filter(userID=self.request.user.id).order_by('-last_visited')
+        for product in recently:
+            recently_product = Product.objects.filter(productID=product.productID)
+            recently_viewd += recently_product
+        return recently_viewd
         
         
-ランキング
 class RankListView(generic.ListView):
     model = Product
     template_name = 'rank_list.html'
@@ -338,19 +340,23 @@ class RankListView(generic.ListView):
         return ranking
         
         
-お気に入り
-class WishListView(LoginRequiredMixin, OnlyYouMixin, generic.ListView)
+
+class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
     paginate_by = 2
 
     def get_queryset(self):
-        wish = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
-        product = Product.object.filter(productID=wish.wished_item)
-        return product, wish
+        wish_product = []
+        wish = Wishlist.objects.filter(userID=self.request.user.id).order_by('-added_date')
+        for wished_item in wish:
+            product = Product.objects.filter(slug=wished_item.slug)
+            wish_product += product
+        
+        return wish_product
         
 
-お気に入り削除   
+"""お気に入り削除   
 class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Wishlist
     template_name = 'wish_delete.html'

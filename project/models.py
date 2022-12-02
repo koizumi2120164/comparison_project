@@ -1,5 +1,6 @@
 from django.db import models
 from shop.models import *
+import uuid
 
 
 """
@@ -50,8 +51,8 @@ class Recently_viewed(models.Model):
 
 
 class Wishlist(models.Model):
-    userID = models.UUIDField(CustomUser, editable=False)
-    wished_item = models.UUIDField(Product, editable=False)
+    userID = models.UUIDField(default=uuid.uuid4, verbose_name='ユーザーID', editable=False)
+    wished_item = models.UUIDField(default=uuid.uuid4, verbose_name='商品ID', editable=False)
     slug = models.SlugField(verbose_name='管理番号')
     added_date = models.DateTimeField(verbose_name='追加された日時', auto_now=True)
 

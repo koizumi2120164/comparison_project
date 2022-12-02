@@ -10,7 +10,7 @@ import datetime
 
 
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
-KEY_FILE_LOCATION = './json/comparisonproject-369302-d5be4cad2468.json'
+KEY_FILE_LOCATION = 'manage/json/comparisonproject-369302-d5be4cad2468.json'
 VIEW_ID = '280731815'
 
 
@@ -59,7 +59,7 @@ def calc(response):
     calc_res = dict()
     pv_summary = []
     report = response.get('reports', [])[0]
-    today = str(datetime.date.today())
+    dt_now = str(datetime.datetime.now())
     for report_data in report.get('data', {}).get('rows', []):
         # get page path
         page_path = report_data.get('dimensions', [])[0]
@@ -78,7 +78,7 @@ def calc(response):
         pv_summary.append({
             'page_path': path,
             'page_views': calc_res[path],
-            'input_date': today,
+            'input_date': dt_now,
         })
 
     # sort by page views
@@ -112,6 +112,6 @@ if __name__ == '__main__':
 
 
 def start():
-  scheduler = BackgroundScheduler()
-  scheduler.add_job(main, 'interval', minutes=5)
-  scheduler.start()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(main, 'interval', minutes=5)
+    scheduler.start()
