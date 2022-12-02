@@ -3,8 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 # Create your views here.
-def index(request):
+def user_information(request):
+    print(request.user.is_superuser),
     if not request.user.is_superuser:
-     return render(request,'manage/manage_top.html')  
+     return render(request,'manage/top')  
    
 
