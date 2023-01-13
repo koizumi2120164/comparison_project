@@ -15,22 +15,22 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
             <br>
             <h1>お気に入りリスト</h1>
-            {% for wish in wish_product %}
+            {% for wishlist in wishlist_list %}
             <div class="post-preview">
                 <h3 class="gazo-box">
-                    {% if wish.image1 %}
+                    {% if wishlist.image1 %}
                     <img src="{{ product.image1.url }}" width="200" height="200"/>
                     {% endif %}
                 </h3>
                 <h2 class="post-title">
-                    {{ wish.product_name }}
-                    {{ wish.price1 }}
-                    {{ wish.price2 }}
-                    {{ wish.price3 }}
+                    {{ wishlist.product_name }}
+                    {{ wishlist.price1 }}
+                    {{ wishlist.price2 }}
+                    {{ wishlist.price3 }}
                 </h2>
                 <a class="btn btn-primary" href="{% url 'project:商品詳細ページ' project.pk %}">詳細</a>
                 <h2>
-                    {{ wish.added_date }}
+                    {{ wishlist.added_date }}
                 </h2>
                 <a class="btn btn-primary" href="{% url 'project:wish_delete' project.pk %}">削除</a>
             </div>
