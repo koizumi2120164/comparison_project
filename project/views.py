@@ -127,58 +127,67 @@ class SearchResultsView(generic.TemplateView):
         return product
 
 
-"""
-
-class DiaryDetailView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
-    model = project
-    template_name = 'diary_detail.html'
 
 
-class DiaryCreateView(LoginRequiredMixin, generic.CreateView):
-    model = project
-    template_name = 'diary_create.html'
-    form_class = projectCreateForm
-    success_url = reverse_lazy('diary:diary_list')
-
-    def form_valid(self, form):
-        diary = form.save(commit=False)
-        diary.user = self.request.user
-        diary.save()
-        messages.success(self.request, '日記を作成しました。')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, "日記の作成に失敗しました。")
-        return super().form_invalid(form)
+class WordDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Word
+    template_name = 'worddetail.html'
 
 
-class DiaryUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
-    model = project
-    template_name = 'project_update.html'
-    form_class = projectCreateForm
+
+
+class WordUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
+    model = Word
+    template_name = 'wordpost.html'
+    form_class = WordCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('project:project_detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('project:wordreiew_list', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
-        messages.success(self.request, '日記を更新しました。')
+        messages.success(self.request, '口コミを更新しました。')
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, "日記の更新に失敗しました。")
+        messages.error(self.request, "口コミの更新に失敗しました。")
         return super().form_invalid(form)
 
 
-class DiaryDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
-    model = project
-    template_name = 'project_delete.html'
-    success_url = reverse_lazy('project:project_list')
+class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
+    model = Word
+    template_name = 'worddetail_detail.html'
+    success_url = reverse_lazy('project:worddetail')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, "日記を削除しました。")
+        messages.success(self.request, "口コミを削除しました。")
         return super().delete(request, *args, **kwargs)
-        return keyword,brand,value,display
-"""
+
+
+class WordReiewListView(LoginRequiredMixin,generic.ListView):
+    model = Word
+    template_name = 'wordreiew_list.html'
+    def get_queryset(self):
+        words = Word.objects.order_by('-created_at')
+        return words
+
+
+class WordCreateView(LoginRequiredMixin,generic.CreateView):
+    model = Word
+    template_name = 'wordpost.html'
+    form_class = WordCreateForm
+    success_url = reverse_lazy('project:wordreiew_list')
+    def form_valid(self, form):
+        Word = form.save(commit=False)
+        Word.created_by = self.request.user
+        Word.save()
+        messages.success(self.request, '口コミを作成しました。')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "口コミの作成に失敗しました。")
+        return super().form_invalid(form)
+       
+
 
 
 class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):

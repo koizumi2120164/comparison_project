@@ -6,6 +6,11 @@ from django.contrib.staticfiles.urls import static
 app_name = 'project'
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
+    path('word_detail/<int:pk>/', views.WordDetailView.as_view(), name="word_detail"),
+    path('word_update/<int:pk>/', views.WordUpdateView.as_view(), name="word_update"),
+    path('word_delete/<int:pk>/', views.WordDeleteView.as_view(), name="word_delete"),
+    path('wordpost_create', views.WordCreateView.as_view(), name="wordpost_create"),
+    path('wordreiew_list', views.WordReiewListView.as_view(), name="wordreiew_list"),
     path('search_advanced/', views.SearchAdvancedView.as_view(), name="search_advanced"),
     path('shop/<slug:category_slug>/', views.ProductListView.category_list, name='category_list'),
     path('product_list/', views.ProductListView.product_all, name="product_list"),
