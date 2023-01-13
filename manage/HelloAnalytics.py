@@ -42,7 +42,7 @@ def get_report(analytics):
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '7daysAgo', 'endDate': 'yesterday'}],
+          'dateRanges': [{'startDate': '90daysAgo', 'endDate': 'Today'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'dimensions': [{'name': 'ga:pagePath'}]
         }]
