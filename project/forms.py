@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 from shop.models import *
 from accounts.models import CustomUser
+from .models import Word
 # from .models import Review
 
 
@@ -37,5 +38,17 @@ class ProfileEditForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+
+
+class WordCreateForm(forms.ModelForm):
+    class Meta:
+        model = Word
+        fields = ('Word_title','Word_text','photo',)
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'

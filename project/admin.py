@@ -2,6 +2,10 @@ from django.contrib import admin
 
 from shop.models import Category, Product
 
+from django.contrib import admin
+
+from .models import *
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['category_name', 'slug']
@@ -13,3 +17,5 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['is_active']
     list_editable = ['is_active']
     prepopulated_fields = {'slug': ('product_name',)}
+
+admin.site.register(Word)
