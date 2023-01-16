@@ -34,8 +34,7 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-pie pt-4">
-                            <canvas id="myPieChart"></canvas>
-                            <canvas id="myPieChart2"></canvas>
+                            <canvas id="myPieChart"></canvas><canvas id="myPieChart2"></canvas>
                         </div>   
                     </div>
                 </div>
@@ -107,7 +106,7 @@
 
         // Pie Chart Example
         var ctx = document.getElementById("myPieChart2");
-        var myPieChart = new Chart(ctx, {
+        var myPieChart2 = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
