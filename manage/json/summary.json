@@ -1,77 +1,147 @@
 [
   {
-    "page_path": "/",
-    "page_views": 11,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_path": "/wordreiew_list",
+    "page_views": 61,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/accounts/login/",
-    "page_views": 9,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_views": 35,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/wordpost_create",
+    "page_views": 30,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/",
+    "page_views": 29,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/product_list/",
-    "page_views": 9,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_views": 22,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/rank_list/",
-    "page_views": 7,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_views": 19,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/accounts/signup/",
-    "page_views": 5,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_views": 17,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
-    "page_path": "/profile_edit/3/",
-    "page_views": 5,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_path": "/profile_update/1/",
+    "page_views": 14,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
-    "page_path": "/recently_view/3/",
-    "page_views": 3,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_path": "/word_detail/2/",
+    "page_views": 12,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
-    "page_path": "/wish_list/3/",
-    "page_views": 3,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_path": "/profile_edit/1/",
+    "page_views": 10,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/accounts/confirm-email/",
-    "page_views": 2,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "page_views": 7,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
-    "page_path": "/wordreiew_list",
+    "page_path": "/profile_edit/3/",
+    "page_views": 7,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/word_detail/17/",
+    "page_views": 7,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/recently_view/3/",
+    "page_views": 6,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/wish_list/3/",
+    "page_views": 5,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/recently_view/1/",
+    "page_views": 4,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/wish_list/1/",
+    "page_views": 4,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/search_advanced/",
+    "page_views": 3,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/accounts/confirm-email/MQ:1pG7zf:u9N-lSKnIPARphv5xgCyPKYLOT3j_DyxnBTDzZYbrGk/",
     "page_views": 2,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/accounts/confirm-email/MQ:1pFqhy:2aU4eivNlCxTnGTmZ9u6JxGL1W3buzMVaxNtHybfc2U/",
     "page_views": 1,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/accounts/confirm-email/MQ:1pG8ui:AK9KwAsApsoM1G3F-N1RbIYTQwFi8bs6yBbG2663QHk/",
+    "page_views": 1,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/accounts/confirm-email/MQ:1pGCbx:jGJ1SJEQGYUeJp0cel52iGuffAoL3AguefXiUpYjsWU/",
+    "page_views": 1,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/accounts/confirm-email/MQ:1pGDLo:WInqP7wkHLteXL3hoqRhgG8NvEmwrg-Y5iGhxbvytMk/",
+    "page_views": 1,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/accounts/confirm-email/NA:1pFlUZ:XjShoXKLKrWxHVkDyvBdJrWvTjrp6wcDPvyAS4dTLYc/",
     "page_views": 1,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/accounts/password/reset/",
+    "page_views": 1,
+    "input_date": "2023-01-16 10:32:30.416855"
+  },
+  {
+    "page_path": "/accounts/password/reset/done/",
+    "page_views": 1,
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
     "page_path": "/profile_update/3/",
     "page_views": 1,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
-    "page_path": "/search_advanced/",
+    "page_path": "/search_result/",
     "page_views": 1,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "input_date": "2023-01-16 10:32:30.416855"
   },
   {
-    "page_path": "/wordpost_create",
+    "page_path": "/word_detail/18/",
     "page_views": 1,
-    "input_date": "2023-01-13 15:53:44.747318"
+    "input_date": "2023-01-16 10:32:30.416855"
   }
 ]

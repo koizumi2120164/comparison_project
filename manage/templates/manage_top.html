@@ -5,7 +5,7 @@
 
 {% block header %}
 <div class="input-group">
-    <form action="{% url 'manage:search' %}" method="get">
+    <form action="{% url 'manage:age' %}" method="get">
         <label><input class="form-control" style="width: 500px; height: 39px;" type="text" name="keyword" id="keyword" placeholder="検索したい商品を入力" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
         <input type="submit" class="btn btn-primary" value="検索">
     </form>
@@ -71,8 +71,8 @@
         data: {
             labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
             datasets: [{
-            data: ['{{other}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
-            backgroundColor: ['#1E90FF','#FF8C00','#A9A9A9','#FFD700'],
+            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF','#FFD700'],
             
             hoverBorderColor: "rgba(234, 236, 244, 1)",
             }],
@@ -165,8 +165,8 @@
             yAxes: [
             {ticks: {       
             min: 0,
-            max: 60,
-            stepSize: 10
+            max: 500,
+            stepSize: 100
             }}
             ]},
             maintainAspectRatio: false,
