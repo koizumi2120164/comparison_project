@@ -1,102 +1,77 @@
 [
   {
     "page_path": "/",
-    "page_views": 37,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "page_views": 11,
+    "input_date": "2023-01-13 15:53:44.747318"
   },
   {
     "page_path": "/accounts/login/",
-    "page_views": 35,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/top",
-    "page_views": 23,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "page_views": 9,
+    "input_date": "2023-01-13 15:53:44.747318"
   },
   {
     "page_path": "/product_list/",
-    "page_views": 17,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/profile_edit/1/",
     "page_views": 9,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "input_date": "2023-01-13 15:53:44.747318"
   },
   {
-    "page_path": "/profile_edit/2/",
-    "page_views": 8,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/profile_edit/7/",
-    "page_views": 8,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/accounts/confirm-email/",
-    "page_views": 5,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "page_path": "/rank_list/",
+    "page_views": 7,
+    "input_date": "2023-01-13 15:53:44.747318"
   },
   {
     "page_path": "/accounts/signup/",
     "page_views": 5,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/profile_edit/3/",
+    "page_views": 5,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/recently_view/3/",
+    "page_views": 3,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/wish_list/3/",
+    "page_views": 3,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/accounts/confirm-email/",
+    "page_views": 2,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/wordreiew_list",
+    "page_views": 2,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/accounts/confirm-email/MQ:1pFqhy:2aU4eivNlCxTnGTmZ9u6JxGL1W3buzMVaxNtHybfc2U/",
+    "page_views": 1,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/accounts/confirm-email/NA:1pFlUZ:XjShoXKLKrWxHVkDyvBdJrWvTjrp6wcDPvyAS4dTLYc/",
+    "page_views": 1,
+    "input_date": "2023-01-13 15:53:44.747318"
+  },
+  {
+    "page_path": "/profile_update/3/",
+    "page_views": 1,
+    "input_date": "2023-01-13 15:53:44.747318"
   },
   {
     "page_path": "/search_advanced/",
-    "page_views": 5,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/manage/top/",
-    "page_views": 3,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/rank_list/",
-    "page_views": 3,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/search_result/",
-    "page_views": 3,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/profile_edit/8/",
-    "page_views": 2,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/profile_update/8/",
-    "page_views": 2,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/shop/",
-    "page_views": 2,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/accounts/confirm-email/MQ:1p0bsB:2qFinx_2riZTo9SsC4AWbcNEhWZP8oGyH8UAA2lz-II/",
     "page_views": 1,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "input_date": "2023-01-13 15:53:44.747318"
   },
   {
-    "page_path": "/accounts/confirm-email/MQ:1p0c4N:3_R884V9ekNVYlr2_o-0JpBaqg7bCJu_EAU8RsXcxWU/",
+    "page_path": "/wordpost_create",
     "page_views": 1,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/accounts/confirm-email/Ng:1oyOmT:6qPOmbbBZO99WugYP9tDUhBlVNHI2ctNBr5mj81ttkA/",
-    "page_views": 1,
-    "input_date": "2022-12-02 14:57:26.308715"
-  },
-  {
-    "page_path": "/accounts/confirm-email/NQ:1oyO9V:k2rNl4O-sVmtllwiCSxVWecI-Vb4iFmL9mliqXQeDsY/",
-    "page_views": 1,
-    "input_date": "2022-12-02 14:57:26.308715"
+    "input_date": "2023-01-13 15:53:44.747318"
   }
 ]
