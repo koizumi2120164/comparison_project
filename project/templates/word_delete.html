@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}口コミ削除{% endblock %}
+
+{% block active_prefectures_list %}active{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/select.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contents %}
+<div class="container my-div-style">
+    <div class="row">
+        <form method="POST">
+            {% csrf_token %}
+            <br>
+            <h3 style="text-align:center">本当に削除しますか？</h3>
+            <button class="btn btn-primary mt-5" type="submit">削除</button>
+            <a class="btn btn-secondary mt-5 ml-2" href="{% url 'project:word_detail' object.pk %}">キャンセル</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

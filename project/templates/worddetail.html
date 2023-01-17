@@ -1,4 +1,4 @@
-b{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}口コミ掲示板 | Private Diary{% endblock %}
@@ -7,6 +7,7 @@ b{% extends 'base.html' %}
 
 
 {% block contents %}
+<br>
 <div class="container my-div-style">
     <div class="row">
         <div class="col-3">
@@ -63,7 +64,10 @@ b{% extends 'base.html' %}
         </div>
     </div>
 
+
+    {% if word.created_by == user %}
     <a class="btn btn-success mt-5 mb-3" href="{% url 'project:word_update' object.pk %}">編集</a>
-    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:word_detail' object.pk %}">削除</a>
+    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:word_delete' object.pk %}">削除</a>
+    {% endif %}
 </div>
 {% endblock %}l

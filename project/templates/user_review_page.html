@@ -8,8 +8,8 @@
 {% block contents %}
 <div class="container px-4 px-lg-5 my-div-style">
     <h3 class="gazo-box">
-        {% if user.photo %}
-        <img src="{{ user.photo }}" width="100" height="100"/>
+        {% if user.user_photo %}
+        <img src="{{ user.user_photo.url }}" width="100" height="100"/>
         {% endif %}
     </h3>
 
@@ -18,7 +18,7 @@
             <strong>ユーザーID</strong>
         </div>
         <div class="col-9">
-            {{ word.created_by }}
+            {{ user.username }}
         </div>
     </div>
 
@@ -27,7 +27,7 @@
             <strong>登録日時</strong>
         </div>
         <div class="col-9">
-            {{ account.joined_at }}
+            {{ user.date_joined }}
         </div>
     </div>
 
@@ -36,7 +36,7 @@
             <strong>口コミ数</strong>
         </div>
         <div class="col-9">
-            {{ account.no_of_word }}
+            {{ user.no_of_word }}
         </div>
     </div>
 
@@ -49,44 +49,38 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card mb-4">
-                {% for project in word %}
-                <h1>口コミ掲示板</h1>
-                <div class="post-preview">
-                    <a href="{% url 'project:word_edit' project.pk %}">
-                        <h2 class="post-title">
-                            {{ Word.word_title }}　　{{ Word.created_at }}
-                        </h2>
-                    </a>
-                </div>
-                <hr class="my-4">
-                {% empty %}
-                <p>口コミがありません。</p>
-                {% endfor %}
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header">口コミ一覧</div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-1">
+                    {% for word in word_list %}
+                    <li>
+                        <a href="{% url 'project:word_detail' word.pk %}">{{ word.Word_title }}</a>
+                        <p>{{ word.created_at }}</p>
+                    </li>
+                    {% empty %}
+                    <p>口コミがありません。</p>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card mb-4">
-            {% for project in review %}
-                <h1>ユーザーレビュー</h1>
-                <div class="post-preview">
-                    <a href="{% url 'project:review_edit' project.pk %}">
-                        <h2 class="post-title">
-                            {{ Review.review_title }}　　{{ Review.created_at }}
-                        </h2>
-                    </a>
-                </div>
-                <hr class="my-4">
-                {% empty %}
-                <p>レビューがありません。</p>
-                {% endfor %}
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header">レビュー一覧</div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-1">
+                    {% for review in review_list %}
+                    <li>
+                        <a href="{% url 'project:review_edit' review.pk %}">{{ review.review_title }}　　{{ review.created_at }}</a>
+                    </li>
+                    {% empty %}
+                    <p>口コミがありません。</p>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
