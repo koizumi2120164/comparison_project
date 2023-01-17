@@ -34,13 +34,24 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-pie pt-4">
-                            <canvas id="myPieChart"></canvas>
+                            <div class="inlineblock"><canvas id="myPieChart"></canvas></div>
+                            <div class="inlineblock"><canvas id="myPieChart2"></canvas></div>
+                            <div class="inlineblock"><canvas id="myPieChart3"></canvas></div>
+                            <div class="inlineblock"><canvas id="myPieChart4"></canvas></div>
+                        
                         </div>   
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> 
+        <style>
+            .inlineblock{
+                display: inline-block;
+                width: 400px;
+	            height: 200px;
+                text-align: center;
+            }
+        </style>
     
 {% endblock %}
 
@@ -99,6 +110,128 @@
             display: true,
             position:'bottom'
             },
+            
+            cutoutPercentage: 80,
+        },
+        });
+        
+
+        // Pie Chart Example
+        var ctx = document.getElementById("myPieChart2");
+        var myPieChart2 = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
+            datasets: [{
+            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            backgroundColor: ['#1E90FF','#FF8C00','#A9A9A9','#FFD700'],
+            
+            hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            },
+            title: {
+            display: true,
+            text: '',
+            fontSize: 30,
+            fontColor: "#2F4F4F"
+            },
+            legend: {
+            display: true,
+            position:'bottom'
+            },
+            
+            cutoutPercentage: 80,
+        },
+        });
+
+        // Pie Chart Example
+        var ctx = document.getElementById("myPieChart3");
+        var myPieChart3 = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
+            datasets: [{
+            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            backgroundColor: ['#1E90FF','#FF8C00','#A9A9A9','#FFD700'],
+            
+            hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            },
+            title: {
+            display: true,
+            text: '',
+            fontSize: 30,
+            fontColor: "#2F4F4F"
+            },
+            legend: {
+            display: true,
+            position:'bottom'
+            },
+            
+            cutoutPercentage: 80,
+        },
+        });
+
+        // Pie Chart Example
+        var ctx = document.getElementById("myPieChart4");
+        var myPieChart4 = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
+            datasets: [{
+            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            backgroundColor: ['#1E90FF','#FF8C00','#A9A9A9','#FFD700'],
+            
+            hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            },
+            title: {
+            display: true,
+            text: '',
+            fontSize: 30,
+            fontColor: "#2F4F4F"
+            },
+            legend: {
+            display: true,
+            position:'bottom'
+            },
+            
             cutoutPercentage: 80,
         },
         });

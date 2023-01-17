@@ -21,7 +21,7 @@ def top(request):
             rank = date["page_views"]
         elif date["page_path"] == "/product_list/":
             product = date["page_views"]
-        elif date["page_path"] == "/search_advanced/": # 今は検索画面
+        elif date["page_path"] == "/wordreiew_list":
             word = date["page_views"]
 
     # 各変数名
@@ -85,21 +85,10 @@ def top(request):
 
     # 渡す変数
     params = {
-        'day' : day,
-        'young' : young, 
-        'adulthood' : adulthood,
-        'senior' : senior,
-        'top' : top,
-        'rank' : rank,
-        'product' : product,
-        'word' : word,
-        'man' : man,
-        'woman' : woman,
-        'gender' : gender,
-        'kanto' : kanto,
-        'kansai' : kansai,
-        'other' : other,
-        'address' : address,
+        'day' : day, 'young' : young, 'adulthood' : adulthood,'senior' : senior,
+        'top' : top, 'rank' : rank, 'product' : product, 'word' : word,
+        'man' : man, 'woman' : woman, 'gender' : gender,
+        'kanto' : kanto,'kansai' : kansai,'other' : other,'address' : address,
     }
 
     return render(request, 'manage_top.html', params)
@@ -110,7 +99,7 @@ class ManageTableView(LoginRequiredMixin, generic.ListView):
     model = CustomUser
     paginate_by = 10
 
-    def get_queryset(self):
+    def get_queryset(request):
         user_list = CustomUser.objects.order_by('-date_joined')
 
         for user in user_list:
@@ -168,12 +157,7 @@ class AgeView(generic.TemplateView):
 
             # 渡す変数
             params = {
-                'name' : name,
-                'day' : day,
-                'young' : young, 
-                'adulthood' : adulthood,
-                'senior' : senior,
-                'all' : all
+                'name' : name, 'day' : day, 'young' : young, 'adulthood' : adulthood, 'senior' : senior, 'all' : all
             }
 
             return render(request, 'manage_age.html', params), user
@@ -214,11 +198,7 @@ class GenderView(generic.TemplateView):
 
         # 渡す変数
         params = {
-            'name' : name,
-            'gender' : gender,
-            'man' : man,
-            'woman' : woman,
-            'all' : all
+            'name' : name, 'gender' : gender, 'man' : man, 'woman' : woman, 'all' : all
         }
 
         return render(request, 'manage_gender.html', params), user
@@ -261,12 +241,7 @@ class AddressView(generic.TemplateView):
 
         # 渡す変数
         params = {
-            'name' : name,
-            'address' : address,
-            'kanto' : kanto,
-            'kansai' : kansai,
-            'other' : other,
-            'all' : all
+            'name' : name, 'address' : address, 'kanto' : kanto, 'kansai' : kansai, 'other' : other, 'all' : all
         }
 
         return render(request, 'manage_address.html', params),user

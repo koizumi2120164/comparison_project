@@ -19,3 +19,6 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('product_name',)}
 
 admin.site.register(Word)
+admin.site.register(Review)
+admin.site.register(Wishlist)
+admin.site.register(Recently_viewed)

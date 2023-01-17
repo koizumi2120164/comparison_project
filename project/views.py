@@ -5,7 +5,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import Review, Recently_viewed, Wishlist
-from django.shortcuts import redirect
 from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
@@ -136,14 +135,13 @@ class WordDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 
-
 class WordUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
     model = Word
     template_name = 'wordpost.html'
     form_class = WordCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('project:wordreiew_list', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('project:word_detail', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
         messages.success(self.request, '口コミを更新しました。')
@@ -156,8 +154,8 @@ class WordUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
 
 class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Word
-    template_name = 'worddetail_detail.html'
-    success_url = reverse_lazy('project:worddetail')
+    template_name = 'word_delete.html'
+    success_url = reverse_lazy('project:wordreiew_list')
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "口コミを削除しました。")
@@ -182,6 +180,7 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
     template_name = 'wordpost.html'
     form_class = WordCreateForm
     success_url = reverse_lazy('project:wordreiew_list')
+
     def form_valid(self, form):
         Word = form.save(commit=False)
         Word.created_by = self.request.user
@@ -246,26 +245,25 @@ class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     success_url = reverse_lazy('project:review_delete')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, "を削除しました。")
+        messages.success(self.request, "レビューを削除しました。")
         return super().delete(request, *args, **kwargs)
 
 
-"""
 class UserReviewPageView(generic.ListView):
-    model = Review
+    model = CustomUser
     template_name = 'user_review_page.html'
+    context_object_name = 'user_review_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserReviewPageView, self).get_context_data(**kwargs)
+        context.update({
+            'review_list': Review.objects.filter(created_by=self.request.user).order_by('-created_at'),
+            'word_list': Word.objects.filter(created_by=self.request.user).order_by('-created_at'),
+        })
+        return context
 
     def get_queryset(self):
-        review = Review.objects.filter(created_by=self.request.user).order_by('-created_at')
-        return review
-
-    def get_queryset(self):
-        word = Word.objects.filter(created_by=self.request.user).order_by('-created_at')
-        return word
-
-    def get_queryset(self):
-        account = Word.objects.filter(created_by=self.request.user).order_by('-created_at')
-        return account"""
+        return CustomUser.objects.filter(username=self.request.user)
 
 
 class ProductAllView(generic.ListView):
