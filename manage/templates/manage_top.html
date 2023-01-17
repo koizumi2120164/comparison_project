@@ -34,22 +34,22 @@
                     <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-pie pt-4">
-                            <canvas id="myPieChart"></canvas>
+                            <div class="inlineblock"><canvas id="myPieChart"></canvas></div>
+                            <div class="inlineblock"> <canvas id="myPieChart2"></canvas></div>
+                           </div> 
                         </div>   
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Donut Chart -->
-    <div class="col-xl-10 col-lg-12">
-                    <canvas id="myPieChart2"></canvas>
-                </div>   
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+        </div> 
+        <style>
+            .inlineblock{
+                display: inline-block;
+                width: 400px;
+	            height: 200px;
+                text-align: center;
+            }
+        </style>
     
 {% endblock %}
 
@@ -108,6 +108,7 @@
             display: true,
             position:'bottom'
             },
+            
             cutoutPercentage: 80,
         },
         });
@@ -148,6 +149,7 @@
             display: true,
             position:'bottom'
             },
+            
             cutoutPercentage: 80,
         },
         });
