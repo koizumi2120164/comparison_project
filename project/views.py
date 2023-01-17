@@ -243,22 +243,21 @@ class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-"""
 class UserReviewPageView(generic.ListView):
-    model = Review
+    model = CustomUser
     template_name = 'user_review_page.html'
+    context_object_name = 'user_review_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserReviewPageView, self).get_context_data(**kwargs)
+        context.update({
+            'review_list': Review.objects.filter(created_by=self.request.user).order_by('-created_at'),
+            'word_list': Word.objects.filter(created_by=self.request.user).order_by('-created_at'),
+        })
+        return context
 
     def get_queryset(self):
-        review = Review.objects.filter(created_by=self.request.user).order_by('-created_at')
-        return review
-
-    def get_queryset(self):
-        word = Word.objects.filter(created_by=self.request.user).order_by('-created_at')
-        return word
-
-    def get_queryset(self):
-        account = Word.objects.filter(created_by=self.request.user).order_by('-created_at')
-        return account"""
+        return CustomUser.objects.filter(username=self.request.user)
 
 
 class ProductAllView(generic.ListView):
