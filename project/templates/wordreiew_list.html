@@ -5,27 +5,61 @@
 
 {% block active_project_list %}active{% endblock %}
 
+{% block head %}
+<link href="{% static 'css/wordreiew_list.css' %}" rel="stylesheet">
+{% endblock %}
+
+
 
 {% block contents %}
 <div class="container px-4 px-lg-5 my-div-style">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-primary float-right" href="{% url 'project:wordpost_create' %}">口コミ書き込むページ</a>
+                <a class="btn btn-primary float-right" href="{% url 'project:wordpost_create' %}">新規書き込むページ</a>
+            </div>
+            <div class="inline-block_test">
+                タイトル
+            </div>
+            <div class="inline-block_test">
+                　ユーザーID 
+            </div>
+            <div class="inline-block_test">
+                内容
+            </div>
+            <div class="inline-block_test">
+                投稿日時
             </div>
             {% for word in word_list %}
             <div class="post-preview">
                 <a href="{% url 'project:word_detail' word.pk %}">
-                    <h2 class="post-title">
-                        {{ word.Word_title }}
-                    </h2>
+                    
+                    <div class="inline-block_test">
+                        <hz>{{ word.Word_title|truncatechars:10 }}</h6>>
+                    </div>
+               
                 </a>
-                <div class="box box1">box1</div>
+                
+                {% if object.user_photo %}
+                <h3 class="col-3">
+                <img src="{{ object.user_photo }}" width="200" height="200"/>
+                </h3>
+                {% endif %}
 
-                <p class="post-meta">{{ word.created_by }}</p>
-                <p class="post-meta">{{ word.Word_title }}</p>
-                <p class="post-meta">{{ word.Word_text}}</p>
-                <p class="post-meta">{{ word.created_at}}</p>
+
+                <div class="inline-block_test">
+                    {{ word.created_by }}
+                </div>
+                <div class="inline-block_test">
+                    {{ word.Word_title|truncatechars:5 }}
+                </div>
+                <div class="inline-block_test">
+                    {{ word.Word_text|truncatechars:5 }}
+                </div>
+                <div class="inline-block_test">
+                    {{ word.created_at}}
+                </div>
+            
             </div>
             <hr class="my-4">
 

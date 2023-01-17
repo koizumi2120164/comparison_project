@@ -10,6 +10,7 @@ from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from . forms import *
+from itertools import chain
 
 logger = logging.getLogger(__name__)
 
@@ -168,7 +169,12 @@ class WordReiewListView(LoginRequiredMixin,generic.ListView):
     template_name = 'wordreiew_list.html'
     def get_queryset(self):
         words = Word.objects.order_by('-created_at')
+
         return words
+
+
+
+
 
 
 class WordCreateView(LoginRequiredMixin,generic.CreateView):
