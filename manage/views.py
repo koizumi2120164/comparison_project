@@ -21,7 +21,7 @@ def top(request):
             rank = date["page_views"]
         elif date["page_path"] == "/product_list/":
             product = date["page_views"]
-        elif date["page_path"] == "/search_advanced/": # 今は検索画面
+        elif date["page_path"] == "/wordreiew_list":
             word = date["page_views"]
 
     # 各変数名
