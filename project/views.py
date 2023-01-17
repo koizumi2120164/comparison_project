@@ -5,7 +5,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import Review, Recently_viewed, Wishlist
-from django.shortcuts import redirect
 from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q

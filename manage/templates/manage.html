@@ -25,6 +25,7 @@
     </head>
 
     <body id="page-top">
+        {% if user.is_staff %}
         <!-- Page Wrapper -->
         <div id="wrapper">
             <!-- Sidebar -->
@@ -83,6 +84,11 @@
                 
             </div>
         </div>
+        {% else %}
+        <br>
+        <h3 style="text-align:center">アクセス権限がありません</h3>
+        <h4 style="text-align:center"><a href="{% url 'project:index' %}">トップページへ</a></h4>
+        {% endif %}
 
         {% block script %}{% endblock %}
 
