@@ -257,6 +257,7 @@ class UserReviewPageView(generic.ListView):
     model = CustomUser
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(UserReviewPageView, self).get_context_data(**kwargs)
