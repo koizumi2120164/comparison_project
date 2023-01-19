@@ -163,15 +163,19 @@ class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
 
 
 class WordReiewListView(LoginRequiredMixin,generic.ListView):
-    model = Word
+    model = CustomUser
     template_name = 'wordreiew_list.html'
+    context_object_name = 'user_word_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(WordReiewListView, self).get_context_data(**kwargs)
+        context.update({
+            'word_list' : Word.objects.filter(created_by=self.request.user).order_by('-created_at')
+        })
+        return context
+
     def get_queryset(self):
-        words = Word.objects.order_by('-created_at')
-
-        return words
-
-
-
+        return CustomUser.objects.filter(username=self.request.user)
 
 
 
@@ -253,6 +257,7 @@ class UserReviewPageView(generic.ListView):
     model = CustomUser
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(UserReviewPageView, self).get_context_data(**kwargs)
