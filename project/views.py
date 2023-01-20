@@ -9,7 +9,7 @@ from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from . forms import *
-from itertools import chain
+from django.db.models import Count
 
 logger = logging.getLogger(__name__)
 
@@ -159,6 +159,11 @@ class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "口コミを削除しました。")
+        target_data = Word.objects.filter(created_by=self.request.user).count()
+        user = CustomUser.objects.filter(username=self.request.user)
+        for customuser in user:
+            customuser.no_of_word = target_data
+        customuser.save()
         return super().delete(request, *args, **kwargs)
 
 
@@ -186,9 +191,14 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
     success_url = reverse_lazy('project:wordreiew_list')
 
     def form_valid(self, form):
-        Word = form.save(commit=False)
-        Word.created_by = self.request.user
-        Word.save()
+        word = form.save(commit=False)
+        word.created_by = self.request.user
+        word.save()
+        target_data = Word.objects.filter(created_by=self.request.user).count()
+        user = CustomUser.objects.filter(username=self.request.user)
+        for customuser in user:
+            customuser.no_of_word = target_data
+        customuser.save()
         messages.success(self.request, '口コミを作成しました。')
         return super().form_valid(form)
 
@@ -215,6 +225,11 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
         review = form.save(commit=False)
         review.userID = self.request.user
         review.save()
+        target_data = Review.objects.filter(created_by=self.request.user).count()
+        user = CustomUser.objects.filter(username=self.request.user)
+        for customuser in user:
+            customuser.no_of_review = target_data
+        customuser.save()
         messages.success(self.request, 'レビューを作成しました。')
         return super().form_valid(form)
 
@@ -250,6 +265,11 @@ class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "レビューを削除しました。")
+        target_data = Review.objects.filter(created_by=self.request.user).count()
+        user = CustomUser.objects.filter(username=self.request.user)
+        for customuser in user:
+            customuser.no_of_review = target_data
+        customuser.save()
         return super().delete(request, *args, **kwargs)
 
 
