@@ -97,7 +97,7 @@ def top(request):
 class ManageTableView(LoginRequiredMixin, generic.ListView):
     template_name = "manage_toptable.html"
     model = CustomUser
-    paginate_by = 10
+    paginate_by = 2
 
     def get_queryset(request):
         user_list = CustomUser.objects.order_by('-date_joined')

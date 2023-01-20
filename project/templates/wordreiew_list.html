@@ -23,14 +23,11 @@
 
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
-        <div class="card-body">
+        <div class="card-body">    
             <table  id="dataTable" width="100%" cellspacing="50%" >
                 <thead>
-                
-
-
                     <tr>
-                        <td></td>
+                        <td>写真</td>
                         <td>タイトル</td>
                         <td>ユーザーID</td>
                         <td>内容</td>
@@ -40,34 +37,42 @@
 
                 <tbody>
                     {% for word in word_list %}
-                    <tr>
-                        <div class="inline-block_test">
-                            {% if user.user_photo %}
-                            <td><h3 class="gazo-box">
-                            <img src="{{ user.user_photo.url }}" width="80" height=""/>
-                            </h3></td>
-                            {% endif %}
-                        </div>
-                
+                        <tr>
+                            <div class="inline-block_test">
+                                {% if word.photo %}
+                                <td><h3 class="gazo-box">
+                                <img src="{{ word.photo.url }}" width="80" height="60"/>
+                                </h3></td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                            </div>
+
                             <td><a href="{% url 'project:word_detail' word.pk %}">
                                 
                                 <div class="inline-block_test">
-                                    <h6>{{ word.Word_title|truncatechars:10 }}</h6>>
+                                    <h6>{{ word.Word_title|truncatechars:10 }}</h6>
                                 </div>
                            
                             </a></td>
 
-                        <td>{{ word.created_by }}></td>
-                        <td>{{ word.Word_text|truncatechars:10 }}</td>
-                        <td>{{ word.created_at}}</td>
-                    </tr>
+                            <td><a href="{% url 'project:user_review_page' word.created_by.pk %}">
+                                
+                                <div class="inline-block_test">
+                                    <h6>{{ word.created_by }}</h6>
+                                </div>
+                           
+                            </a></td>
+
+                            <td>{{ word.Word_text|truncatechars:10 }}</td>
+                            <td>{{ word.created_at}}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
-            </table>                      
-           
-
+            </table>  
+                                
             <!-- ページネーション処理 -->
-            {% if is_paginated %}
+            {% if page_obj %}
             <ul class="pagination">
                 <!-- 前ページへのリンク -->
                 {% if page_obj.has_previous %}

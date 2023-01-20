@@ -10,7 +10,7 @@
     <br>
     <h3 class="gazo-box">
         {% if user.user_photo %}
-        <img src="{{ user.user_photo.url }}" width="100" height="100"/>
+        <img src="{{ object.user_photo.url }}" width="100" height="100"/>
         {% endif %}
     </h3>
 
@@ -19,7 +19,7 @@
             <strong>ユーザーID</strong>
         </div>
         <div class="col-9">
-            {{ user.username }}
+            {{ object.username }}
         </div>
     </div>
 
@@ -28,7 +28,7 @@
             <strong>登録日時</strong>
         </div>
         <div class="col-9">
-            {{ user.date_joined }}
+            {{ object.date_joined }}
         </div>
     </div>
 
@@ -37,7 +37,7 @@
             <strong>口コミ数</strong>
         </div>
         <div class="col-9">
-            {{ user.no_of_word }}
+            {{ user_list }}
         </div>
     </div>
 
@@ -46,20 +46,10 @@
             <strong>レビュー数</strong>
         </div>
         <div class="col-9">
-            {{ user.no_of_review }}
+            {{ object.no_of_review }}
         </div>
     </div>
 </div>
-
-<style>
-    p {
-    width: 200px;
-    background: #ffffff;
-    }
-    .right {
-        margin-left: auto;
-    }
-</style>
 
 
 <div class="right">

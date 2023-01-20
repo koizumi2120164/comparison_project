@@ -9,7 +9,7 @@ from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from . forms import *
-from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +20,19 @@ class OnlyYouMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
         return user.pk == self.kwargs['pk'] or user.is_superuser
+    
+
+def paginate_queryset(request, queryset, count):
+    paginator = Paginator(queryset, count)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return page_obj
+
 
 
 class IndexView(generic.TemplateView):
@@ -167,20 +180,14 @@ class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class WordReiewListView(LoginRequiredMixin,generic.ListView):
+class WordReiewListView(generic.ListView):
     model = CustomUser
     template_name = 'wordreiew_list.html'
-    context_object_name = 'user_word_list'
-
-    def get_context_data(self, **kwargs):
-        context = super(WordReiewListView, self).get_context_data(**kwargs)
-        context.update({
-            'word_list' : Word.objects.filter(created_by=self.request.user).order_by('-created_at')
-        })
-        return context
+    paginate_by = 5
 
     def get_queryset(self):
-        return CustomUser.objects.filter(username=self.request.user)
+        return Word.objects.order_by('-created_at')
+
 
 
 
@@ -282,13 +289,14 @@ class UserReviewPageView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(UserReviewPageView, self).get_context_data(**kwargs)
         context.update({
-            'review_list': Review.objects.filter(created_by=self.request.user).order_by('-created_at'),
-            'word_list': Word.objects.filter(created_by=self.request.user).order_by('-created_at'),
+            'review_list': Review.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at'),
+            'word_list': Word.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at'),
+            'user_list': CustomUser.objects.filter(username=self.kwargs['pk'])
         })
         return context
 
     def get_queryset(self):
-        return CustomUser.objects.filter(username=self.request.user)
+        return CustomUser.objects.filter(username=self.kwargs['pk'])
 
 
 class ProductAllView(generic.ListView):
@@ -382,7 +390,7 @@ class RankListView(generic.ListView):
 class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         wish_product = []
