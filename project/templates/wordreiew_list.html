@@ -39,9 +39,9 @@
                     {% for word in word_list %}
                         <tr>
                             <div class="inline-block_test">
-                                {% if word.photo %}
+                                {% if word.word_photo %}
                                 <td><h3 class="gazo-box">
-                                <img src="{{ word.photo.url }}" width="80" height="60"/>
+                                <img src="{{ word.word_photo.url }}" width="80" height="60"/>
                                 </h3></td>
                                 {% else %}
                                 <td></td>
@@ -51,21 +51,21 @@
                             <td><a href="{% url 'project:word_detail' word.pk %}">
                                 
                                 <div class="inline-block_test">
-                                    <h6>{{ word.Word_title|truncatechars:10 }}</h6>
+                                    <h6>{{ word.word_title|truncatechars:10 }}</h6>
                                 </div>
                            
                             </a></td>
 
-                            <td><a href="{% url 'project:user_review_page' word.created_by.pk %}">
+                            <td><a href="{% url 'project:user_review_page' word.word_created_by.pk %}">
                                 
                                 <div class="inline-block_test">
-                                    <h6>{{ word.created_by }}</h6>
+                                    <h6>{{ word.word_created_by }}</h6>
                                 </div>
                            
                             </a></td>
 
-                            <td>{{ word.Word_text|truncatechars:10 }}</td>
-                            <td>{{ word.created_at}}</td>
+                            <td>{{ word.word_text|truncatechars:10 }}</td>
+                            <td>{{ word.word_created_at}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
