@@ -201,10 +201,10 @@
         var myPieChart4 = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ["関東", "関西","その他"],
+            labels: ["未設定","関東", "関西","その他"],
             datasets: [{
             data: ['{{address}}','{{kanto}}', '{{kansai}}', '{{other}}'],
-            backgroundColor: ['#FF8C00','#1E90FF','#A9A9A9','#FFD700'],
+            backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF','#FFD700'],
             
             hoverBorderColor: "rgba(234, 236, 244, 1)",
             }],
