@@ -14,6 +14,7 @@
         <div  alt="" class="float-md-start">
     <br>
     {% for object in object_list %}
+    {% if not object.username == None %}
     <h3 class="gazo-box">
         {% if object.user_photo %}
         <div  alt="" class="float-md-start">
@@ -59,6 +60,7 @@
             {{ object.no_of_review }}
         </div>
     </div>
+    {% endif %}
     {% endfor %}
 </div>
 </div>
@@ -71,7 +73,7 @@
         <div class="card-body">
           <h5 class="card-title">口コミ一覧</h5>
           <ul class="list-unstyled mb-9">
-            {% for object in object_list %}
+            {% for object in object_list|slice:":5" %}
             <li>
                 <a href="{% url 'project:word_detail' object.pk %}">{{ object.word_title|truncatechars:25 }}</a>
                 <p style="text-align:left">{{ object.word_created_at }}</p>
@@ -79,48 +81,18 @@
             {% empty %}
             <p>口コミがありません。</p>
             {% endfor %}
-            </ul>
-          <!-- ページネーション処理 -->
-          {% if is_paginated %}
-          <ul class="pagination">
-              <!-- 前ページへのリンク -->
-              {% if page_obj.has_previous %}
-              <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-      
-              {% endif %}
-
-              <!-- ページ数表示 -->
-              {% for page_num in page_obj.paginator.page_range %}
-              {% if page_obj.number == page_num %}
-              <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-              {% else %}
-              <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
-              {% endif %}
-              {% endfor %}
-
-              <!-- 次ページへのリンク -->
-              {% if page_obj.has_next %}
-              <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                      <span aria-hidden="true">&raquo;</span>
-                  </a>
-              </li>
-              {% endif %}
+            <a class="btn btn-primary" href="{% url 'project:wordreiew_list' %}">もっと見る</a>
           </ul>
-          {% endif %}
         </div>
       </div>
     </div>
+
     <div class="col-sm-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">レビュー一覧</h5>
           <ul class="list-unstyled mb-9">
-            {% for object in object_list %}
+            {% for object in object_list|slice:":5" %}
             <li>
                 <a href="{% url 'project:review_edit' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
                 <p>{{ object.review_created_at }}</p>
@@ -129,39 +101,8 @@
             {% if object.review_title == None %}
             <p>投稿したレビューはありません</p>
             {% endif %}
+            <a class="btn btn-primary" href="{% url 'project:wordreiew_list' %}">もっと見る</a>
             </ul>
-          <!-- ページネーション処理 -->
-          {% if is_paginated %}
-          <ul class="pagination">
-              <!-- 前ページへのリンク -->
-              {% if page_obj.has_previous %}
-              <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-      
-              {% endif %}
-
-              <!-- ページ数表示 -->
-              {% for page_num in page_obj.paginator.page_range %}
-              {% if page_obj.number == page_num %}
-              <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-              {% else %}
-              <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
-              {% endif %}
-              {% endfor %}
-
-              <!-- 次ページへのリンク -->
-              {% if page_obj.has_next %}
-              <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                      <span aria-hidden="true">&raquo;</span>
-                  </a>
-              </li>
-              {% endif %}
-          </ul>
-          {% endif %}
         </div>
       </div>
     </div>
