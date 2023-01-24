@@ -285,7 +285,6 @@ class UserReviewPageView(generic.ListView):
     model = CustomUser
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
-    paginate_by = 7
 
     def get_queryset(self, **kwargs):
         word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
