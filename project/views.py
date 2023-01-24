@@ -9,7 +9,8 @@ from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from . forms import *
-from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from itertools import chain
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,19 @@ class OnlyYouMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
         return user.pk == self.kwargs['pk'] or user.is_superuser
+    
+
+def paginate_queryset(request, queryset, count):
+    paginator = Paginator(queryset, count)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return page_obj
+
 
 
 class IndexView(generic.TemplateView):
@@ -129,13 +143,13 @@ class SearchResultsView(generic.TemplateView):
 
 
 
-class WordDetailView(LoginRequiredMixin, generic.DetailView):
+class WordDetailView(generic.DetailView):
     model = Word
     template_name = 'worddetail.html'
 
 
 
-class WordUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
+class WordUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Word
     template_name = 'wordpost.html'
     form_class = WordCreateForm
@@ -152,14 +166,14 @@ class WordUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
         return super().form_invalid(form)
 
 
-class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
+class WordDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Word
     template_name = 'word_delete.html'
     success_url = reverse_lazy('project:wordreiew_list')
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "口コミを削除しました。")
-        target_data = Word.objects.filter(created_by=self.request.user).count()
+        target_data = Word.objects.filter(word_created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
             customuser.no_of_word = target_data
@@ -167,20 +181,14 @@ class WordDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class WordReiewListView(LoginRequiredMixin,generic.ListView):
+class WordReiewListView(generic.ListView):
     model = CustomUser
     template_name = 'wordreiew_list.html'
-    context_object_name = 'user_word_list'
-
-    def get_context_data(self, **kwargs):
-        context = super(WordReiewListView, self).get_context_data(**kwargs)
-        context.update({
-            'word_list' : Word.objects.filter(created_by=self.request.user).order_by('-created_at')
-        })
-        return context
+    paginate_by = 5
 
     def get_queryset(self):
-        return CustomUser.objects.filter(username=self.request.user)
+        return Word.objects.order_by('-word_created_at')
+
 
 
 
@@ -192,9 +200,9 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
 
     def form_valid(self, form):
         word = form.save(commit=False)
-        word.created_by = self.request.user
+        word.word_created_by = self.request.user
         word.save()
-        target_data = Word.objects.filter(created_by=self.request.user).count()
+        target_data = Word.objects.filter(word_created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
             customuser.no_of_word = target_data
@@ -277,19 +285,17 @@ class UserReviewPageView(generic.ListView):
     model = CustomUser
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
-    paginate_by = 5
+    paginate_by = 7
 
-    def get_context_data(self, **kwargs):
-        context = super(UserReviewPageView, self).get_context_data(**kwargs)
-        context.update({
-            'review_list': Review.objects.filter(created_by=self.request.user).order_by('-created_at'),
-            'word_list': Word.objects.filter(created_by=self.request.user).order_by('-created_at'),
-        })
-        return context
+    def get_queryset(self, **kwargs):
+        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
+        review_list = Review.objects.filter(review_created_by=self.kwargs['pk']).order_by('-review_created_at')
+        for user in word_list:
+            custom_list = CustomUser.objects.filter(username=user.word_created_by)
 
-    def get_queryset(self):
-        return CustomUser.objects.filter(username=self.request.user)
+        all = list(chain(word_list, review_list, custom_list))
 
+        return all
 
 class ProductAllView(generic.ListView):
     model = Product
@@ -382,7 +388,7 @@ class RankListView(generic.ListView):
 class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         wish_product = []

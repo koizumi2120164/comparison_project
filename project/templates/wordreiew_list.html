@@ -14,6 +14,21 @@
 
 {% block contents %}
 
+{% if messages %}
+        <ul class="list-unstyled">
+        {% for message in messages %}
+            <li {% if message.tags %} 
+                class="bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert"{% endif %}>
+            {{ message }}
+            <button type="button" class="close" aria_label="Close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+
 <div class="row gx-4 gx-lg-5 justify-content-center">
         
     <div class="d-flex justify-content-end mb-4">
@@ -23,14 +38,11 @@
 
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
-        <div class="card-body">
+        <div class="card-body">    
             <table  id="dataTable" width="100%" cellspacing="50%" >
                 <thead>
-                
-
-
                     <tr>
-                        <td></td>
+                        <td>写真</td>
                         <td>タイトル</td>
                         <td>ユーザーID</td>
                         <td>内容</td>
@@ -40,34 +52,42 @@
 
                 <tbody>
                     {% for word in word_list %}
-                    <tr>
-                        <div class="inline-block_test">
-                            {% if user.user_photo %}
-                            <td><h3 class="gazo-box">
-                            <img src="{{ user.user_photo.url }}" width="80" height=""/>
-                            </h3></td>
-                            {% endif %}
-                        </div>
-                
+                        <tr>
+                            <div class="inline-block_test">
+                                {% if word.word_photo %}
+                                <td><h3 class="gazo-box">
+                                <img src="{{ word.word_photo.url }}" width="80" height="60"/>
+                                </h3></td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                            </div>
+
                             <td><a href="{% url 'project:word_detail' word.pk %}">
                                 
                                 <div class="inline-block_test">
-                                    <h6>{{ word.Word_title|truncatechars:10 }}</h6>>
+                                    <h6>{{ word.word_title|truncatechars:10 }}</h6>
                                 </div>
                            
                             </a></td>
 
-                        <td>{{ word.created_by }}></td>
-                        <td>{{ word.Word_text|truncatechars:10 }}</td>
-                        <td>{{ word.created_at}}</td>
-                    </tr>
+                            <td><a href="{% url 'project:user_review_page' word.word_created_by.pk %}">
+                                
+                                <div class="inline-block_test">
+                                    <h6>{{ word.word_created_by }}</h6>
+                                </div>
+                           
+                            </a></td>
+
+                            <td>{{ word.word_text|truncatechars:10 }}</td>
+                            <td>{{ word.word_created_at}}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
-            </table>                      
-           
-
+            </table>  
+                                
             <!-- ページネーション処理 -->
-            {% if is_paginated %}
+            {% if page_obj %}
             <ul class="pagination">
                 <!-- 前ページへのリンク -->
                 {% if page_obj.has_previous %}

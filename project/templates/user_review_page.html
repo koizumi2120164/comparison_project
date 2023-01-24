@@ -5,12 +5,22 @@
 
 {% block active_prefectures_list %}active{% endblock %}
 
+{% block head %}
+<link href="{% static 'css/wordreiew_list.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block contents %}
-<div class="container px-4 px-lg-5 my-div-style">
+    <div class="container px-1 px-lg-5 my-div-style">
+        <div  alt="" class="float-md-start">
     <br>
+    {% for object in object_list %}
     <h3 class="gazo-box">
-        {% if user.user_photo %}
-        <img src="{{ user.user_photo.url }}" width="100" height="100"/>
+        {% if object.user_photo %}
+        <div  alt="" class="float-md-start">
+        <img src="{{ object.user_photo.url }}." width="328" height="328">
+        </div>
+        {% else %}
+            <img src="{% static 'assets/img/no_image.jpeg' %}" width="328" height="328" >
         {% endif %}
     </h3>
 
@@ -19,7 +29,7 @@
             <strong>ユーザーID</strong>
         </div>
         <div class="col-9">
-            {{ user.username }}
+            {{ object.username }}
         </div>
     </div>
 
@@ -28,7 +38,7 @@
             <strong>登録日時</strong>
         </div>
         <div class="col-9">
-            {{ user.date_joined }}
+            {{ object.date_joined }}
         </div>
     </div>
 
@@ -37,7 +47,7 @@
             <strong>口コミ数</strong>
         </div>
         <div class="col-9">
-            {{ user.no_of_word }}
+            {{ object.no_of_word }}
         </div>
     </div>
 
@@ -46,122 +56,115 @@
             <strong>レビュー数</strong>
         </div>
         <div class="col-9">
-            {{ user.no_of_review }}
+            {{ object.no_of_review }}
         </div>
     </div>
+    {% endfor %}
+</div>
 </div>
 
-<style>
-    p {
-    width: 200px;
-    background: #ffffff;
-    }
-    .right {
-        margin-left: auto;
-    }
-</style>
+<br>
 
+<div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">口コミ一覧</h5>
+          <ul class="list-unstyled mb-9">
+            {% for object in object_list %}
+            <li>
+                <a href="{% url 'project:word_detail' object.pk %}">{{ object.word_title|truncatechars:25 }}</a>
+                <p style="text-align:left">{{ object.word_created_at }}</p>
+            </li>
+            {% empty %}
+            <p>口コミがありません。</p>
+            {% endfor %}
+            </ul>
+          <!-- ページネーション処理 -->
+          {% if is_paginated %}
+          <ul class="pagination">
+              <!-- 前ページへのリンク -->
+              {% if page_obj.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                      <span aria-hidden="true">&laquo;</span>
+                  </a>
+              </li>
+      
+              {% endif %}
 
-<div class="right">
-    <div class="col-lg-4">
+              <!-- ページ数表示 -->
+              {% for page_num in page_obj.paginator.page_range %}
+              {% if page_obj.number == page_num %}
+              <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+              {% endif %}
+              {% endfor %}
 
-        <div class="card mb-4">
-            <div class="card-header">口コミ一覧</div>
-            <div class="card-body">
-                <ul class="list-unstyled mb-1">
-                    {% for word in word_list %}
-                    <li>
-                        <a href="{% url 'project:word_detail' word.pk %}">{{ word.Word_title|truncatechars:25 }}</a>
-                        <p style="text-align:left">{{ word.created_at }}</p>
-                    </li>
-                    {% empty %}
-                    <p>口コミがありません。</p>
-                    {% endfor %}
-
-                    <!-- ページネーション処理 -->
-                    {% if is_paginated %}
-                    <ul class="pagination">
-                        <!-- 前ページへのリンク -->
-                        {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-
-                        <!-- ページ数表示 -->
-                        {% for page_num in page_obj.paginator.page_range %}
-                        {% if page_obj.number == page_num %}
-                        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-                        {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-
-                        <!-- 次ページへのリンク -->
-                        {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                    {% endif %}
-                </ul>
-            </div>
+              <!-- 次ページへのリンク -->
+              {% if page_obj.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                      <span aria-hidden="true">&raquo;</span>
+                  </a>
+              </li>
+              {% endif %}
+          </ul>
+          {% endif %}
         </div>
-
-        <div class="card mb-4">
-            <div class="card-header">レビュー一覧</div>
-            <div class="card-body">
-                <ul class="list-unstyled mb-1">
-                    {% for review in review_list %}
-                    <li>
-                        <a href="{% url 'project:review_edit' review.pk %}">{{ review.review_title|truncatechars:25 }}</a>
-                        <p>{{ review.created_at }}</p>
-                    </li>
-                    {% empty %}
-                    <p>投稿したレビューがありません。</p>
-                    {% endfor %}
-
-                    <!-- ページネーション処理 -->
-                    {% if is_paginated %}
-                    <ul class="pagination">
-                        <!-- 前ページへのリンク -->
-                        {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-
-                        <!-- ページ数表示 -->
-                        {% for page_num in page_obj.paginator.page_range %}
-                        {% if page_obj.number == page_num %}
-                        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-                        {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-
-                        <!-- 次ページへのリンク -->
-                        {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-   
+      </div>
     </div>
-</div>
-    
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">レビュー一覧</h5>
+          <ul class="list-unstyled mb-9">
+            {% for object in object_list %}
+            <li>
+                <a href="{% url 'project:review_edit' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
+                <p>{{ object.review_created_at }}</p>
+            </li>
+            {% endfor %}
+            {% if object.review_title == None %}
+            <p>投稿したレビューはありません</p>
+            {% endif %}
+            </ul>
+          <!-- ページネーション処理 -->
+          {% if is_paginated %}
+          <ul class="pagination">
+              <!-- 前ページへのリンク -->
+              {% if page_obj.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                      <span aria-hidden="true">&laquo;</span>
+                  </a>
+              </li>
+      
+              {% endif %}
+
+              <!-- ページ数表示 -->
+              {% for page_num in page_obj.paginator.page_range %}
+              {% if page_obj.number == page_num %}
+              <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+              {% endif %}
+              {% endfor %}
+
+              <!-- 次ページへのリンク -->
+              {% if page_obj.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                      <span aria-hidden="true">&raquo;</span>
+                  </a>
+              </li>
+              {% endif %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
 {% endblock %}
