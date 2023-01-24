@@ -80,9 +80,9 @@
         var myPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
+            labels: ["トップページ", "ランキング", "商品一覧", "口コミ掲示板"],
             datasets: [{
-            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            data: ['{{top}}', '{{rank}}', '{{product}}', '{{word}}'],
             backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF','#FFD700'],
             
             hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -102,7 +102,7 @@
             },
             title: {
             display: true,
-            text: '',
+            text: 'ページの閲覧数',
             fontSize: 30,
             fontColor: "#2F4F4F"
             },
@@ -123,16 +123,16 @@
         data: {
             labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
             datasets: [{
-            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            data: ['{{day}}', '{{young}}', '{{senior}}','{{adulthood}}'],
             backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF','#FFD700'],
             
-            hoverBorderColor: "rgba(234, 236, 244, 1)",
+            hoverBorderColor: "rgba(234, 236, 244)",
             }],
         },
         options: {
             maintainAspectRatio: false,
             tooltips: {
-            backgroundColor: "rgb(255,255,255)",
+            backgroundColor: "rgb(255,255,255,255)",
             bodyFontColor: "#858796",
             borderColor: '#dddfeb',
             borderWidth: 1,
@@ -143,7 +143,7 @@
             },
             title: {
             display: true,
-            text: '',
+            text: '年齢割合',
             fontSize: 30,
             fontColor: "#2F4F4F"
             },
@@ -161,12 +161,12 @@
         var myPieChart3 = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
+            labels: ["男性", "女性",],
             datasets: [{
-            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
-            backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF','#FFD700'],
+            data: ['{{gender}}','{{man}}','{{woman}}'],
+            backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF',],
             
-            hoverBorderColor: "rgba(234, 236, 244, 1)",
+            hoverBorderColor: "rgba(234, 236,)",
             }],
         },
         options: {
@@ -183,7 +183,7 @@
             },
             title: {
             display: true,
-            text: '',
+            text: '性別割合',
             fontSize: 30,
             fontColor: "#2F4F4F"
             },
@@ -201,9 +201,9 @@
         var myPieChart4 = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ["未設定", "18歳以下", "18歳から60歳まで", "60歳以上"],
+            labels: ["関東", "関西"],
             datasets: [{
-            data: ['{{day}}', '{{young}}', '{{adulthood}}', '{{senior}}'],
+            data: ['{{address}}','{{kanto}}', '{{kansai}}', '{{other}}'],
             backgroundColor: ['#A9A9A9','#FF8C00','#1E90FF','#FFD700'],
             
             hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -223,7 +223,7 @@
             },
             title: {
             display: true,
-            text: '',
+            text: '地域割合',
             fontSize: 30,
             fontColor: "#2F4F4F"
             },
