@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}レビュー一覧ページ| comparison_project{% endblock %}
+
+{% block active_project_list %}active{% endblock %}
+
+{% block head %}
+<link href="{% static 'css/reiew_list.css' %}" rel="stylesheet">
+<link href="{% static 'css/select.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block contents %}
+
+{% if messages %}
+        <ul class="list-unstyled">
+        {% for message in messages %}
+            <li {% if message.tags %} 
+                class="bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert"{% endif %}>
+            {{ message }}
+            <button type="button" class="close" aria_label="Close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}>
+
+
+<div class="col-xl-12" >
+    <div class="card" style="width: 95rem;"> 
+        <div class="card-body">    
+            <table  id="dataTable" width="100%" cellspacing="50%" >
+                <thead>
+                    <tr>
+                        <td>写真</td>
+                        <td>商品名</td>
+                        <td>商品の評価</td>
+                        <td>レビュータイトル</td>
+                        <td>レビュー内容</td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for review in review_list %}
+                        <tr>
+                            <div class="inline-block_test">
+                                {% if review.review_photo %}
+                                <td><h3 class="gazo-box">
+                                <img src="{{ review.review_photo.url }}" width="80" height="60"/>
+                                </h3></td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                            </div>
+
+                            {% for object in object_list %}
+                            <li>
+                                <a href="{% url 'project:review_productID' object.pk %}">{{ object.review_productID|truncatechars:25 }}</a>
+                                
+                            </li>
+
+
+                            <td><a href="{% url 'project:review' review.pk %}">
+                                
+                                <div class="inline-block_test">
+                                    <h6>{{  review.review }}</h6>
+                                </div>
+                           
+                            </a></td>
+
+                            <td><a href="{% url 'review:review_title' review.review_created_by.pk %}">
+                                
+                                <div class="inline-block_test">
+                                    <h6>{{ review.review_title }}</h6>
+                                </div>
+                           
+                            </a></td>
+
+                            <td>{{ review.review_text|truncatechars:10 }}</td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>  
+                                
+            <!-- ページネーション処理 -->
+            {% if page_obj %}
+            <ul class="pagination">
+                <!-- 前ページへのリンク -->
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- ページ数表示 -->
+                {% for page_num in page_obj.paginator.page_range %}
+                {% if page_obj.number == page_num %}
+                <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                <!-- 次ページへのリンク -->
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

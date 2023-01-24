@@ -1,0 +1,7 @@
+.inline-block_test {
+    display: inline-block;      /* インラインブロック要素にする */
+    padding:  30px;             /* 余白指定 */
+    height: 60px;              /* 高さ指定 */
+    
+}
+
