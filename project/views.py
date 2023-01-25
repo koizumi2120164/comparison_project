@@ -176,7 +176,7 @@ class WordReiewListView(generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Word.objects.order_by('-word_created_at')
+        return Word.objects.order_by('-created_at')
 
 
 
@@ -189,9 +189,9 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
 
     def form_valid(self, form):
         word = form.save(commit=False)
-        word.word_created_by = self.request.user
+        word.created_by = self.request.user
         word.save()
-        target_data = Word.objects.filter(word_created_by=self.request.user).count()
+        target_data = Word.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
             customuser.no_of_word = target_data
@@ -220,7 +220,8 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.userID = self.request.user
+        review.created_by = self.request.user
+        review.productID = self.kwargs['pk']
         review.save()
         target_data = Review.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
@@ -245,7 +246,8 @@ class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
 
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.userID = self.request.user
+        review.created_by = self.request.user
+        review.productID = self.kwargs['pk']
         review.save()
         messages.success(self.request, 'レビューを編集しました。')
         return super().form_valid(form)
@@ -300,7 +302,7 @@ class ReviewListView(generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        review_list = Review.objects.filter(review_created_by=self.kwargs['pk']).order_by('-review_created_at')
+        review_list = Review.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
         return review_list
     
 
@@ -310,7 +312,7 @@ class WordListView(generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
+        word_list = Word.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
         return word_list
     
 

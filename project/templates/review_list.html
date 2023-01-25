@@ -15,7 +15,8 @@
 {% block contents %}
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
-        <div class="card-body">    
+        <div class="card-body"> 
+            {% if review_list %}   
             <table  id="dataTable" width="100%" cellspacing="50%" >
                 <thead>
                     <tr>
@@ -32,7 +33,7 @@
                     {% for review in review_list %}
                         <tr>
                             <div class="inline-block_test">
-                                {% if review.review_photo %}
+                                {% if review.photo %}
                                 <td><h3 class="gazo-box">
                                 <img src="{{ review.photo.url }}" width="80" height="60"/>
                                 </h3></td>
@@ -44,18 +45,13 @@
                             </div>
 
                             <li>
-                                <a href="{% url 'project:productID' object.pk %}">{{ object.review_productID|truncatechars:25 }}</a>
+                                <a href="{% url 'project:item' object.pk %}">{{ review.productID|truncatechars:25 }}</a>
                                 
                             </li>
 
 
-                            <td><a href="{% url 'project:review' review.pk %}">
-                                
-                                <div class="inline-block_test">
-                                    <h6>{{  review.review }}</h6>
-                                </div>
-                           
-                            </a></td>
+                            <td>{{  review.review }}</td>
+
 
                             <td><a href="{% url 'review:review_edit' review.created_by.pk %}">
                                 
@@ -102,6 +98,9 @@
                 </li>
                 {% endif %}
             </ul>
+            {% endif %}
+            {% else %}
+            <p>投稿しているレビューはありません</p>
             {% endif %}
         </div>
     </div>

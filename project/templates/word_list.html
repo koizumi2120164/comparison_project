@@ -14,12 +14,6 @@
 
 {% block contents %}
 <div class="row gx-4 gx-lg-5 justify-content-center">
-        
-    <div class="d-flex justify-content-end mb-4">
-        <a class="btn btn-primary float-right" href="{% url 'project:wordpost_create' %}">新規書き込むページ</a>
-    </div>
-
-
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
         <div class="card-body">    
@@ -57,7 +51,7 @@
                            
                             </a></td>
 
-                            <td><a href="{% url 'project:user_review_page' word.word_created_by.pk %}">
+                            <td><a href="{% url 'project:user_review_page' word.created_by.pk %}">
                                 
                                 <div class="inline-block_test">
                                     <h6>{{ word.created_by }}</h6>
@@ -73,7 +67,7 @@
             </table>  
                                 
             <!-- ページネーション処理 -->
-            {% if page_obj %}
+            {% if is_paginated %}
             <ul class="pagination">
                 <!-- 前ページへのリンク -->
                 {% if page_obj.has_previous %}
