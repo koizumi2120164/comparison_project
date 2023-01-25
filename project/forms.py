@@ -10,7 +10,7 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ('review','review_title', 'review_text', 'review_photo')
+        fields = ('review','review_title', 'review_text', 'photo')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,7 +46,7 @@ class ProfileEditForm(forms.ModelForm):
 class WordCreateForm(forms.ModelForm):
     class Meta:
         model = Word
-        fields = ('word_title','word_text','word_photo',)
+        fields = ('word_title','word_text','photo',)
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)

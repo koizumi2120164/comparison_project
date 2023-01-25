@@ -74,7 +74,7 @@
             {% for object in word_list|slice:":5" %}
             <li>
                 <a href="{% url 'project:word_detail' object.pk %}">{{ object.word_title|truncatechars:25 }}</a>
-                <p style="text-align:left">{{ object.word_created_at }}</p>
+                <p style="text-align:left">{{ object.created_at }}</p>
             </li>
             {% empty %}
             <p>口コミがありません。</p>
@@ -97,7 +97,7 @@
             {% for object in review_list|slice:":5" %}
             <li>
                 <a href="{% url 'project:review_edit' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
-                <p>{{ object.review_created_at }}</p>
+                <p>{{ object.created_at }}</p>
             </li>
             {% endfor %}
             {% if object.review_title == None %}

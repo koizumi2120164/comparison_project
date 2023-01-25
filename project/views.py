@@ -277,14 +277,14 @@ class UserReviewPageView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(UserReviewPageView, self).get_context_data(**kwargs)
-        review_list = Review.objects.filter(review_created_by=self.kwargs['pk']).order_by('-review_created_at')
-        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
+        review_list = Review.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
+        word_list = Word.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
         if word_list:
             for user in word_list:
-                user_list = CustomUser.objects.filter(username=user.word_created_by)
+                user_list = CustomUser.objects.filter(username=user.created_by)
         else:
             for user in review_list:
-                user_list = CustomUser.objects.filter(username=user.review_created_by)
+                user_list = CustomUser.objects.filter(username=user.created_by)
 
         context.update({
             'review_list': review_list,
