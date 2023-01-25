@@ -13,22 +13,6 @@
 
 
 {% block contents %}
-
-{% if messages %}
-        <ul class="list-unstyled">
-        {% for message in messages %}
-            <li {% if message.tags %} 
-                class="bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert"{% endif %}>
-            {{ message }}
-            <button type="button" class="close" aria_label="Close" data-dismiss="alert">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}>
-
-
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
         <div class="card-body">    
@@ -53,11 +37,12 @@
                                 <img src="{{ review.review_photo.url }}" width="80" height="60"/>
                                 </h3></td>
                                 {% else %}
-                                <td></td>
+                                <td><h3 class="gazo-box">
+                                    <img src="{% static 'assets/img/no_image.jpeg' %}" width="80" height="80" >
+                                </h3></td>
                                 {% endif %}
                             </div>
 
-                            {% for object in object_list %}
                             <li>
                                 <a href="{% url 'project:review_productID' object.pk %}">{{ object.review_productID|truncatechars:25 }}</a>
                                 

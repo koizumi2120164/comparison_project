@@ -23,18 +23,6 @@ class OnlyYouMixin(UserPassesTestMixin):
         return user.pk == self.kwargs['pk'] or user.is_superuser
     
 
-def paginate_queryset(request, queryset, count):
-    paginator = Paginator(queryset, count)
-    page = request.GET.get('page')
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    return page_obj
-
-
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
@@ -89,6 +77,7 @@ class ProductDetailView(generic.DetailView):
     queryset = Product.objects.all()
     context_object_name = 'product'
     success_url = reverse_lazy('project:product_list')
+
 
 class SearchResultsView(generic.TemplateView):
     template_name = "search_results.html"
@@ -286,15 +275,44 @@ class UserReviewPageView(generic.ListView):
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
 
-    def get_queryset(self, **kwargs):
-        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
+    def get_context_data(self, **kwargs):
+        context = super(UserReviewPageView, self).get_context_data(**kwargs)
         review_list = Review.objects.filter(review_created_by=self.kwargs['pk']).order_by('-review_created_at')
-        for user in word_list:
-            custom_list = CustomUser.objects.filter(username=user.word_created_by)
+        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
+        if word_list:
+            for user in word_list:
+                user_list = CustomUser.objects.filter(username=user.word_created_by)
+        else:
+            for user in review_list:
+                user_list = CustomUser.objects.filter(username=user.review_created_by)
 
-        all = list(chain(word_list, review_list, custom_list))
+        context.update({
+            'review_list': review_list,
+            'word_list': word_list,
+            'user_list': user_list
+        })
+        return context
+    
 
-        return all
+class ReviewListView(generic.ListView):
+    model = Review
+    template_name = 'review_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        review_list = Review.objects.filter(review_created_by=self.kwargs['pk']).order_by('-review_created_at')
+        return review_list
+    
+
+class WordListView(generic.ListView):
+    model = Word
+    template_name = 'word_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
+        return word_list
+    
 
 class ProductAllView(generic.ListView):
     model = Product
@@ -365,12 +383,8 @@ class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        recently_viewd = []
-        recently = Recently_viewed.objects.filter(userID=self.request.user.id).order_by('-last_visited')
-        for product in recently:
-            recently_product = Product.objects.filter(productID=product.productID)
-            recently_viewd += recently_product
-        return recently_viewd
+        recently_list = Recently_viewed.objects.filter(userID=self.request.user.id).order_by('-last_visited')
+        return recently_list
         
         
 class RankListView(generic.ListView):
@@ -390,12 +404,7 @@ class WishListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        wish_product = []
-        wish = Wishlist.objects.filter(userID=self.request.user.id).order_by('-added_date')
-        for wished_item in wish:
-            product = Product.objects.filter(slug=wished_item.slug)
-            wish_product += product
-        
+        wish_product = Wishlist.objects.filter(userID=self.request.user.id).order_by('-added_date')
         return wish_product
         
 
