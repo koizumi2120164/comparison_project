@@ -314,20 +314,6 @@ class WordListView(generic.ListView):
     def get_queryset(self):
         word_list = Word.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
         return word_list
-    
-
-class ProductAllView(generic.ListView):
-    model = Product
-    template_name = 'product_all.html'
-    paginate_by = 3
-
-    def get_queryset(self):
-        product_all = Product.objects.order_by('-created_at')
-        return product_all
-
-    def get_queryset(self):
-        ranking = Product.objects.order_by('-like_product')[0:10]
-        return ranking
 
 
 
@@ -385,7 +371,7 @@ class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        recently_list = Recently_viewed.objects.filter(userID=self.request.user.id).order_by('-last_visited')
+        recently_list = Recently_viewed.objects.filter(userID=self.request.user).order_by('-last_visited')
         return recently_list
         
         
@@ -406,7 +392,7 @@ class WishListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        wish_product = Wishlist.objects.filter(userID=self.request.user.id).order_by('-added_date')
+        wish_product = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
         return wish_product
         
 
