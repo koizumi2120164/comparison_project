@@ -65,6 +65,7 @@ class ProductListView(generic.ListView):
         products = Product.objects.filter(category=category)
         return render(request, 'shop/category.html', {'category': category, 'products':products})
 
+
 class ProductDetailView(generic.DetailView):
     template_name = 'shop/product_detail.html'
     
@@ -392,7 +393,9 @@ class WishListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        wish_product = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
+        user_list = CustomUser.objects.filter(username=self.request.user)
+        for user in user_list:
+            wish_product = Wishlist.objects.filter(userID=user.userID).order_by('-added_date')
         return wish_product
         
 
