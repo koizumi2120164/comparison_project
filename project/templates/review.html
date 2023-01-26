@@ -9,37 +9,12 @@
 {% block contents %}
 <div class="container my-div-style">
     <div class="row">
-        <div class="col-3">
-            <strong>レビュータイトル</strong>
-        </div>
         <div class="col-9">
             {{ object.review_title }}
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row">
-        <div class="col-3">
-            <strong>ユーザーID</strong>
-        </div>
-        <div class="col-9">
             <a href="ユーザー詳細ページへのリンク">{{ object.userID }}</a>
+            {{ object.productID }}
         </div>
     </div>
-
-    <hr>
-
-    <div class="row">
-        <div class="col-3">
-            <strong>商品名</strong>
-        </div>
-        <div class="col-9">
-            {{ object. }}
-        </div>
-    </div>
-
-    <hr>
 
     <div class="row">
         <div class="col-9">
