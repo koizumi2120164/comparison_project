@@ -36,8 +36,8 @@
             <strong>写真</strong>
         </div>
         <div class="col-3">
-            {% if word.word_photo %}
-            <img src="{{ word.word_photo.url }}" width="200" height="200"/>
+            {% if word.photo %}
+            <img src="{{ word.photo.url }}" width="200" height="200"/>
             {% endif %}
         </div>
     </div>
@@ -49,7 +49,7 @@
             <strong>作成日時</strong>
         </div>
         <div class="col-9">
-            {{ word.word_created_at }}
+            {{ word.created_at }}
         </div>
     </div>
 
@@ -60,12 +60,12 @@
             <strong>更新日時</strong>
         </div>
         <div class="col-9">
-            {{ word.word_updated_at }}
+            {{ word.updated_at }}
         </div>
     </div>
 
 
-    {% if word.word_created_by == user %}
+    {% if word.created_by == user %}
     <a class="btn btn-success mt-5 mb-3" href="{% url 'project:word_update' object.pk %}">編集</a>
     <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:word_delete' object.pk %}">削除</a>
     {% endif %}

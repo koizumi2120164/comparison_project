@@ -23,18 +23,6 @@ class OnlyYouMixin(UserPassesTestMixin):
         return user.pk == self.kwargs['pk'] or user.is_superuser
     
 
-def paginate_queryset(request, queryset, count):
-    paginator = Paginator(queryset, count)
-    page = request.GET.get('page')
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    return page_obj
-
-
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
@@ -77,6 +65,7 @@ class ProductListView(generic.ListView):
         products = Product.objects.filter(category=category)
         return render(request, 'shop/category.html', {'category': category, 'products':products})
 
+
 class ProductDetailView(generic.DetailView):
     template_name = 'shop/product_detail.html'
     
@@ -89,6 +78,7 @@ class ProductDetailView(generic.DetailView):
     queryset = Product.objects.all()
     context_object_name = 'product'
     success_url = reverse_lazy('project:product_list')
+
 
 class SearchResultsView(generic.TemplateView):
     template_name = "search_results.html"
@@ -187,7 +177,7 @@ class WordReiewListView(generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Word.objects.order_by('-word_created_at')
+        return Word.objects.order_by('-created_at')
 
 
 
@@ -200,9 +190,9 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
 
     def form_valid(self, form):
         word = form.save(commit=False)
-        word.word_created_by = self.request.user
+        word.created_by = self.request.user
         word.save()
-        target_data = Word.objects.filter(word_created_by=self.request.user).count()
+        target_data = Word.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
             customuser.no_of_word = target_data
@@ -231,7 +221,8 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.userID = self.request.user
+        review.created_by = self.request.user
+        review.productID = self.kwargs['pk']
         review.save()
         target_data = Review.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
@@ -256,7 +247,8 @@ class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
 
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.userID = self.request.user
+        review.created_by = self.request.user
+        review.productID = self.kwargs['pk']
         review.save()
         messages.success(self.request, 'レビューを編集しました。')
         return super().form_valid(form)
@@ -286,28 +278,43 @@ class UserReviewPageView(generic.ListView):
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
 
-    def get_queryset(self, **kwargs):
-        word_list = Word.objects.filter(word_created_by=self.kwargs['pk']).order_by('-word_created_at')
-        review_list = Review.objects.filter(review_created_by=self.kwargs['pk']).order_by('-review_created_at')
-        for user in word_list:
-            custom_list = CustomUser.objects.filter(username=user.word_created_by)
+    def get_context_data(self, **kwargs):
+        context = super(UserReviewPageView, self).get_context_data(**kwargs)
+        review_list = Review.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
+        word_list = Word.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
+        if word_list:
+            for user in word_list:
+                user_list = CustomUser.objects.filter(username=user.created_by)
+        else:
+            for user in review_list:
+                user_list = CustomUser.objects.filter(username=user.created_by)
 
-        all = list(chain(word_list, review_list, custom_list))
+        context.update({
+            'review_list': review_list,
+            'word_list': word_list,
+            'user_list': user_list
+        })
+        return context
+    
 
-        return all
-
-class ProductAllView(generic.ListView):
-    model = Product
-    template_name = 'product_all.html'
-    paginate_by = 3
+class ReviewListView(generic.ListView):
+    model = Review
+    template_name = 'review_list.html'
+    paginate_by = 5
 
     def get_queryset(self):
-        product_all = Product.objects.order_by('-created_at')
-        return product_all
+        review_list = Review.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
+        return review_list
+    
+
+class WordListView(generic.ListView):
+    model = Word
+    template_name = 'word_list.html'
+    paginate_by = 5
 
     def get_queryset(self):
-        ranking = Product.objects.order_by('-like_product')[0:10]
-        return ranking
+        word_list = Word.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
+        return word_list
 
 
 
@@ -365,12 +372,8 @@ class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        recently_viewd = []
-        recently = Recently_viewed.objects.filter(userID=self.request.user.id).order_by('-last_visited')
-        for product in recently:
-            recently_product = Product.objects.filter(productID=product.productID)
-            recently_viewd += recently_product
-        return recently_viewd
+        recently_list = Recently_viewed.objects.filter(userID=self.request.user).order_by('-last_visited')
+        return recently_list
         
         
 class RankListView(generic.ListView):
@@ -390,12 +393,9 @@ class WishListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        wish_product = []
-        wish = Wishlist.objects.filter(userID=self.request.user.id).order_by('-added_date')
-        for wished_item in wish:
-            product = Product.objects.filter(slug=wished_item.slug)
-            wish_product += product
-        
+        user_list = CustomUser.objects.filter(username=self.request.user)
+        for user in user_list:
+            wish_product = Wishlist.objects.filter(userID=user.userID).order_by('-added_date')
         return wish_product
         
 

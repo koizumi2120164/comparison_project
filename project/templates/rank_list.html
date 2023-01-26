@@ -15,27 +15,36 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
             <br>
             <h1>ランキング</h1>
+            <div class="row">
             {% for product in product_list %}
-            <div class="post-preview">
-                <a href="{% url 'project:商品詳細ページ' project.pk %}"></a>
-                    <h3 class="gazo-box">
-                        {% if product.image1 %}
-                        <img src="{{ product.image1.url }}" width="200" height="200"/>
-                        {% endif %}
-                    </h3>
-                    <h2 class="post-title">
-                        {{ product.product_name }}
-                    </h2>
-                </a>
-                <h2>
-                    {{ product.rating }}
-                </h2>
-            </div>
-            <hr class="my-4">
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <ul class="list-unstyled mb-9">
+                        <li>
+                            {% if product.image1 %}
+                            <td><h3 class="gazo-box">
+                                <img src="{{ product.image1.url }}" width="100" height="100"/>
+                            </h3></td>
+                            {% else %}
+                            <td><h3 class="gazo-box">
+                                <img src="{% static 'assets/img/no_image.jpeg' %}" width="100" height="100" >
+                            </h3></td>
+                            {% endif %}
+                            <p style="text-align:left">{{ product.product_name|truncatechars:25 }}</p>
+                            <p style="text-align:left">{{ product.price }}</p>
+                            <p style="text-align:left">{{ product.rating }}</p>
+                            <p style="text-align:left">{{ product.description }}</p>
+                        </li>
+                        <a class="btn btn-primary" href="{% url 'project:item' product.pk %}">もっと見る</a>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
             {% empty %}
-            <br>
             <p>商品がありません。</p>
             {% endfor %}
+            </div>
 
             <!-- ページネーション処理 -->
             {% if is_paginated %}

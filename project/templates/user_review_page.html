@@ -13,9 +13,8 @@
     <div class="container px-1 px-lg-5 my-div-style">
         <div  alt="" class="float-md-start">
     <br>
-    {% for object in object_list %}
-    {% if not object.username == None %}
     <h3 class="gazo-box">
+        {% for object in user_list %}
         {% if object.user_photo %}
         <div  alt="" class="float-md-start">
         <img src="{{ object.user_photo.url }}." width="328" height="328">
@@ -27,7 +26,7 @@
 
     <div class="row">
         <div class="col-3">
-            <strong>ユーザーID</strong>
+            <strong>ユーザー</strong>
         </div>
         <div class="col-9">
             {{ object.username }}
@@ -60,7 +59,6 @@
             {{ object.no_of_review }}
         </div>
     </div>
-    {% endif %}
     {% endfor %}
 </div>
 </div>
@@ -73,15 +71,19 @@
         <div class="card-body">
           <h5 class="card-title">口コミ一覧</h5>
           <ul class="list-unstyled mb-9">
-            {% for object in object_list|slice:":5" %}
+            {% for object in word_list|slice:":5" %}
             <li>
                 <a href="{% url 'project:word_detail' object.pk %}">{{ object.word_title|truncatechars:25 }}</a>
-                <p style="text-align:left">{{ object.word_created_at }}</p>
+                <p style="text-align:left">{{ object.created_at }}</p>
             </li>
             {% empty %}
             <p>口コミがありません。</p>
             {% endfor %}
-            <a class="btn btn-primary" href="{% url 'project:wordreiew_list' %}">もっと見る</a>
+            {% if word_list %}
+            {% for object in user_list %}
+            <a class="btn btn-primary" href="{% url 'project:word_list' object.pk %}">もっと見る</a>
+            {% endfor %}
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -92,20 +94,24 @@
         <div class="card-body">
           <h5 class="card-title">レビュー一覧</h5>
           <ul class="list-unstyled mb-9">
-            {% for object in object_list|slice:":5" %}
+            {% for object in review_list|slice:":5" %}
             <li>
                 <a href="{% url 'project:review_edit' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
-                <p>{{ object.review_created_at }}</p>
+                <p>{{ object.created_at }}</p>
             </li>
             {% endfor %}
             {% if object.review_title == None %}
             <p>投稿したレビューはありません</p>
             {% endif %}
-            <a class="btn btn-primary" href="{% url 'project:wordreiew_list' %}">もっと見る</a>
+            {% if review_list %}
+            {% for object in user_list %}
+            <a class="btn btn-primary" href="{% url 'project:word_list' object.pk %}">もっと見る</a>
+            {% endfor %}
+            {% endif %}
             </ul>
         </div>
       </div>
     </div>
-  </div>
+</div>
   
 {% endblock %}
