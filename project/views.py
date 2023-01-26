@@ -24,19 +24,22 @@ class OnlyYouMixin(UserPassesTestMixin):
     
 
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.ListView):
+    model = Product
     template_name = "index.html"
+    context_object_name = 'user_review_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context.update({
+            'review_list': Review.objects.order_by('-created_at'),
+            'word_list': Word.objects.order_by('-created_at'),
+        })
+
+        return context
 
 
-"""
-    def get_queryset(self):
-        ranking = Product.objects.order_by('-like_product')[0:10]
-        return ranking
 
-    def get_queryset(self):
-        word = Word.objects.order_by('-updated_at')[0:10]
-        return word
-"""
     
 
 class SearchAdvancedView(generic.TemplateView):

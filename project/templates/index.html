@@ -101,8 +101,15 @@
             </div>
             <div class="card mb-4">
                 <div class="card-header">新着口コミ</div>
-                <div class="card-body"></div>
-                <br><a href="{% url 'project:search_advanced'%}">もっと見る</a>
+                <div class="card-body">
+                    {% for word in word_list|slice:":5" %}
+                    <p style="text-align:left">ユーザーID：<a href="{% url 'project:user_review_page' word.created_by.pk %}">{{ word.created_by|truncatechars:20 }}</a></p>
+                    <p style="text-align:left">タイトル　：<a href="{% url 'project:word_detail' word.pk %}">{{ word.word_title|truncatechars:20 }}</a></p>
+                    <br>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'project:wordreiew_list'%}">もっと見る</a>
+            </div>
         </div>
     </div>
 </div>

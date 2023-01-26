@@ -17,12 +17,17 @@
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
         <div class="card-body">
+            <br>
+            {% for word in word_list|slice:":1" %}
+            <h2>{{word.created_by}}さんの口コミ一覧</h2>
+            {% endfor %}
+            <br>
+            {% if word_list %} 
             <table  id="dataTable" width="100%" cellspacing="50%" >
                 <thead>
                     <tr>
                         <td>写真</td>
                         <td>タイトル</td>
-                        <td>ユーザーID</td>
                         <td>内容</td>
                         <td>投稿日時</td>
                     </tr>
@@ -47,14 +52,6 @@
                                 
                                 <div class="inline-block_test">
                                     <h6>{{ word.word_title|truncatechars:10 }}</h6>
-                                </div>
-                           
-                            </a></td>
-
-                            <td><a href="{% url 'project:user_review_page' word.created_by.pk %}">
-                                
-                                <div class="inline-block_test">
-                                    <h6>{{ word.created_by }}</h6>
                                 </div>
                            
                             </a></td>
@@ -96,6 +93,9 @@
                 </li>
                 {% endif %}
             </ul>
+            {% endif %}
+            {% else %}
+            <p>投稿している口コミはありません</p>
             {% endif %}
         </div>
     </div>

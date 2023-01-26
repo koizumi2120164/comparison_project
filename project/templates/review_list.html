@@ -15,7 +15,12 @@
 {% block contents %}
 <div class="col-xl-12" >
     <div class="card" style="width: 95rem;"> 
-        <div class="card-body"> 
+        <div class="card-body">
+            <br>
+            {% for review in review_list|slice:":1" %}
+            <h2>{{review.created_by}}さんの口コミ一覧</h2>
+            {% endfor %}
+            <br> 
             {% if review_list %}   
             <table  id="dataTable" width="100%" cellspacing="50%" >
                 <thead>
@@ -25,7 +30,7 @@
                         <td>商品の評価</td>
                         <td>レビュータイトル</td>
                         <td>レビュー内容</td>
-
+                        <td>投稿日時</td>
                     </tr>
                 </thead>
 
@@ -49,20 +54,10 @@
                                 
                             </li>
 
-
-                            <td>{{  review.review }}</td>
-
-
-                            <td><a href="{% url 'review:review_edit' review.created_by.pk %}">
-                                
-                                <div class="inline-block_test">
-                                    <h6>{{ review.review_title }}</h6>
-                                </div>
-                           
-                            </a></td>
-
+                            <td>{{ review.review }}</td>
+                            <td>{{ review.review_title|truncatechars:10 }}</td>
                             <td>{{ review.review_text|truncatechars:10 }}</td>
-                            
+                            <td>{{ review.created_at }}</td>  
                         </tr>
                     {% endfor %}
                 </tbody>

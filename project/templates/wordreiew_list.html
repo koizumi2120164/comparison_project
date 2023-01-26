@@ -34,10 +34,11 @@
     <div class="d-flex justify-content-end mb-4">
         <a class="btn btn-primary float-right" href="{% url 'project:wordpost_create' %}">新規書き込むページ</a>
     </div>
-
+    <h2>新着口コミ</h2>
+    <p></p>
     <div class="col-xl-12" >
         <div class="card" style="width: 95rem;"> 
-            <div class="card-body">    
+            <div class="card-body">  
                 <table  id="dataTable" width="100%" cellspacing="50%" >
                     <thead>
                         <tr>
@@ -85,7 +86,7 @@
                             </tr>
                         {% endfor %}
                     </tbody>
-                </table><br>  
+                </table><br><br> 
                                     
                 <!-- ページネーション処理 -->
                 {% if is_paginated %}
