@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('shop', '0004_auto_20221117_1553'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('shop', '0004_auto_20221117_1553'),
     ]
 
     operations = [
@@ -26,7 +27,6 @@ class Migration(migrations.Migration):
                 ('added_date', models.DateTimeField(auto_now=True, verbose_name='追加された日時')),
             ],
         ),
-
         migrations.CreateModel(
             name='Review',
             fields=[
