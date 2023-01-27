@@ -5,6 +5,9 @@
 
 {% block active_diary_list %}active{% endblock %}
 
+{% block head %}
+<link href="{% static 'css/heart.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block contents %}
 <br>
@@ -54,9 +57,34 @@
     <hr>
     {% endif %}
 
-    {% if word.created_by == user %}
-    <a class="btn btn-success mt-5 mb-3" href="{% url 'project:word_update' object.pk %}">編集</a>
-    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:word_delete' object.pk %}">削除</a>
+    {% if user.is_authenticated %}
+        {% if word.created_by != user %}
+
+            {% for like in word.like_word.all %}
+                {% if like == user %}
+                    <form action="{% url 'project:remove_word_wish' object.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" class="heart-button" name="good" value="いいねを取り消す" id="test">
+                    </form>
+                {% else %}
+                    {% if forloop.last == True %}
+                        <form action="{% url 'project:word_wish' object.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="heart-button" name="good" value="いいね" id="test">
+                        </form>
+                    {% endif %}
+                {% endif %}
+            {% empty %}
+                <form action="{% url 'project:word_wish' object.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="heart-button" name="good" value="いいね" id="test">
+                </form>
+            {% endfor %}
+
+        {% else %}
+            <a class="btn btn-success mt-5 mb-3" href="{% url 'project:word_update' object.pk %}">編集</a>
+            <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:word_delete' object.pk %}">削除</a>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}l

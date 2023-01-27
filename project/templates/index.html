@@ -96,8 +96,13 @@
             <!-- Side widget-->
             <div class="card mb-4">
                 <div class="card-header">ランキング</div>
-                <div class="card-body"></div>
-                <br><a href="{% url 'project:search_advanced'%}">もっと見る</a>
+                <div class="card-body">
+                    {% for product in product_list|slice:":5" %}
+                    <p style="text-align:left">#{{ forloop.counter }}<a href="{% url 'project:item' product.pk %}">{{ product.product_name|truncatechars:20 }}</a></p>
+                    <br>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'project:search_advanced'%}">もっと見る</a>
             </div>
             <div class="card mb-4">
                 <div class="card-header">新着口コミ</div>

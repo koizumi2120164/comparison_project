@@ -9,8 +9,7 @@ from shop.models import *
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from . forms import *
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from itertools import chain
+from django.shortcuts import redirect
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +31,7 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context.update({
-            'review_list': Review.objects.order_by('-created_at'),
+            'product_list': Product.objects.order_by('-like_product'),
             'word_list': Word.objects.order_by('-created_at'),
         })
 
@@ -140,6 +139,31 @@ class WordDetailView(generic.DetailView):
     model = Word
     template_name = 'worddetail.html'
 
+
+def wish_word(request, pk):
+    """いいねボタンをクリック."""
+    wish = get_object_or_404(Word, pk=pk)
+
+    if request.method == 'POST':
+        # データの新規追加
+        user_list = CustomUser.objects.filter(username=request.user)
+        for user in user_list:
+            wish.like_word.add(user)
+
+    return redirect('project:word_detail', pk)
+
+
+def remove_wish_word(request, pk):
+    """いいねボタンをクリック."""
+    wish = get_object_or_404(Word, pk=pk)
+
+    if request.method == 'POST':
+        # データの削除
+        user_list = CustomUser.objects.filter(username=request.user)
+        for user in user_list:
+            wish.like_word.remove(user)
+
+    return redirect('project:word_detail', pk)
 
 
 class WordUpdateView(LoginRequiredMixin, generic.UpdateView):

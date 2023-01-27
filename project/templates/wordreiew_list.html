@@ -46,6 +46,7 @@
                             <td>タイトル</td>
                             <td>ユーザーID</td>
                             <td>内容</td>
+                            <td>いいね数</td>
                             <td>投稿日時</td>
                         </tr>
                     </thead>
@@ -68,7 +69,7 @@
                                 <td><a href="{% url 'project:word_detail' word.pk %}">
                                     
                                     <div class="inline-block_test">
-                                        <h6>{{ word.word_title|truncatechars:10 }}</h6>
+                                        <h6>{{ word.word_title|truncatechars:20 }}</h6>
                                     </div>
                             
                                 </a></td>
@@ -81,7 +82,15 @@
                             
                                 </a></td>
 
-                                <td>{{ word.word_text|truncatechars:10 }}</td>
+                                <td>{{ word.word_text|truncatechars:20 }}</td>
+
+                                {% for like in word.like_word.all %}
+                                {% if forloop.last == True %}
+                                <td>{{forloop.counter}}</td>
+                                {% endif %}
+                                {% empty %}
+                                <td>0</td>
+                                {% endfor %}
                                 <td>{{ word.created_at}}</td>
                             </tr>
                         {% endfor %}
