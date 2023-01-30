@@ -84,7 +84,10 @@
         {% else %}
             <a class="btn btn-success mt-5 mb-3" href="{% url 'project:word_update' object.pk %}">編集</a>
             <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:word_delete' object.pk %}">削除</a>
+            <br>
         {% endif %}
     {% endif %}
+
+    <a class="btn btn-success mt-5 mb-3" href="{% url 'project:wordreiew_list' %}">口コミ掲示板へ戻る</a>
 </div>
 {% endblock %}l

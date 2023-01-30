@@ -23,12 +23,13 @@ class OnlyYouMixin(UserPassesTestMixin):
         return user.pk == self.kwargs['pk'] or user.is_superuser
     
 
-
+# トップページ
 class IndexView(generic.ListView):
     model = Product
     template_name = "index.html"
     context_object_name = 'user_review_list'
 
+    # ランキング、新着口コミ情報を取り出す
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context.update({
@@ -69,6 +70,7 @@ class ProductListView(generic.ListView):
         return render(request, 'shop/category.html', {'category': category, 'products':products})
 
 
+# 商品詳細ページ
 class ProductDetailView(generic.DetailView):
     template_name = 'shop/product_detail.html'
     
@@ -83,6 +85,7 @@ class ProductDetailView(generic.DetailView):
     success_url = reverse_lazy('project:product_list')
 
 
+# 検索結果ページ
 class SearchResultsView(generic.TemplateView):
     template_name = "search_results.html"
     model = Product
@@ -141,12 +144,13 @@ class WordDetailView(generic.DetailView):
     template_name = 'worddetail.html'
 
 
+# 口コミのいいね・いいね取り消し
 def wish_word(request, pk):
     """いいねボタンをクリック."""
     wish = get_object_or_404(Word, pk=pk)
 
     if request.method == 'POST':
-        # データの新規追加
+        # いいねデータの新規追加
         user_list = CustomUser.objects.filter(username=request.user)
         for user in user_list:
             wish.like_word.add(user)
@@ -159,7 +163,7 @@ def remove_wish_word(request, pk):
     wish = get_object_or_404(Word, pk=pk)
 
     if request.method == 'POST':
-        # データの削除
+        # いいねデータの削除
         user_list = CustomUser.objects.filter(username=request.user)
         for user in user_list:
             wish.like_word.remove(user)
@@ -210,7 +214,9 @@ class WordReiewListView(generic.ListView):
 
     def get_queryset(self):
         return Word.objects.order_by('-created_at')
-    
+
+
+# 口コミ掲示板(人気順)一覧ページ。ログイン中のユーザーのみ可能。
 class WordReiewList_LikeView(LoginRequiredMixin,generic.ListView):
     model = Word
     template_name = 'wordreiew_list.html'
@@ -248,12 +254,13 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
        
 
 
-
+# レビューの詳細ページ
 class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     model = Review
     template_name = 'review.html'
 
-    
+
+# レビューのいいね・いいね取り消し    
 def wish_review(request, pk):
     """いいねボタンをクリック."""
     wish = get_object_or_404(Review, pk=pk)
@@ -268,7 +275,7 @@ def wish_review(request, pk):
 
 
 def remove_wish_review(request, pk):
-    """いいねボタンをクリック."""
+    """いいね取り消しボタンをクリック."""
     wish = get_object_or_404(Review, pk=pk)
 
     if request.method == 'POST':
@@ -280,6 +287,7 @@ def remove_wish_review(request, pk):
     return redirect('project:review', pk)
 
 
+# レビュー作成ページ
 class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Review
     template_name = 'review_create.html'
@@ -288,10 +296,12 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     # ↑商品詳細ページへ遷移する
 
     def form_valid(self, form):
+        # 作成したレビューの情報を登録
         review = form.save(commit=False)
         review.created_by = self.request.user
         review.productID = self.kwargs['pk']
         review.save()
+        # アカウントテーブルのレビュー数を登録
         target_data = Review.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
@@ -326,6 +336,7 @@ class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
         return super().form_invalid(form)
 
 
+# レビュー削除
 class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = Review
     template_name = 'review_delete.html'
@@ -333,6 +344,7 @@ class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "レビューを削除しました。")
+        # 削除後のアカウントテーブルのレビュー数を登録
         target_data = Review.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
@@ -341,11 +353,13 @@ class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+# ユーザーページ
 class UserReviewPageView(generic.ListView):
     model = CustomUser
     template_name = 'user_review_page.html'
     context_object_name = 'user_review_list'
 
+    # アカウント、口コミ、レビュー情報を取得
     def get_context_data(self, **kwargs):
         context = super(UserReviewPageView, self).get_context_data(**kwargs)
         review_list = Review.objects.filter(created_by=self.kwargs['pk']).order_by('-created_at')
@@ -365,6 +379,7 @@ class UserReviewPageView(generic.ListView):
         return context
     
 
+# 選択したユーザーが投稿したレビューリスト
 class ReviewListView(generic.ListView):
     model = Review
     template_name = 'review_list.html'
@@ -375,6 +390,7 @@ class ReviewListView(generic.ListView):
         return review_list
     
 
+# 選択したユーザーが投稿した口コミリスト
 class WordListView(generic.ListView):
     model = Word
     template_name = 'word_list.html'
@@ -434,6 +450,7 @@ class ItemView(generic.DetailView):
 
 
 """
+# 閲覧履歴ページ
 class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     model = Recently_viewed
     template_name = 'recently_viewed.html'
@@ -443,7 +460,8 @@ class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
         recently_list = Recently_viewed.objects.filter(userID=self.request.user).order_by('-last_visited')
         return recently_list
         
-        
+
+# ランキングページ       
 class RankListView(generic.ListView):
     model = Product
     template_name = 'rank_list.html'
@@ -454,7 +472,7 @@ class RankListView(generic.ListView):
         return ranking
         
         
-
+# ログインしているユーザがお気に入りした商品の一覧ページ
 class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
@@ -478,11 +496,13 @@ class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)"""
 
 
+# 自分のアカウント情報の詳細ページ
 class ProfileEditView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
     model = CustomUser
     template_name = "profile_edit.html"
 
 
+# アカウント情報の更新
 class ProfileUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
     model = CustomUser
     template_name = "profile_update.html"

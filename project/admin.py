@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from shop.models import Category, Product
-
 from django.contrib import admin
 
 from .models import *
