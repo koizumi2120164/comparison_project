@@ -10,6 +10,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from . forms import *
 from django.shortcuts import redirect
+from django.db.models import Count
 
 logger = logging.getLogger(__name__)
 
@@ -134,7 +135,7 @@ class SearchResultsView(generic.TemplateView):
 
 
 
-
+# 口コミ詳細ページ
 class WordDetailView(generic.DetailView):
     model = Word
     template_name = 'worddetail.html'
@@ -154,7 +155,7 @@ def wish_word(request, pk):
 
 
 def remove_wish_word(request, pk):
-    """いいねボタンをクリック."""
+    """いいね取り消しボタンをクリック."""
     wish = get_object_or_404(Word, pk=pk)
 
     if request.method == 'POST':
@@ -166,6 +167,7 @@ def remove_wish_word(request, pk):
     return redirect('project:word_detail', pk)
 
 
+# 口コミ情報の更新
 class WordUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Word
     template_name = 'wordpost.html'
@@ -183,6 +185,7 @@ class WordUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super().form_invalid(form)
 
 
+# 口コミ削除ページ
 class WordDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Word
     template_name = 'word_delete.html'
@@ -190,6 +193,7 @@ class WordDeleteView(LoginRequiredMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "口コミを削除しました。")
+        # アカウントテーブルの口コミ数を削除した状態で登録
         target_data = Word.objects.filter(word_created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
@@ -198,17 +202,26 @@ class WordDeleteView(LoginRequiredMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+# 口コミ掲示板一覧ページ
 class WordReiewListView(generic.ListView):
-    model = CustomUser
+    model = Word
     template_name = 'wordreiew_list.html'
     paginate_by = 5
 
     def get_queryset(self):
         return Word.objects.order_by('-created_at')
+    
+class WordReiewList_LikeView(LoginRequiredMixin,generic.ListView):
+    model = Word
+    template_name = 'wordreiew_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Word.objects.all().annotate(Count('like_word')).order_by('-like_word__count', '-created_at')
 
 
 
-
+# 口コミ作成ページ
 class WordCreateView(LoginRequiredMixin,generic.CreateView):
     model = Word
     template_name = 'wordpost.html'
@@ -216,9 +229,11 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
     success_url = reverse_lazy('project:wordreiew_list')
 
     def form_valid(self, form):
+        # 口コミを登録
         word = form.save(commit=False)
         word.created_by = self.request.user
         word.save()
+        # アカウントテーブルの口コミ数を登録
         target_data = Word.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
@@ -237,6 +252,32 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
 class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     model = Review
     template_name = 'review.html'
+
+    
+def wish_review(request, pk):
+    """いいねボタンをクリック."""
+    wish = get_object_or_404(Review, pk=pk)
+
+    if request.method == 'POST':
+        # データの新規追加
+        user_list = CustomUser.objects.filter(username=request.user)
+        for user in user_list:
+            wish.like_review.add(user)
+
+    return redirect('project:review', pk)
+
+
+def remove_wish_review(request, pk):
+    """いいねボタンをクリック."""
+    wish = get_object_or_404(Review, pk=pk)
+
+    if request.method == 'POST':
+        # データの削除
+        user_list = CustomUser.objects.filter(username=request.user)
+        for user in user_list:
+            wish.like_review.remove(user)
+
+    return redirect('project:review', pk)
 
 
 class ReviewCreateView(LoginRequiredMixin, generic.CreateView):

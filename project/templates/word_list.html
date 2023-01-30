@@ -29,6 +29,7 @@
                         <td>写真</td>
                         <td>タイトル</td>
                         <td>内容</td>
+                        <td>いいね数</td>
                         <td>投稿日時</td>
                     </tr>
                 </thead>
@@ -57,6 +58,15 @@
                             </a></td>
 
                             <td>{{ word.word_text|truncatechars:10 }}</td>
+
+                            {% for like in word.like_word.all %}
+                                {% if forloop.last == True %}
+                                <td>{{forloop.counter}}</td>
+                                {% endif %}
+                                {% empty %}
+                                <td>0</td>
+                            {% endfor %}
+
                             <td>{{ word.created_at}}</td>
                         </tr>
                     {% endfor %}

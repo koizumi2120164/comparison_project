@@ -38,7 +38,17 @@
     <p></p>
     <div class="col-xl-12" >
         <div class="card" style="width: 95rem;"> 
-            <div class="card-body">  
+            <div class="card-body">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    {% if word_list %}
+                    <thead>
+                        <tr>
+                            <td><a href="{% url 'project:wordreiew_list' %}">新着順</a></td>
+                            <td><a href="{% url 'project:wordreiew_list_like' %}">人気順</a></td>
+                        </tr>
+                    </thead>
+                    {% endif %}
+                </table>
                 <table  id="dataTable" width="100%" cellspacing="50%" >
                     <thead>
                         <tr>

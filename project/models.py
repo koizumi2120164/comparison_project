@@ -9,7 +9,7 @@ class Word(models.Model):
     """口コミ掲示板"""
 
     wordID = models.UUIDField(default=uuid.uuid4, verbose_name='ワードID', editable=False)
-    created_by = models.ForeignKey('accounts.CustomUser', verbose_name='投稿者', max_length=50, on_delete=models.PROTECT, related_name="created_by")
+    created_by = models.ForeignKey('accounts.CustomUser', verbose_name='投稿者', max_length=50, on_delete=models.PROTECT, related_name="word_created_by")
     word_title = models.CharField(verbose_name='口コミタイトル', max_length=100)
     word_text = models.TextField(verbose_name='口コミ内容', blank=True, null=True, max_length=250)
     created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
@@ -34,7 +34,7 @@ class Review(models.Model):
     ]
 
     reviewID = models.UUIDField(default=uuid.uuid4, verbose_name='レビューID', editable=False)
-    created_by = models.ForeignKey('accounts.CustomUser', verbose_name='投稿者', on_delete=models.PROTECT, max_length=50, default=1)
+    created_by = models.ForeignKey('accounts.CustomUser', verbose_name='投稿者', on_delete=models.PROTECT, max_length=50, default=1, related_name="review_created_by")
     review = models.TextField(verbose_name="レビュー評価", choices=CHOICE, default=1, max_length=5)
     review_title = models.CharField(verbose_name='レビュータイトル', max_length=100)
     productID = models.ForeignKey(Product,verbose_name='商品ID', on_delete=models.PROTECT, blank=True, null=True, max_length=50)
@@ -42,6 +42,7 @@ class Review(models.Model):
     photo = models.ImageField(verbose_name='写真', blank=True, null=True)
     created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日', auto_now=True)
+    like_review = models.ManyToManyField('accounts.CustomUser', verbose_name='いいね', default=0, related_name="like_review")
 
     class Meta:
         verbose_name_plural = 'Review'

@@ -30,6 +30,7 @@
                         <td>商品の評価</td>
                         <td>レビュータイトル</td>
                         <td>レビュー内容</td>
+                        <td>いいね数</td>
                         <td>投稿日時</td>
                     </tr>
                 </thead>
@@ -57,6 +58,15 @@
                             <td>{{ review.review }}</td>
                             <td>{{ review.review_title|truncatechars:10 }}</td>
                             <td>{{ review.review_text|truncatechars:10 }}</td>
+
+                            {% for like in review.like_review.all %}
+                                {% if forloop.last == True %}
+                                <td>{{forloop.counter}}</td>
+                                {% endif %}
+                                {% empty %}
+                                <td>0</td>
+                            {% endfor %}
+
                             <td>{{ review.created_at }}</td>  
                         </tr>
                     {% endfor %}
