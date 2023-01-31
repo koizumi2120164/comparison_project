@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}公開ブログ一覧 | Prefecture blog{% endblock %}
+{% block title %}検索結果{% endblock %}
 
 {% block active_prefectures_list %}active{% endblock %}
 
@@ -14,7 +14,7 @@
 
             <hr class="my-4">
             
-            {% for prefectures in prefectures_list %}
+            {% for product in product_list %}
             <div class="post-preview">
                 <h3 class="gazo-box">
                     <img src="{{ product.photo1.url }}" width="200" height="200"/>

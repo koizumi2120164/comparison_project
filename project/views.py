@@ -11,6 +11,7 @@ from django.db.models import Q
 from . forms import *
 from django.shortcuts import redirect
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 logger = logging.getLogger(__name__)
 
@@ -86,56 +87,60 @@ class ProductDetailView(generic.DetailView):
 
 
 # 検索結果ページ
-class SearchResultsView(generic.TemplateView):
-    template_name = "search_results.html"
-    model = Product
-    paginate_by = 3
+def get_queryset(request):
+    # Sessionから条件取得
+    params = request.session.get('params')
 
+    if not params or request.GET.get("keyword"):
+        # SessionになければPOSTから取得
+        params = {
+            "keyword" : request.GET.get("keyword"),
+            "brand" : request.GET.get("brand"),
+            "value" : request.GET.get("value"),
+            "display" : request.GET.get("display")
+        }
 
-    def get_queryset(self, request):
-        keyword = request.GET.get("keyword")
-        brand = request.GET.get("brand")
-        value = request.GET.get("value")
-        display = request.GET.get("display")
+    # Sessionに保存
+    request.session['params'] = params
 
-        def Value():
-            if value == "～500円":
-                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_lt=500) | Q(price2_lt=500) | Q(price3_lt=500))
-            elif value == "500円～1000円":
-                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gte=500) & Q(price1_lt=1000) | Q(price2_gte=500) & Q(price2_lt=1000) | Q(price3_gte=500) & Q(price3_lt=1000))
-            elif value == "1000円～5000円":
-                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gte=1000) & Q(price1_lt=5000) | Q(price2_gte=1000) & Q(price2_lt=5000) | Q(price3_gte=1000) & Q(price3_lt=5000))
-            elif value == "5000円～10000円":
-                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gte=5000) & Q(price1_lt=10000) | Q(price2_gte=5000) & Q(price2_lt=10000) | Q(price3_gte=5000) & Q(price3_lt=10000))
-            elif value == "10000円～":
-                product = Product.objects.filter(Q(product_name__contains=keyword) | Q(price1_gt=10000) | Q(price2_gt=10000) | Q(price3_gt=10000))
-            else:
-                product = Product.objects.filter(Q(product_name__contains=keyword))
-
-            return product
-
-
-        if brand == "amazon" or brand == "楽天" or brand == "Yahoo":
-            if display == "popular":
-                Value()
-                product |=  Q(product_brand_exact=brand)
-                product = Product.object.order_by('like_product').reverse()
-            else:
-                Value()
-                product |=  Q(product_brand_exact=brand)
-                product = Product.object.order_by('productID').reverse()
-
+    if params['display'] == "popular":
+        if params['value']:
+            product =  Product.objects.filter(
+                product_name__contains=params['keyword'],
+                price1=params['value']
+                ).annotate(Count('like_product')).order_by('-like_product__count', '-created_at')
         else:
-            if display == "popular":
-                Value()
-                product = Product.object.order_by('like_product').reverse()
+            product =  Product.objects.filter(
+                product_name__contains=params['keyword'],
+                ).annotate(Count('like_product')).order_by('-like_product__count', '-created_at')
+    
+    else:
+        if params['value']:
+            product =  Product.objects.filter(
+                product_name__contains=params['keyword'],
+                price1=params['value']
+                ).order_by('-created_at')
+        else:
+            product =  Product.objects.filter(
+                product_name__contains=params['keyword'],
+                ).order_by('-created_at')
+            
+    # paginate_byの実装
+    # 1ページに表示させるtitle数を指定する
+    count = 5
 
-            else:
-                Value()
-                product = Product.object.order_by('productID').reverse()
-        
-        return product
+    # pagenateの実行
+    paginator = Paginator(product, count)
+    page = request.GET.get('page')
 
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    return render(request,'search_results.html',context={'word_list':page_obj.object_list,'page_obj': page_obj})
 
 
 # 口コミ詳細ページ
