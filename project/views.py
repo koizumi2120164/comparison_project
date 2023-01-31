@@ -107,7 +107,7 @@ def get_queryset(request):
         if params['value']:
             product =  Product.objects.filter(
                 product_name__contains=params['keyword'],
-                price1=params['value']
+                price1__lte=params['value']
                 ).annotate(Count('like_product')).order_by('-like_product__count', '-created_at')
         else:
             product =  Product.objects.filter(
@@ -118,7 +118,7 @@ def get_queryset(request):
         if params['value']:
             product =  Product.objects.filter(
                 product_name__contains=params['keyword'],
-                price1=params['value']
+                price1__lte=params['value']
                 ).order_by('-created_at')
         else:
             product =  Product.objects.filter(
