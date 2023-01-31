@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}作成ブログ一覧 | Prefecture blog{% endblock %}
+{% block title %}お気に入りリスト | comparison_project{% endblock %}
 
 {% block active_prefectures_list %}active{% endblock %}
 
@@ -15,7 +15,7 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
             <br>
             <h1>お気に入りリスト</h1>
-            {% for wishlist in wishlist_list %}
+            {% for wishlist in object_list %}
             <div class="post-preview">
                 <h3 class="gazo-box">
                     {% if wishlist.image1 %}

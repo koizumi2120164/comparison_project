@@ -7,11 +7,11 @@ from django.views import generic
 from .models import Review, Recently_viewed, Wishlist
 from shop.models import *
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
 from . forms import *
 from django.shortcuts import redirect
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from itertools import chain
 
 logger = logging.getLogger(__name__)
 
@@ -40,9 +40,6 @@ class IndexView(generic.ListView):
 
         return context
 
-
-
-    
 
 class SearchAdvancedView(generic.TemplateView):
     template_name = 'search_advanced.html'
@@ -126,7 +123,7 @@ def get_queryset(request):
                 ).order_by('-created_at')
             
     # paginate_byの実装
-    # 1ページに表示させるtitle数を指定する
+    # 1ページに表示させる数を指定する
     count = 5
 
     # pagenateの実行
@@ -430,31 +427,6 @@ class ItemView(generic.DetailView):
         return context
 
 
-
-"""def like_for_post(self, request, *args, **kwargs):
-    post_pk = self.kwargs['pk']
-
-    context = {
-        'user': f'{request.user.last_name} {request.user.first_name}',
-    }
-    
-    post = get_object_or_404(Product, pk=post_pk)
-    like = Wishlist.objects.filter(wish_item=post, userID=request.user)
-
-    if like.exists():
-        like.delete()
-        context['method'] = 'delete'
-
-    else:
-        like.create(wish_item=post, userID=request.user)
-        context['method'] = 'create'
-
-    context['like_for_post_count'] = post.likeforpost_set.count()
-
-    return JsonResponse(context)    
-
-
-"""
 # 閲覧履歴ページ
 class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     model = Recently_viewed
@@ -483,11 +455,18 @@ class WishListView(LoginRequiredMixin, generic.ListView):
     template_name = 'wish_list.html'
     paginate_by = 10
 
-    def get_queryset(self):
-        user_list = CustomUser.objects.filter(username=self.request.user)
-        for user in user_list:
-            wish_product = Wishlist.objects.filter(userID=user.userID).order_by('-added_date')
-        return wish_product
+    def get_queryset(self, **kwargs):
+        wish_list = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
+        if wish_list:
+            for wish in wish_list:
+                product_list = Product.objects.filter(product_name=wish.wished_item)
+
+            all = list(chain(wish_list, product_list))
+
+        else:
+            all = []
+
+        return all
         
 
 """お気に入り削除   
