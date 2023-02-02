@@ -1,332 +1,277 @@
 [
   {
     "page_path": "/wordreiew_list",
-    "page_views": 700,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/user_review_page/1/",
-    "page_views": 511,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_views": 397,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/",
-    "page_views": 145,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_views": 219,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/search_result2/",
+    "page_views": 79,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/wordreiew_list_like",
+    "page_views": 79,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/rank_list/",
-    "page_views": 94,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_views": 73,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/product_list/",
-    "page_views": 89,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/user_review_page/2/",
-    "page_views": 79,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/profile_edit/1/",
-    "page_views": 70,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/18/",
-    "page_views": 65,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/wordpost_create",
-    "page_views": 51,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/profile_edit/2/",
-    "page_views": 48,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/wish_list/1/",
-    "page_views": 43,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/accounts/login/",
-    "page_views": 41,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_list/1/",
-    "page_views": 41,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/wish_list/2/",
-    "page_views": 36,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/19/",
-    "page_views": 35,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/16/",
-    "page_views": 34,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/14/",
-    "page_views": 31,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_views": 72,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/word_detail/15/",
-    "page_views": 30,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_views": 69,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/recently_view/1/",
-    "page_views": 27,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_path": "/word_detail/14/",
+    "page_views": 62,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/user_review_page/3/",
+    "page_path": "/word_detail/18/",
+    "page_views": 61,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/word_detail/16/",
+    "page_views": 46,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/profile_edit/2/",
+    "page_views": 44,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/wish_list/2/",
+    "page_views": 40,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/search_result/",
+    "page_views": 38,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/accounts/login/",
+    "page_views": 28,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/search_advanced/",
+    "page_views": 28,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/word_list/1/",
     "page_views": 23,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/profile_edit/1/",
+    "page_views": 20,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/wish_list/1/",
+    "page_views": 20,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/user_review_page/2/",
+    "page_views": 19,
+    "input_date": "2023-02-02 09:37:32.959363"
+  },
+  {
+    "page_path": "/wordpost_create",
+    "page_views": 19,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/review_create",
     "page_views": 17,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/search_advanced/",
+    "page_path": "/user_review_page/1/",
     "page_views": 17,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_list/3/",
-    "page_views": 17,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/2/",
-    "page_views": 13,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/profile_update/1/",
+    "page_path": "/word_detail/25/",
     "page_views": 12,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/profile_update/2/",
-    "page_views": 12,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/review_list/1/",
-    "page_views": 12,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/1/",
-    "page_views": 11,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/word_detail/17/",
-    "page_views": 11,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_views": 10,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/search_result/",
+    "page_path": "/word_list/2/",
     "page_views": 9,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/12/",
-    "page_views": 8,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_detail/3/",
-    "page_views": 8,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/review_list/3/",
+    "page_path": "/user_review_page/3/",
     "page_views": 7,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/accounts/signup/",
+    "page_path": "/word_detail/2/",
     "page_views": 6,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/13/",
+    "page_path": "/word_detail/20/",
     "page_views": 6,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/accounts/confirm-email/",
+    "page_path": "/word_detail/19/",
     "page_views": 5,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/profile_edit/3/",
-    "page_views": 5,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_delete/19/",
+    "page_path": "/word_detail/1/",
     "page_views": 4,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/wish_list/3/",
-    "page_views": 3,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_path": "/word_list/3/",
+    "page_views": 4,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/11/",
+    "page_path": "/profile_update/2/",
     "page_views": 3,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/word_update/17/",
-    "page_views": 3,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/accounts/password/reset/",
     "page_views": 2,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/10/",
+    "page_path": "/profile_update/1/",
     "page_views": 2,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_update/18/",
+    "page_path": "/word_detail/24/",
     "page_views": 2,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_update/19/",
+    "page_path": "/word_detail/3/",
     "page_views": 2,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/accounts/confirm-email/Mg:1pJp2L:TO1_uQ2gR9whwsJ6q1kpCpmJKJ2trH0KeFYQ1B4rIHo/",
-    "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_path": "/word_detail/5/",
+    "page_views": 2,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/accounts/confirm-email/MQ:1pJlBi:djMjciwSUs21qNu3JUlqx9owULE-BSYUXmkt3zk6KYQ/",
-    "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_path": "/word_detail/6/",
+    "page_views": 2,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/accounts/confirm-email/MQ:1pJmdJ:vcGME4_OE2PS1sQEiNOplYoa8y1cvoRss3dHf0xyzQU/",
-    "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/accounts/confirm-email/MQ:1pK7tX:Obo1OyjkM3DkRXzaW79K__sfj66YBWkMAnMkchRlM84/",
-    "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
-  },
-  {
-    "page_path": "/accounts/confirm-email/Mw:1pKCSf:KfXV0UKF82OfH19ChaC-OAaf1C-kikI4zFEKAsVpkQg/",
-    "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "page_path": "/word_detail/7/",
+    "page_views": 2,
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/accounts/password/reset/done/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/accounts/password/reset/key/3-set-password/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/accounts/password/reset/key/done/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/profile_update/3/",
+    "page_path": "/accounts/signup/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/recently_view/2/",
+    "page_path": "/review_list/1/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_delete/1/",
+    "page_path": "/review_list/3/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_delete/13/",
+    "page_path": "/word_delete/3/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_delete/14/",
+    "page_path": "/word_detail/13/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/20/",
+    "page_path": "/word_detail/4/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/5/",
+    "page_path": "/word_update/17/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/6/",
+    "page_path": "/word_update/18/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/7/",
+    "page_path": "/word_update/2/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_detail/8/",
+    "page_path": "/word_update/20/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_list/2/",
+    "page_path": "/word_update/24/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
-    "page_path": "/word_update/13/",
+    "page_path": "/word_update/25/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   },
   {
     "page_path": "/word_update/3/",
     "page_views": 1,
-    "input_date": "2023-01-27 15:00:25.093984"
+    "input_date": "2023-02-02 09:37:32.959363"
   }
 ]
