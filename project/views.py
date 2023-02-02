@@ -89,7 +89,7 @@ def get_queryset(request):
     params = request.session.get('params')
 
     if not params or request.GET.get("keyword"):
-        # SessionになければPOSTから取得
+        # Sessionに値がないか、新しくキーワードから値を取得した場合、GETから取得
         params = {
             "keyword" : request.GET.get("keyword"),
             "brand" : request.GET.get("brand"),
@@ -453,7 +453,7 @@ class RankListView(generic.ListView):
 class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
-    paginate_by = 10
+    paginate_by = 2
 
     def get_queryset(self, **kwargs):
         wish_list = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
@@ -471,9 +471,9 @@ class WishListView(LoginRequiredMixin, generic.ListView):
 
 """お気に入り削除   
 class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
-    model = Wishlist
+    modreverse_lazyel = Wishlist
     template_name = 'wish_delete.html'
-    success_url = reverse_lazy('project:wish_list')
+    success_url = reverse_lazy('project:wish_list,  kwargs={'pk': self.kwargs['pk']}')
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "お気に入りリストから削除しました。")
