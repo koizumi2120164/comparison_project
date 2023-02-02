@@ -47,11 +47,11 @@ class SearchAdvancedView(generic.TemplateView):
 class ProductListView(generic.ListView):
     model = Product, Category
     
-    def get_object(self, queryset=None):
+    """def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         slug = self.kwargs.get('slug')
         product = get_object_or_404(Product, id=pk,slug=slug)
-        return product
+        return product"""
         
     def categories(request):
         return {
@@ -60,23 +60,23 @@ class ProductListView(generic.ListView):
 
     def product_all(request):
         products = Product.objects.all()
-        return render(request, 'shop/product_list.html', {'products': products})
+        return render(request, 'product_list.html', {'products': products})
 
     def category_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)
-        return render(request, 'shop/category.html', {'category': category, 'products':products})
+        return render(request, 'category.html', {'category': category, 'products':products})
 
 
 # 商品詳細ページ
 class ProductDetailView(generic.DetailView):
-    template_name = 'shop/product_detail.html'
+    template_name = 'product_detail.html'
     
-    def get_object(self, queryset=None):
+    """def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         slug = self.kwargs.get('slug')
         product = get_object_or_404(Product, id=pk,slug=slug)
-        return product
+        return product """
 
     queryset = Product.objects.all()
     context_object_name = 'product'

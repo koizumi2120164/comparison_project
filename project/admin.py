@@ -21,9 +21,9 @@ class ProductResource(resources.ModelResource):
         widget=ForeignKeyWidget(Category, 'category_name'))
     class Meta:
         model = Product
-        fields = ('id', 'product_name', 'description', 'image1', 'price1','link1', 'category', )
+        fields = ('id', 'product_name', 'category', 'category_id')
         #import_order = ('id', 'category', 'product_name', 'description', 'image1', 'price1','link1', )
-        #exclude = ('image2','image3', 'price2', 'link2','price3', 'link3', 'rating','slug', 'product_brand','is_active', 'like_product', 'created_at', 'updated_at', )
+        exclude = ('image2','image3', 'price2', 'link2','price3', 'link3', 'rating','slug', 'product_brand','is_active', 'like_product', 'created_at', 'updated_at', )
         #import_id_fields = ['id']
 
 @admin.register(Category)

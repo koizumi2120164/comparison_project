@@ -37,7 +37,7 @@ class Product(models.Model):
             MaxValueValidator(5),
             MinValueValidator(0),
         ])
-    like_product = models.ManyToManyField(CustomUser, related_name='product_like')
+    like_product = models.ManyToManyField(CustomUser, related_name='product_like', blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     product_brand = models.TextField(verbose_name='商品ブランド', blank=True, null=True)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True, blank=True)
@@ -61,3 +61,11 @@ class Product(models.Model):
     
     def __str__(self):
         return self.product_name
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image1.url
+        except:
+            url = ''
+        return url
