@@ -12,6 +12,7 @@ from django.shortcuts import redirect
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
+from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +120,7 @@ def get_queryset(request):
                 ).order_by('-created_at')
         else:
             product =  Product.objects.filter(
-                product_name__contains=params['keyword'],
+                product_name__contains=params['keyword']
                 ).order_by('-created_at')
             
     # paginate_byの実装
@@ -137,13 +138,35 @@ def get_queryset(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
-    return render(request,'search_results.html',context={'word_list':page_obj.object_list,'page_obj': page_obj})
+    return render(request,'search_results.html',context={'object_list':page_obj.object_list,'page_obj': page_obj})
 
 
 # 口コミ詳細ページ
 class WordDetailView(generic.DetailView):
     model = Word
     template_name = 'worddetail.html'
+
+def Ajax_ch_word(request, pk):
+    """Ajax処理"""
+    user = request.user
+    context = {
+        'user_id': f'{ request.user }',
+    }
+    word = get_object_or_404(Word, pk=pk)
+    like = False
+
+    for like in word.like_word.all():
+        if like == user:
+            like = True
+
+    if like == True:
+        word.like_word.remove(user)
+        context['method'] = 'delete'
+    else:
+        word.like_word.add(user)
+        context['method'] = 'create'
+ 
+    return JsonResponse(context)
 
 
 # 口コミのいいね・いいね取り消し
