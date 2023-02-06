@@ -55,4 +55,15 @@
     <span class="carousel-control-next-icon"></span>
     </button>
 </div>
+
+<div class="card mb-4">
+    <div class="card-header">レビュー一覧</div>
+    <div class="card-body">
+        {% for product in products %}
+        <p style="text-align:left">#{{ forloop.counter }}<a href="{% url 'project:product_detail' %}">{{ product.product_name|truncatechars:20 }}</a></p>
+        <br>
+        {% endfor %}
+    </div>
+    <a href="{% url 'project:rank_list'%}">もっと見る</a>
+</div>
 {% endblock %} 
