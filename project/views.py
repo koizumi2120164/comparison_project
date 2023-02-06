@@ -146,6 +146,8 @@ class WordDetailView(generic.DetailView):
     model = Word
     template_name = 'worddetail.html'
 
+
+# 口コミのいいね機能
 def Ajax_ch_word(request, pk):
     """Ajax処理"""
     user = request.user
@@ -167,33 +169,6 @@ def Ajax_ch_word(request, pk):
         context['method'] = 'create'
  
     return JsonResponse(context)
-
-
-# 口コミのいいね・いいね取り消し
-def wish_word(request, pk):
-    """いいねボタンをクリック."""
-    wish = get_object_or_404(Word, pk=pk)
-
-    if request.method == 'POST':
-        # いいねデータの新規追加
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_word.add(user)
-
-    return redirect('project:word_detail', pk)
-
-
-def remove_wish_word(request, pk):
-    """いいね取り消しボタンをクリック."""
-    wish = get_object_or_404(Word, pk=pk)
-
-    if request.method == 'POST':
-        # いいねデータの削除
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_word.remove(user)
-
-    return redirect('project:word_detail', pk)
 
 
 # 口コミ情報の更新
@@ -285,31 +260,28 @@ class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     template_name = 'review.html'
 
 
-# レビューのいいね・いいね取り消し    
-def wish_review(request, pk):
-    """いいねボタンをクリック."""
-    wish = get_object_or_404(Review, pk=pk)
+# レビューのいいね機能
+def Ajax_ch_review(request, pk):
+    """Ajax処理"""
+    user = request.user
+    context = {
+        'user_id': f'{ request.user }',
+    }
+    review = get_object_or_404(Review, pk=pk)
+    like = False
 
-    if request.method == 'POST':
-        # データの新規追加
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_review.add(user)
+    for like in review.like_review.all():
+        if like == user:
+            like = True
 
-    return redirect('project:review', pk)
-
-
-def remove_wish_review(request, pk):
-    """いいね取り消しボタンをクリック."""
-    wish = get_object_or_404(Review, pk=pk)
-
-    if request.method == 'POST':
-        # データの削除
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_review.remove(user)
-
-    return redirect('project:review', pk)
+    if like == True:
+        review.like_review.remove(user)
+        context['method'] = 'delete'
+    else:
+        review.like_review.add(user)
+        context['method'] = 'create'
+ 
+    return JsonResponse(context)
 
 
 # レビュー作成ページ

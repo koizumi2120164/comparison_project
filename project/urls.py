@@ -32,9 +32,8 @@ urlpatterns = [
     # path('wish_delete/', views.WishDeleteView.as_view(), name="wish_delete"),
     path('profile_edit/<int:pk>/', views.ProfileEditView.as_view(), name="profile_edit"),
     path('profile_update/<int:pk>/', views.ProfileUpdateView.as_view(), name="profile_update"),
-    path('word_wish/<int:pk>/', views.wish_word, name="word_wish"),
-    path('remove_word_wish/<int:pk>/', views.remove_wish_word, name="remove_word_wish"),
     path('Ajax_ch_word/<int:pk>/', views.Ajax_ch_word, name="Ajax_ch_word"),
+    path('Ajax_ch_review/<int:pk>/', views.Ajax_ch_review, name="Ajax_ch_review"),
 ]
 
 if settings_dev.DEBUG:
