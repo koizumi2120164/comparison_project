@@ -97,8 +97,8 @@
             <div class="card mb-4">
                 <div class="card-header">ランキング</div>
                 <div class="card-body">
-                    {% for product in product_list|slice:":5" %}
-                    <p style="text-align:left">#{{ forloop.counter }}<a href="{% url 'project:item' product.pk %}">{{ product.product_name|truncatechars:20 }}</a></p>
+                    {% for product in products %}
+                    <p style="text-align:left">#{{ forloop.counter }}<a href="{% url 'project:product_detail' %}">{{ product.product_name|truncatechars:20 }}</a></p>
                     <br>
                     {% endfor %}
                 </div>

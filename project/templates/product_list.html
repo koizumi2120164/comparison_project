@@ -1,23 +1,36 @@
 {% extends 'base.html' %}
+
 {% load static %}
-
-{% block title %}検索結果 | comparison_project{% endblock %}
-
-{% block active_prefectures_list %}active{% endblock %}
+<title>{% block title %}{% endblock %} Product List</title>
 
 {% block contents %}
-<div class="container px-4 px-lg-5 my-div-style">
+
+  <!--<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">マップハウジング</h1>
+        <p class="lead text-muted">世界最大の都市へのヒントと秘密はすぐにわかります。銀行システムをナビゲートする、どの電話プランを取得する必要があるかを把握する、
+            公共交通機関で自分をだまされないようにする方法を知るなど、私たちは必要不可欠なものを手に入れました。ここで東京の専門家になります。</p>
+        <p>
+        {% if user.is_authenticated %}
+        {% else %}
+        <a href="{% url 'account_signup' %}" class="btn btn-outline-primary my-2">今すぐに登録</a>
+        <a href="{% url 'account_login' %}" class="btn btn-primary my-2">ログイン</a>
+        {% endif %}
+        </p>
+      </div>
+    </div>
+  </section>-->
+  <div class="container px-4 px-lg-5 my-div-style">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <div class="d-flex justify-content-end mb-4">
-            </div>
             <br>
-            <h3>検索結果</h3>
-            {% if not object_list %}
-            <div class="col-12">検索内容に合う商品が見つかりませんでした。</div>
+            <h3>新着商品</h3>
+            {% if not products %}
+            <div class="col-12">何もないです。情報は見つけられません。</div>
             {% else %}
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-              {% for product in object_list %}
+              {% for product in products %}
               <div class="col">
                 <div class="card shadow-sm">
                   <img class="img-fluid" alt="Responsive image" src="{{ product.image1.url }}">
@@ -33,7 +46,18 @@
               {% endfor %}
             </div>
             {% endif %}
-            
+
+            <!-- ランキング　
+            <div class="card mb-4">
+                <div class="card-header">ランキング</div>
+                    <div class="card-body">
+                        {% for ranking in rank_list %}
+                            <li><a href="{% url 'project:商品詳細ページ' project.pk %}">{{ ranking.product_name }}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>       -->     
+
             <!-- ページネーション処理 -->
             {% if is_paginated %}
             <ul class="pagination">

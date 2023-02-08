@@ -7,6 +7,9 @@
 
 {% block head %}
 <link href="{% static 'css/heart.css' %}" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block contents %}
@@ -62,23 +65,26 @@
 
             {% for like in word.like_word.all %}
                 {% if like == user %}
-                    <form action="{% url 'project:remove_word_wish' object.pk %}" method="post">
-                        {% csrf_token %}
-                        <input type="submit" class="heart-button" name="good" value="いいねを取り消す" id="test">
-                    </form>
+                    <button type="button" id="ajax-like" style="border:none;background:none">
+                        <!-- すでにいいねしている時はfasクラス -->
+                        <i class="fas fa-heart text-danger" id="like-icon"></i>
+                    </button>
+                    <span>いいね</span>
                 {% else %}
                     {% if forloop.last == True %}
-                        <form action="{% url 'project:word_wish' object.pk %}" method="post">
-                            {% csrf_token %}
-                            <input type="submit" class="heart-button" name="good" value="いいね" id="test">
-                        </form>
+                        <button type="button" id="ajax-like" style="border:none;background:none">
+                            <!-- いいねしていないときはfarクラス -->
+                            <i class="far fa-heart text-danger" id="like-icon"></i>
+                        </button>
+                        <span>いいね</span>
                     {% endif %}
                 {% endif %}
             {% empty %}
-                <form action="{% url 'project:word_wish' object.pk %}" method="post">
-                    {% csrf_token %}
-                    <input type="submit" class="heart-button" name="good" value="いいね" id="test">
-                </form>
+                <button type="button" id="ajax-like" style="border:none;background:none">
+                    <!-- いいねしていないときはfarクラス -->
+                    <i class="far fa-heart text-danger" id="like-icon"></i>
+                </button>
+                <span>いいね</span>
             {% endfor %}
 
         {% else %}
@@ -87,7 +93,42 @@
             <br>
         {% endif %}
     {% endif %}
-
-    <a class="btn btn-success mt-5 mb-3" href="{% url 'project:wordreiew_list' %}">口コミ掲示板へ戻る</a>
+    <br>
+    <a class="btn btn-success mt-5 mb-3" href="javascript:history.back()">前のページへ戻る</a>
 </div>
-{% endblock %}l
+{% endblock %}
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.js"></script>
+
+{% block extrajs %}
+<script type="text/javascript">
+    // いいねボタンが押された時
+    document.getElementById('ajax-like').addEventListener('click', e => {
+        e.preventDefault();
+        const url = '{% url "project:Ajax_ch_word" object.pk %}';
+        fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        }).then(response => {
+        return response.json();
+        }).then(response => {
+        const icon = document.getElementById('like-icon')
+        // いいねした時はハートを塗る
+        if (response.method == 'create') {
+            icon.classList.remove('far')
+            icon.classList.add('fas')
+            icon.id = 'like-icon'
+        } else {
+            icon.classList.remove('fas')
+            icon.classList.add('far')
+            icon.id = 'like-icon'
+        }
+        }).catch(error => {
+        console.log(error);
+        });
+    });
+</script>
+{% endblock %}

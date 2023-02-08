@@ -12,6 +12,7 @@ from django.shortcuts import redirect
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
+from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 
@@ -47,11 +48,11 @@ class SearchAdvancedView(generic.TemplateView):
 class ProductListView(generic.ListView):
     model = Product, Category
     
-    def get_object(self, queryset=None):
+    """def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         slug = self.kwargs.get('slug')
         product = get_object_or_404(Product, id=pk,slug=slug)
-        return product
+        return product"""
         
     def categories(request):
         return {
@@ -60,27 +61,31 @@ class ProductListView(generic.ListView):
 
     def product_all(request):
         products = Product.objects.all()
-        return render(request, 'shop/product_list.html', {'products': products})
+        return render(request, 'product_list.html', {'products': products})
 
     def category_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)
-        return render(request, 'shop/category.html', {'category': category, 'products':products})
+        return render(request, 'category.html', {'category': category, 'products':products})
 
 
 # 商品詳細ページ
 class ProductDetailView(generic.DetailView):
-    template_name = 'shop/product_detail.html'
-    
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        slug = self.kwargs.get('slug')
-        product = get_object_or_404(Product, id=pk,slug=slug)
-        return product
+    model = Product
+    template_name = 'product_detail.html'
+    paginate_by = 5
 
-    queryset = Product.objects.all()
-    context_object_name = 'product'
-    success_url = reverse_lazy('project:product_list')
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(**kwargs)
+        product_list = Product.objects.filter(slug=self.slug_url_kwarg)
+        id = Review.objects.all()
+
+        context.update({
+                'product_list': product_list,
+                'review_list': id,
+        })
+
+        return context
 
 
 # 検索結果ページ
@@ -89,7 +94,7 @@ def get_queryset(request):
     params = request.session.get('params')
 
     if not params or request.GET.get("keyword"):
-        # SessionになければPOSTから取得
+        # Sessionに値がないか、新しくキーワードから値を取得した場合、GETから取得
         params = {
             "keyword" : request.GET.get("keyword"),
             "brand" : request.GET.get("brand"),
@@ -119,7 +124,7 @@ def get_queryset(request):
                 ).order_by('-created_at')
         else:
             product =  Product.objects.filter(
-                product_name__contains=params['keyword'],
+                product_name__contains=params['keyword']
                 ).order_by('-created_at')
             
     # paginate_byの実装
@@ -137,7 +142,7 @@ def get_queryset(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
-    return render(request,'search_results.html',context={'word_list':page_obj.object_list,'page_obj': page_obj})
+    return render(request,'search_results.html',context={'object_list':page_obj.object_list,'page_obj': page_obj})
 
 
 # 口コミ詳細ページ
@@ -146,31 +151,28 @@ class WordDetailView(generic.DetailView):
     template_name = 'worddetail.html'
 
 
-# 口コミのいいね・いいね取り消し
-def wish_word(request, pk):
-    """いいねボタンをクリック."""
-    wish = get_object_or_404(Word, pk=pk)
+# 口コミのいいね機能
+def Ajax_ch_word(request, pk):
+    """Ajax処理"""
+    user = request.user
+    context = {
+        'user_id': f'{ request.user }',
+    }
+    word = get_object_or_404(Word, pk=pk)
+    like = False
 
-    if request.method == 'POST':
-        # いいねデータの新規追加
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_word.add(user)
+    for like in word.like_word.all():
+        if like == user:
+            like = True
 
-    return redirect('project:word_detail', pk)
-
-
-def remove_wish_word(request, pk):
-    """いいね取り消しボタンをクリック."""
-    wish = get_object_or_404(Word, pk=pk)
-
-    if request.method == 'POST':
-        # いいねデータの削除
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_word.remove(user)
-
-    return redirect('project:word_detail', pk)
+    if like == True:
+        word.like_word.remove(user)
+        context['method'] = 'delete'
+    else:
+        word.like_word.add(user)
+        context['method'] = 'create'
+ 
+    return JsonResponse(context)
 
 
 # 口コミ情報の更新
@@ -262,31 +264,28 @@ class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
     template_name = 'review.html'
 
 
-# レビューのいいね・いいね取り消し    
-def wish_review(request, pk):
-    """いいねボタンをクリック."""
-    wish = get_object_or_404(Review, pk=pk)
+# レビューのいいね機能
+def Ajax_ch_review(request, pk):
+    """Ajax処理"""
+    user = request.user
+    context = {
+        'user_id': f'{ request.user }',
+    }
+    review = get_object_or_404(Review, pk=pk)
+    like = False
 
-    if request.method == 'POST':
-        # データの新規追加
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_review.add(user)
+    for like in review.like_review.all():
+        if like == user:
+            like = True
 
-    return redirect('project:review', pk)
-
-
-def remove_wish_review(request, pk):
-    """いいね取り消しボタンをクリック."""
-    wish = get_object_or_404(Review, pk=pk)
-
-    if request.method == 'POST':
-        # データの削除
-        user_list = CustomUser.objects.filter(username=request.user)
-        for user in user_list:
-            wish.like_review.remove(user)
-
-    return redirect('project:review', pk)
+    if like == True:
+        review.like_review.remove(user)
+        context['method'] = 'delete'
+    else:
+        review.like_review.add(user)
+        context['method'] = 'create'
+ 
+    return JsonResponse(context)
 
 
 # レビュー作成ページ
@@ -294,14 +293,18 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Review
     template_name = 'review_create.html'
     form_class = ReviewForm
-    # success_url = reverse_lazy('project:item')
-    # ↑商品詳細ページへ遷移する
+
+    def get_success_url(self):
+        slugs = Product.objects.filter(id=self.kwargs['pk'])
+        for s in slugs:
+            return reverse('project:item', s.slug)
 
     def form_valid(self, form):
-        # 作成したレビューの情報を登録
+        # 作成したレビューの情報を登録   
         review = form.save(commit=False)
         review.created_by = self.request.user
-        review.productID = self.kwargs['pk']
+        product = Product.objects.get(id=self.kwargs['pk'])
+        review.productID = product
         review.save()
         # アカウントテーブルのレビュー数を登録
         target_data = Review.objects.filter(created_by=self.request.user).count()
@@ -453,7 +456,7 @@ class RankListView(generic.ListView):
 class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
-    paginate_by = 10
+    paginate_by = 2
 
     def get_queryset(self, **kwargs):
         wish_list = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
@@ -471,9 +474,9 @@ class WishListView(LoginRequiredMixin, generic.ListView):
 
 """お気に入り削除   
 class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
-    model = Wishlist
+    modreverse_lazyel = Wishlist
     template_name = 'wish_delete.html'
-    success_url = reverse_lazy('project:wish_list')
+    success_url = reverse_lazy('project:wish_list,  kwargs={'pk': self.kwargs['pk']}')
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "お気に入りリストから削除しました。")

@@ -11,6 +11,21 @@
 {% endblock %}
 
 {% block contents %}
+
+{% if messages %}
+  <ul class="list-unstyled">
+    {% for message in messages %}
+      <li {% if message.tags %} 
+        class="bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert"{% endif %}>
+        {{ message }}
+        <button type="button" class="close" aria_label="Close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 <div class="container my-div-style">
     <div class="row">
         <form method="POST" enctype='multipart/form-data'>
@@ -21,16 +36,7 @@
                   <tr>
                     <th width="500" height="50">{{ form.review.label_tag }}</th>
                     <td><div class="review">
-                      <div class="stars">
-                        <span>
-                          <input id="review01" type="radio" value="form.review.0"><label for="review01">★</label>
-                          <input id="review02" type="radio" value="form.review.1"><label for="review02">★</label>
-                          <input id="review03" type="radio" value="form.review.2"><label for="review03">★</label>
-                          <input id="review04" type="radio" value="form.review.3"><label for="review04">★</label>
-                          <input id="review05" type="radio" value="form.review.4"><label for="review05">★</label>
-                        </span>
-                      </div>
-                    </div>
+                      {{ form.review }}
                     </td>
                   </tr>
                   <tr>
