@@ -71,17 +71,21 @@ class ProductListView(generic.ListView):
 
 # 商品詳細ページ
 class ProductDetailView(generic.DetailView):
+    model = Product
     template_name = 'product_detail.html'
-    
-    """def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        slug = self.kwargs.get('slug')
-        product = get_object_or_404(Product, id=pk,slug=slug)
-        return product """
+    paginate_by = 5
 
-    queryset = Product.objects.all()
-    context_object_name = 'product'
-    success_url = reverse_lazy('project:product_list')
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(**kwargs)
+        product_list = Product.objects.filter(slug=self.slug_url_kwarg)
+        id = Review.objects.all()
+
+        context.update({
+                'product_list': product_list,
+                'review_list': id,
+        })
+
+        return context
 
 
 # 検索結果ページ
@@ -289,14 +293,18 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Review
     template_name = 'review_create.html'
     form_class = ReviewForm
-    # success_url = reverse_lazy('project:item')
-    # ↑商品詳細ページへ遷移する
+
+    def get_success_url(self):
+        slugs = Product.objects.filter(id=self.kwargs['pk'])
+        for s in slugs:
+            return reverse('project:item', s.slug)
 
     def form_valid(self, form):
-        # 作成したレビューの情報を登録
+        # 作成したレビューの情報を登録   
         review = form.save(commit=False)
         review.created_by = self.request.user
-        review.productID = self.kwargs['pk']
+        product = Product.objects.get(id=self.kwargs['pk'])
+        review.productID = product
         review.save()
         # アカウントテーブルのレビュー数を登録
         target_data = Review.objects.filter(created_by=self.request.user).count()

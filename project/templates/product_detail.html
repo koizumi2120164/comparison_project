@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block head %}
+<link href="{% static 'css/wordreiew_list.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block contents %}
 <!-- Product section-->
 <section class="py-5">
@@ -24,4 +28,47 @@
         </div>
     </div>
 </section>
+
+<div class="d-flex justify-content-end mb-4">
+    <a class="btn btn-primary float-right" href="{% url 'project:review_create' object.pk %}">レビューを投稿する</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">レビュー一覧</div>
+    <div class="card-body">
+        {% for review in review_list|slice:":5" %}
+            <div class="container my-div-style">
+                <div class="row">
+                    <div class="col-9">
+                        {% if review.photo %}
+                        <div class="col-md-2"><img class="card-img-top mb-5 mb-md-0" src="{{ review.photo.url }}" alt="..." /></div>
+                        {% else %}
+                        <div class="col-md-2"><img class="card-img-top mb-5 mb-md-0" src="{% static 'assets/img/no_image.jpeg' %}" alt="..." /></div>
+                        {% endif %}
+
+                        <h6>{{ review.review_title }}</h6>
+
+                        <div class="inline-block_test">
+                            <p>{{ review.created_by }}</p>
+                        </div>
+                        <div class="inline-block_test">
+                            <p>{{ review.review }}</p>
+                        </div>
+                        <div class="inline-block_test">
+                            <p>{{ review.review_text }}</p>
+                        </div>
+                        
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        <h4>投稿されたレビューがありません。</h4>
+        {% endfor %}
+        {% if review_list %}
+        <a class="btn btn-primary" href="{% url 'project:word_list' object.pk %}">もっと見る</a>
+        {% endif %}
+    </div>
+    </div>
+</div>
 {% endblock %} 
