@@ -9,7 +9,7 @@ class Word(models.Model):
     """口コミ掲示板"""
 
     wordID = models.UUIDField(default=uuid.uuid4, verbose_name='ワードID', editable=False)
-    created_by = models.ForeignKey('accounts.CustomUser', verbose_name='投稿者', max_length=50, on_delete=models.PROTECT, related_name="word_created_by")
+    created_by = models.ForeignKey('accounts.CustomUser', verbose_name='投稿者', max_length=50, on_delete=models.PROTECT, related_name="created_by")
     word_title = models.CharField(verbose_name='口コミタイトル', max_length=100)
     word_text = models.TextField(verbose_name='口コミ内容', blank=True, null=True, max_length=250)
     created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
