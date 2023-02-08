@@ -7,6 +7,21 @@
 {% endblock %}
 
 {% block contents %}
+
+{% if messages %}
+  <ul class="list-unstyled">
+    {% for message in messages %}
+      <li {% if message.tags %} 
+        class="bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert"{% endif %}>
+        {{ message }}
+        <button type="button" class="close" aria_label="Close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 <!-- Product section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -30,7 +45,7 @@
 </section>
 
 <div class="d-flex justify-content-end mb-4">
-    <a class="btn btn-primary float-right" href="{% url 'project:review_create' object.pk %}">レビューを投稿する</a>
+    <a class="btn btn-primary float-right" href="{% url 'project:review_create' object.slug %}">レビューを投稿する</a>
 </div>
 
 <div class="card mb-4">

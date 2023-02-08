@@ -77,12 +77,13 @@ class ProductDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
-        product_list = Product.objects.filter(slug=self.slug_url_kwarg)
-        id = Review.objects.all()
+        
+        product = get_object_or_404(Product, slug=self.kwargs['slug'])
+        id = Review.objects.filter(productID=product.pk).order_by('-created_at')
 
         context.update({
-                'product_list': product_list,
-                'review_list': id,
+            'product_list': product,
+            'review_list': id,
         })
 
         return context
@@ -295,15 +296,13 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = ReviewForm
 
     def get_success_url(self):
-        slugs = Product.objects.filter(id=self.kwargs['pk'])
-        for s in slugs:
-            return reverse('project:item', s.slug)
+        return reverse('project:product_detail', kwargs={"slug": self.kwargs['slug']})
 
     def form_valid(self, form):
         # 作成したレビューの情報を登録   
         review = form.save(commit=False)
         review.created_by = self.request.user
-        product = Product.objects.get(id=self.kwargs['pk'])
+        product = Product.objects.get(slug=self.kwargs['slug'])
         review.productID = product
         review.save()
         # アカウントテーブルのレビュー数を登録
