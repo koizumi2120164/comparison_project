@@ -13,6 +13,7 @@ from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 logger = logging.getLogger(__name__)
 
@@ -48,12 +49,6 @@ class SearchAdvancedView(generic.TemplateView):
 class ProductListView(generic.ListView):
     model = Product, Category
     
-    """def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        slug = self.kwargs.get('slug')
-        product = get_object_or_404(Product, id=pk,slug=slug)
-        return product"""
-        
     def categories(request):
         return {
             'categories': Category.objects.all()
@@ -61,7 +56,19 @@ class ProductListView(generic.ListView):
 
     def product_all(request):
         products = Product.objects.all()
-        return render(request, 'product_list.html', {'products': products})
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 6)
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        context = {
+            'products': products, 
+        }
+        return render(request, 'product_list.html', context)
 
     def category_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
