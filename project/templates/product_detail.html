@@ -4,6 +4,7 @@
 
 {% block head %}
 <link href="{% static 'css/wordreiew_list.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block contents %}
@@ -37,6 +38,21 @@
                 </div>
                 <p class="lead">{{ product.description }}</p>
             </div>
+            {% if user.is_authenticated %}
+                {% for like in wish_list %}
+                    <button type="button" id="ajax-like" style="border:none;background:none">
+                        <!-- すでにいいねしている時はfasクラス -->
+                        <i class="fas fa-heart text-danger" id="like-icon"></i>
+                    </button>
+                    <span>いいね</span>
+                {% empty %}
+                    <button type="button" id="ajax-like" style="border:none;background:none">
+                        <!-- いいねしていないときはfarクラス -->
+                        <i class="far fa-heart text-danger" id="like-icon"></i>
+                    </button>
+                    <span>いいね</span>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </section>
@@ -58,17 +74,26 @@
                         <div class="col-md-2"><img class="card-img-top mb-5 mb-md-0" src="{% static 'assets/img/no_image.jpeg' %}" alt="..." /></div>
                         {% endif %}
 
-                        <h6>{{ review.review_title }}</h6>
+                        <a href="{% url 'project:review' review.pk %}"><h6>{{ review.review_title }}</h6></a>
 
+                        <a href="{% url 'project:user_review_page' review.created_by.pk %}">
                         <div class="inline-block_test">
                             <p>{{ review.created_by }}</p>
-                        </div>
+                        </div></a>
                         <div class="inline-block_test">
-                            <p>{{ review.review }}</p>
+                            <p>☆{{ review.review }}</p>
                         </div>
                         <div class="inline-block_test">
                             <p>{{ review.review_text }}</p>
                         </div>
+
+                        {% for like in review.like_review.all %}
+                            {% if forloop.last == True %}
+                            <td>{{forloop.counter}}</td>
+                            {% endif %}
+                            {% empty %}
+                            <td>0</td>
+                        {% endfor %}
                         
                         <hr>
                     </div>
@@ -84,3 +109,36 @@
     </div>
 </div>
 {% endblock %} 
+
+{% block extrajs %}
+<script type="text/javascript">
+    // いいねボタンが押された時
+    document.getElementById('ajax-like').addEventListener('click', e => {
+        e.preventDefault();
+        const url = '{% url "project:Ajax_ch_product" object.pk %}';
+        fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        }).then(response => {
+        return response.json();
+        }).then(response => {
+        const icon = document.getElementById('like-icon')
+        // いいねした時はハートを塗る
+        if (response.method == 'create') {
+            icon.classList.remove('far')
+            icon.classList.add('fas')
+            icon.id = 'like-icon'
+        } else {
+            icon.classList.remove('fas')
+            icon.classList.add('far')
+            icon.id = 'like-icon'
+        }
+        }).catch(error => {
+        console.log(error);
+        });
+    });
+</script>
+{% endblock %}

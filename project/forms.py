@@ -34,7 +34,7 @@ class ItemForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('user_photo','user_name', 'user_birthday', 'user_gender', 'user_address')
+        fields = ('user_photo','user_name', 'user_birthday', 'user_birthday_month', 'user_birthday_day', 'user_gender', 'user_address')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

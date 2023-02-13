@@ -34,6 +34,7 @@ urlpatterns = [
     path('profile_update/<int:pk>/', views.ProfileUpdateView.as_view(), name="profile_update"),
     path('Ajax_ch_word/<int:pk>/', views.Ajax_ch_word, name="Ajax_ch_word"),
     path('Ajax_ch_review/<int:pk>/', views.Ajax_ch_review, name="Ajax_ch_review"),
+    path('Ajax_ch_product/<int:pk>/', views.Ajax_ch_product, name="Ajax_ch_product"),
 ]
 
 if settings_dev.DEBUG:

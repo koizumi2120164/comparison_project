@@ -36,7 +36,7 @@
                             <p style="text-align:left">{{ product.rating }}</p>
                             <p style="text-align:left">{{ product.description }}</p>
                         </li>
-                        <a class="btn btn-primary" href="{% url 'project:item' product.pk %}">もっと見る</a>
+                        <a class="btn btn-primary" href="{% url 'project:product_detail' product.slug %}">もっと見る</a>
                       </ul>
                     </div>
                   </div>
