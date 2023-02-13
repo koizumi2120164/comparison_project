@@ -80,7 +80,7 @@ class ProductDetailView(generic.DetailView):
         
         product = get_object_or_404(Product, slug=self.kwargs['slug'])
         review = Review.objects.filter(productID=product.pk).order_by('-created_at')
-        
+
         if self.request.user == CustomUser.is_active:
             wish = Wishlist.objects.filter(userID=self.request.user, wished_item=product.pk)
         else:
@@ -96,25 +96,27 @@ class ProductDetailView(generic.DetailView):
     
 
 # 商品のいいね機能
-def Ajax_ch_product(request, pk):
+def Ajax_ch_product(self, pk):
     """Ajax処理"""
-    user = request.user
+    user = self.request.user
     context = {
-        'user_id': f'{ request.user }',
+        'user_id': f'{ self.request.user }',
     }
-    wish = get_object_or_404(Wishlist, pk=pk)
+    wish_list = get_object_or_404(Wishlist, pk=pk)
     like = False
 
-    for like in wish.like_review.all():
-        if like == user:
+    for wish in wish_list:
+        if wish.userID == user:
             like = True
 
     if like == True:
-        wish.remove(user)
+        like.delete()
         context['method'] = 'delete'
     else:
-        wish.userID = request.user
+        wish_list.create(userID=user, wished_item=self.kwargs['slug'], slug=self.kwargs['slug'])
         context['method'] = 'create'
+
+    context['like_for_post_count'] = wish_list.likeforpost_set.count()
  
     return JsonResponse(context)
 
