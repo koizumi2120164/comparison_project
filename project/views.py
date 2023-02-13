@@ -88,7 +88,7 @@ class ProductDetailView(generic.DetailView):
         product = get_object_or_404(Product, slug=self.kwargs['slug'])
         review = Review.objects.filter(productID=product.pk).order_by('-created_at')
 
-        if self.request.user == CustomUser.is_active:
+        if self.request.user:
             wish = Wishlist.objects.filter(userID=self.request.user, wished_item=product.pk)
         else:
             wish = None
@@ -103,13 +103,15 @@ class ProductDetailView(generic.DetailView):
     
 
 # 商品のいいね機能
-def Ajax_ch_product(self, pk):
+def Ajax_ch_product(request, slug):
     """Ajax処理"""
-    user = self.request.user
+    user = request.user
     context = {
-        'user_id': f'{ self.request.user }',
+        'user_id': f'{ request.user }',
     }
-    wish_list = get_object_or_404(Wishlist, pk=pk)
+    wish_slug = slug
+    product = Product.objects.get(slug=wish_slug)
+    wish_list = Wishlist.objects.filter(wished_item=product)
     like = False
 
     for wish in wish_list:
@@ -117,13 +119,11 @@ def Ajax_ch_product(self, pk):
             like = True
 
     if like == True:
-        like.delete()
+        wish.delete()
         context['method'] = 'delete'
     else:
-        wish_list.create(userID=user, wished_item=self.kwargs['slug'], slug=self.kwargs['slug'])
+        wish_list.create(userID=user, wished_item=product, slug=wish_slug)
         context['method'] = 'create'
-
-    context['like_for_post_count'] = wish_list.likeforpost_set.count()
  
     return JsonResponse(context)
 
@@ -447,29 +447,6 @@ class WordListView(generic.ListView):
 
 
 
-class ItemView(generic.DetailView):
-    model = Product
-    template_name = 'item.html'
-    form_class = ItemForm
-
-    def recently(self,*args, **kwargs):
-        post_pk = self.kwargs['pk']
-        post = get_object_or_404(Product, pk=post_pk)
-        recently = Recently_viewed(userID=self.request.user, productID=post)
-        recently.save()
-
-    #いいねしてるかどうか
-    def get_context_data(self,*args, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # ログイン中のユーザーがイイねしているかどうか
-        if Wishlist.objects.filter(userID=self.request.user).exists():
-            context['like'] = True
-        else:
-            context['like'] = False
-        
-        return context
-
-
 # 閲覧履歴ページ
 class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
     model = Recently_viewed
@@ -496,32 +473,20 @@ class RankListView(generic.ListView):
 class WishListView(LoginRequiredMixin, generic.ListView):
     model = Wishlist
     template_name = 'wish_list.html'
-    paginate_by = 2
-
-    def get_queryset(self, **kwargs):
+    paginate_by = 5
+    
+    def get_queryset(self):
         wish_list = Wishlist.objects.filter(userID=self.request.user).order_by('-added_date')
+        product_list = []
+
         if wish_list:
-            for wish in wish_list:
-                product_list = Product.objects.filter(product_name=wish.wished_item)
-
-            all = list(chain(wish_list, product_list))
-
+            for product in wish_list:
+                product_list += Product.objects.filter(product_name=product.wished_item)
         else:
-            all = []
+            product_list = None
 
-        return all
+        return product_list
         
-
-"""お気に入り削除   
-class WishDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
-    modreverse_lazyel = Wishlist
-    template_name = 'wish_delete.html'
-    success_url = reverse_lazy('project:wish_list,  kwargs={'pk': self.kwargs['pk']}')
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(self.request, "お気に入りリストから削除しました。")
-        return super().delete(request, *args, **kwargs)"""
-
 
 # 自分のアカウント情報の詳細ページ
 class ProfileEditView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):

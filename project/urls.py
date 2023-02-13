@@ -27,14 +27,11 @@ urlpatterns = [
     path('wish_list/<int:pk>/', views.WishListView.as_view(), name="wish_list"),
     path('recently_view/<int:pk>/', views.RecentlyViewedView.as_view(), name="recently_view"),
     path('rank_list/', views.RankListView.as_view(), name="rank_list"),
-    #path('like_for_post/', views.like_for_post, name="like_for_post"),
-    path('item/', views.ItemView.as_view(), name="item"),
-    # path('wish_delete/', views.WishDeleteView.as_view(), name="wish_delete"),
     path('profile_edit/<int:pk>/', views.ProfileEditView.as_view(), name="profile_edit"),
     path('profile_update/<int:pk>/', views.ProfileUpdateView.as_view(), name="profile_update"),
     path('Ajax_ch_word/<int:pk>/', views.Ajax_ch_word, name="Ajax_ch_word"),
     path('Ajax_ch_review/<int:pk>/', views.Ajax_ch_review, name="Ajax_ch_review"),
-    path('Ajax_ch_product/<int:pk>/', views.Ajax_ch_product, name="Ajax_ch_product"),
+    path('Ajax_ch_product/<slug:slug>/', views.Ajax_ch_product, name="Ajax_ch_product"),
 ]
 
 if settings_dev.DEBUG:

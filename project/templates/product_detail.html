@@ -40,17 +40,22 @@
             </div>
             {% if user.is_authenticated %}
                 {% for like in wish_list %}
+                    {% if like.userID == user %}
                     <button type="button" id="ajax-like" style="border:none;background:none">
                         <!-- すでにいいねしている時はfasクラス -->
                         <i class="fas fa-heart text-danger" id="like-icon"></i>
                     </button>
-                    <span>いいね</span>
+                    {% else %}
+                    <button type="button" id="ajax-like" style="border:none;background:none">
+                        <!-- いいねしていないときはfarクラス -->
+                        <i class="far fa-heart text-danger" id="like-icon"></i>
+                    </button>
+                    {% endif %}
                 {% empty %}
                     <button type="button" id="ajax-like" style="border:none;background:none">
                         <!-- いいねしていないときはfarクラス -->
                         <i class="far fa-heart text-danger" id="like-icon"></i>
                     </button>
-                    <span>いいね</span>
                 {% endfor %}
             {% endif %}
         </div>
@@ -115,7 +120,7 @@
     // いいねボタンが押された時
     document.getElementById('ajax-like').addEventListener('click', e => {
         e.preventDefault();
-        const url = '{% url "project:Ajax_ch_product" object.pk %}';
+        const url = '{% url "project:Ajax_ch_product" object.slug %}';
         fetch(url, {
         method: 'POST',
         headers: {
