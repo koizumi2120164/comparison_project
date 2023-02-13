@@ -17,8 +17,8 @@
             <div class="card-body">
             <br>
             <h1>お気に入りリスト</h1>
-            <br><hr>
             {% if object_list %}
+            <br><hr>
             <table  id="dataTable" width="100%" cellspacing="50%" >
                 <thead>
                     <tr>
@@ -58,7 +58,7 @@
             </table>
             {% else %}
                 <br>
-                <h4>お気に入り登録した商品がありません。</h4>
+                <p>お気に入り登録した商品がありません。</p>
             {% endif %}
 
             <!-- ページネーション処理 -->

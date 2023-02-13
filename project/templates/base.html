@@ -44,6 +44,9 @@
                             {% if user.is_staff %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'manage:top' %}">マネージメントページ</a></li>
                             {% endif %}
+                            {% if user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
+                            {% endif %}
                             <li class="nav-link active">こんにちは{{ user.username }}さん</li>
                             <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'account_logout' %}">ログアウト</a></li>
                         {% else %}
