@@ -10,7 +10,7 @@ base_url = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?' 
 item_parameters = {
             'applicationId': '1059665974949401126', #アプリIDikb2120228
             'format': 'json',
-            "keyword" : "アリエール 洗濯洗剤 ジェルボール4D",
+            "keyword" : "カーペット用洗剤",
             #'categoryId':'31-335' 例として鶏肉料理のカテゴリID入れています
 }
 
@@ -38,6 +38,6 @@ for i in range(0, len(item_data["Items"])):
             ignore_index=True)
 
 #データフレームをcsvに出力
-df_rank.to_csv('洗剤5.csv', index=False,  encoding='utf_8_sig')
+df_rank.to_csv('洗剤・柔軟剤・クリーナー5.csv', index=False,  encoding='utf_8_sig')
  
  
