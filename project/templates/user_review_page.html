@@ -99,13 +99,12 @@
                 <a href="{% url 'project:review_edit' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
                 <p>{{ object.created_at }}</p>
             </li>
-            {% endfor %}
-            {% if object.review_title == None %}
+            {% empty %}
             <p>投稿したレビューはありません</p>
-            {% endif %}
+            {% endfor %}
             {% if review_list %}
             {% for object in user_list %}
-            <a class="btn btn-primary" href="{% url 'project:word_list' object.pk %}">もっと見る</a>
+            <a class="btn btn-primary" href="{% url 'project:review_list' object.pk %}">もっと見る</a>
             {% endfor %}
             {% endif %}
             </ul>

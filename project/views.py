@@ -79,14 +79,44 @@ class ProductDetailView(generic.DetailView):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         
         product = get_object_or_404(Product, slug=self.kwargs['slug'])
-        id = Review.objects.filter(productID=product.pk).order_by('-created_at')
+        review = Review.objects.filter(productID=product.pk).order_by('-created_at')
+        
+        if self.request.user == CustomUser.is_active:
+            wish = Wishlist.objects.filter(userID=self.request.user, wished_item=product.pk)
+        else:
+            wish = None
 
         context.update({
             'product_list': product,
-            'review_list': id,
+            'review_list' : review,
+            'wish_list' : wish,
         })
 
         return context
+    
+
+# 商品のいいね機能
+def Ajax_ch_product(request, pk):
+    """Ajax処理"""
+    user = request.user
+    context = {
+        'user_id': f'{ request.user }',
+    }
+    wish = get_object_or_404(Wishlist, pk=pk)
+    like = False
+
+    for like in wish.like_review.all():
+        if like == user:
+            like = True
+
+    if like == True:
+        wish.remove(user)
+        context['method'] = 'delete'
+    else:
+        wish.userID = request.user
+        context['method'] = 'create'
+ 
+    return JsonResponse(context)
 
 
 # 検索結果ページ
@@ -260,7 +290,7 @@ class WordCreateView(LoginRequiredMixin,generic.CreateView):
 
 
 # レビューの詳細ページ
-class ReviewView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
+class ReviewView(generic.DetailView):
     model = Review
     template_name = 'review.html'
 
@@ -319,18 +349,20 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_invalid(form)
         
 
-class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
+class ReviewEditView(LoginRequiredMixin, generic.UpdateView):
     model = Review
     template_name = 'review_edit.html'
     form_class = ReviewForm
 
     def get_success_url(self):
-        return reverse_lazy('project:review_detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('project:review', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
         review = form.save(commit=False)
         review.created_by = self.request.user
-        review.productID = self.kwargs['pk']
+        review_list = Review.objects.get(pk=self.kwargs['pk'])
+        product = Product.objects.get(slug=review_list.productID)
+        review.productID = product
         review.save()
         messages.success(self.request, 'レビューを編集しました。')
         return super().form_valid(form)
@@ -341,7 +373,7 @@ class ReviewEditView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
 
 
 # レビュー削除
-class ReviewDeleteView(LoginRequiredMixin, OnlyYouMixin, generic.DeleteView):
+class ReviewDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Review
     template_name = 'review_delete.html'
     success_url = reverse_lazy('project:review_delete')
@@ -447,7 +479,7 @@ class RankListView(generic.ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        ranking = Product.objects.order_by('-like_product')
+        ranking = Product.objects.order_by('-like_product', '-created_at')
         return ranking
         
         

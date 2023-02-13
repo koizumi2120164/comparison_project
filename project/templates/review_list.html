@@ -18,7 +18,8 @@
         <div class="card-body">
             <br>
             {% for review in review_list|slice:":1" %}
-            <h2>{{review.created_by}}さんの口コミ一覧</h2>
+            <h2>{{review.created_by}}さんのレビュー一覧</h2>
+            <br>
             {% endfor %}
             <br> 
             {% if review_list %}   
@@ -50,10 +51,9 @@
                                 {% endif %}
                             </div>
 
-                            <li>
-                                <a href="{% url 'project:item' object.pk %}">{{ review.productID|truncatechars:25 }}</a>
-                                
-                            </li>
+                            <td>
+                                <a href="{% url 'project:product_detail' review.productID %}">{{ review.productID|truncatechars:25 }}</a>
+                            </td>
 
                             <td>{{ review.review }}</td>
                             <td>{{ review.review_title|truncatechars:10 }}</td>

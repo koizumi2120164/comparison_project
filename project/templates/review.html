@@ -5,11 +5,17 @@
 
 {% block active_diary_list %}active{% endblock %}
 
+{% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+{% endblock %}
 
 {% block contents %}
 <div class="container my-div-style">
     <div class="row">
         <div class="col-9">
+            <div class="col-3">
+                <strong>レビュータイトル</strong>
+            </div>
             {{ object.review_title }}
             <a href="ユーザー詳細ページへのリンク">{{ object.userID }}</a>
             {{ object.productID }}
@@ -47,8 +53,72 @@
     </div>
 
     {% if user.is_authenticated %}
-    <a class="btn btn-success mt-5 mb-3" href="{% url 'project:review_edit' object.pk %}">修正</a>
-    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:review_delete' object.pk %}">削除</a>
+        {% if object.created_by != user %}
+
+            {% for like in object.like_review.all %}
+                {% if like == user %}
+                    <button type="button" id="ajax-like" style="border:none;background:none">
+                        <!-- すでにいいねしている時はfasクラス -->
+                        <i class="fas fa-heart text-danger" id="like-icon"></i>
+                    </button>
+                    <span>いいね</span>
+                {% else %}
+                    {% if forloop.last == True %}
+                        <button type="button" id="ajax-like" style="border:none;background:none">
+                            <!-- いいねしていないときはfarクラス -->
+                            <i class="far fa-heart text-danger" id="like-icon"></i>
+                        </button>
+                        <span>いいね</span>
+                    {% endif %}
+                {% endif %}
+            {% empty %}
+                <button type="button" id="ajax-like" style="border:none;background:none">
+                    <!-- いいねしていないときはfarクラス -->
+                    <i class="far fa-heart text-danger" id="like-icon"></i>
+                </button>
+                <span>いいね</span>
+            {% endfor %}
+
+        {% else %}
+            <a class="btn btn-success mt-5 mb-3" href="{% url 'project:review_edit' object.pk %}">編集</a>
+            <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'project:review_delete' object.pk %}">削除</a>
+            <br>
+        {% endif %}
     {% endif %}
+    <br>
+    <a class="btn btn-success mt-5 mb-3" href="javascript:history.back()">前のページへ戻る</a>
 </div>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+    // いいねボタンが押された時
+    document.getElementById('ajax-like').addEventListener('click', e => {
+        e.preventDefault();
+        const url = '{% url "project:Ajax_ch_review" object.pk %}';
+        fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        }).then(response => {
+        return response.json();
+        }).then(response => {
+        const icon = document.getElementById('like-icon')
+        // いいねした時はハートを塗る
+        if (response.method == 'create') {
+            icon.classList.remove('far')
+            icon.classList.add('fas')
+            icon.id = 'like-icon'
+        } else {
+            icon.classList.remove('fas')
+            icon.classList.add('far')
+            icon.id = 'like-icon'
+        }
+        }).catch(error => {
+        console.log(error);
+        });
+    });
+</script>
 {% endblock %}

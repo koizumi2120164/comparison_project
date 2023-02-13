@@ -1,26 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}プロフィール詳細 | comparison_project{% endblock %}
+{% block title %}ブログ詳細 | Prefecture blog{% endblock %}
 
 {% block active_diary_list %}active{% endblock %}
 
 
 {% block contents %}
-{% if messages %}
-    <ul class="list-unstyled">
-    {% for message in messages %}
-        <li {% if message.tags %} 
-            class="bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert"{% endif %}>
-        {{ message }}
-        <button type="button" class="close" aria_label="Close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </li>
-    {% endfor %}
-    </ul>
-{% endif %}
-
 <div class="container my-div-style">
     <div class="row">
         <div class="col-3">
@@ -68,10 +54,26 @@
 
     <div class="row">
         <div class="col-3">
-            <strong>生年月日</strong>
+            <strong>誕生年</strong>
         </div>
         <div class="col-9">
             {{ object.user_birthday }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <strong>誕生月</strong>
+        </div>
+        <div class="col-9">
+            {{ object.user_birthday_month }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <strong>誕生日</strong>
+        </div>
+        <div class="col-9">
+            {{ object.user_birthday_day }}
         </div>
     </div>
 
@@ -96,6 +98,7 @@
             {{ object.user_address }}
         </div>
     </div>
+</div>
 
 
     <a class="btn btn-success mt-5 mb-3" href="{% url 'project:profile_update' object.pk %}">変更</a>
