@@ -462,7 +462,7 @@ class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
 class RankListView(generic.ListView):
     model = Product
     template_name = 'rank_list.html'
-    paginate_by = 3
+    paginate_by = 4
 
     def get_queryset(self):
         ranking = Product.objects.order_by('-like_product', '-created_at')
@@ -482,8 +482,6 @@ class WishListView(LoginRequiredMixin, generic.ListView):
         if wish_list:
             for product in wish_list:
                 product_list += Product.objects.filter(product_name=product.wished_item)
-        else:
-            product_list = None
 
         return product_list
         
