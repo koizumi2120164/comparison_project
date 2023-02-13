@@ -7,38 +7,59 @@
 
 {% block head %}
 <link href="{% static 'css/select.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block contents %}
-<div class="container px-4 px-lg-5 my-div-style">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
+<div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-xl-12" >
+        <div class="card" style="width: 95rem;"> 
+            <div class="card-body">
             <br>
             <h1>お気に入りリスト</h1>
-            {% for wishlist in object_list %}
-            <div class="post-preview">
-                <h3 class="gazo-box">
-                    {% if wishlist.image1 %}
-                    <img src="{{ product.image1.url }}" width="200" height="200"/>
-                    {% endif %}
-                </h3>
-                <h2 class="post-title">
-                    {{ wishlist.product_name }}
-                    {{ wishlist.price1 }}
-                    {{ wishlist.price2 }}
-                    {{ wishlist.price3 }}
-                </h2>
-                <a class="btn btn-primary" href="{% url 'project:商品詳細ページ' project.pk %}">詳細</a>
-                <h2>
-                    {{ wishlist.added_date }}に追加されました
-                </h2>
-                <a class="btn btn-primary" href="{% url 'project:wish_delete' project.pk %}">削除</a>
-            </div>
-            <hr class="my-4">
-            {% empty %}
-            <br>
-            <p>お気に入り登録した商品がありません。</p>
-            {% endfor %}
+            <br><hr>
+            {% if object_list %}
+            <table  id="dataTable" width="100%" cellspacing="50%" >
+                <thead>
+                    <tr>
+                        <td>商品の写真</td>
+                        <td>商品名</td>
+                        <td>商品価格</td>
+                        <td>商品詳細</td>
+                        <td></td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in object_list %}
+                        <tr>
+                            <div class="inline-block_test">
+                                {% if product.image1 %}
+                                <td><h3 class="gazo-box">
+                                    <img src="{{ product.image1.url }}" width="80" height="60"/>
+                                </h3></td>
+                                {% else %}
+                                <td><h3 class="gazo-box">
+                                    <img src="{% static 'assets/img/no_image.jpeg' %}" width="80" height="80" >
+                                </h3></td>
+                                {% endif %}
+                            </div>
+
+                            <td>{{ product.product_name|truncatechars:25 }}</td>
+
+                            <td>{{ product.price1 }}</td>
+
+                            <td>{{ product.description|truncatechars:25 }}</td>
+
+                            <td><a class="btn btn-primary" href="{% url 'project:product_detail' product.slug %}">詳細</a></td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <br>
+                <h4>お気に入り登録した商品がありません。</h4>
+            {% endif %}
 
             <!-- ページネーション処理 -->
             {% if is_paginated %}
