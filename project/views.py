@@ -73,7 +73,20 @@ class ProductListView(generic.ListView):
     def category_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)
-        return render(request, 'category.html', {'category': category, 'products':products})
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 3)
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        context = {
+            'products': products,
+            'category': category, 
+        }
+        return render(request, 'category.html', context)
 
 
 # 商品詳細ページ
