@@ -135,7 +135,7 @@ def Ajax_ch_product(request, slug):
         wish.delete()
         context['method'] = 'delete'
     else:
-        wish_list.create(userID=user, wished_item=product, slug=wish_slug)
+        wish_list.create(userID=user, wished_item=product)
         context['method'] = 'create'
  
     return JsonResponse(context)
