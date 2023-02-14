@@ -521,3 +521,15 @@ class ProfileUpdateView(LoginRequiredMixin, OnlyYouMixin, generic.UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, "情報の保存に失敗しました。")
         return super().form_invalid(form)
+    
+
+# 商品のレビュー一覧
+class ReviewProductView(generic.ListView):
+    model = Review
+    template_name = 'review_product.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        product = Product.objects.get(slug=self.kwargs['slug'])
+        review_list = Review.objects.filter(productID=product).order_by('-created_at')
+        return review_list

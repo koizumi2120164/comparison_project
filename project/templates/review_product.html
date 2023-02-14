@@ -17,10 +17,7 @@
     <div class="card" style="width: 95rem;"> 
         <div class="card-body">
             <br>
-            {% for review in review_list|slice:":1" %}
-            <h2>{{review.created_by}}さんのレビュー一覧</h2>
-            <br>
-            {% endfor %}
+            <h2>レビュー一覧</h2>
             <br> 
             {% if review_list %}   
             <table  id="dataTable" width="100%" cellspacing="50%" >
@@ -28,6 +25,7 @@
                     <tr>
                         <td>写真</td>
                         <td>商品名</td>
+                        <td>投稿者</td>
                         <td>商品の評価</td>
                         <td>レビュータイトル</td>
                         <td>レビュー内容</td>
@@ -53,6 +51,10 @@
 
                             <td>
                                 <a href="{% url 'project:product_detail' review.productID.slug %}">{{ review.productID|truncatechars:25 }}</a>
+                            </td>
+
+                            <td>
+                                <a href="{% url 'project:user_review_page' review.created_by.pk %}">{{ review.created_by }}</a>
                             </td>
 
                             <td>{{ review.review }}</td>

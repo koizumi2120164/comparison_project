@@ -32,6 +32,7 @@ urlpatterns = [
     path('Ajax_ch_word/<int:pk>/', views.Ajax_ch_word, name="Ajax_ch_word"),
     path('Ajax_ch_review/<int:pk>/', views.Ajax_ch_review, name="Ajax_ch_review"),
     path('Ajax_ch_product/<slug:slug>/', views.Ajax_ch_product, name="Ajax_ch_product"),
+    path('review_product/<slug:slug>/', views.ReviewProductView.as_view(), name="review_product"),
 ]
 
 if settings_dev.DEBUG:

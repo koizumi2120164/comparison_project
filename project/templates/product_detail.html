@@ -108,7 +108,7 @@
         <h4>投稿されたレビューがありません。</h4>
         {% endfor %}
         {% if review_list %}
-        <a class="btn btn-primary" href="{% url 'project:word_list' object.pk %}">もっと見る</a>
+        <a class="btn btn-primary" href="{% url 'project:review_product' product.slug %}">もっと見る</a>
         {% endif %}
     </div>
     </div>
