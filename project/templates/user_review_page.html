@@ -96,7 +96,7 @@
           <ul class="list-unstyled mb-9">
             {% for object in review_list|slice:":5" %}
             <li>
-                <a href="{% url 'project:review_edit' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
+                <a href="{% url 'project:review' object.pk %}">{{ object.review_title|truncatechars:25 }}</a>
                 <p>{{ object.created_at }}</p>
             </li>
             {% empty %}

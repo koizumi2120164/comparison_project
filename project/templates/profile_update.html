@@ -12,7 +12,6 @@
             {% csrf_token %}
             <table class="table">
                 {{ form.as_table }}
-                {{ form.user_birthday }}
             </table>
             <button class="btn btn-primary" type="submit">更新</button>
             <a class="btn btn-secondary ml-2" href="{% url 'project:profile_edit' object.pk %}">キャンセル</a>
