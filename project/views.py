@@ -116,13 +116,14 @@ class ProductDetailView(generic.DetailView):
     
 
 # 商品のいいね機能
-def Ajax_ch_product(request, slug):
+def Ajax_ch_product(request, slug, pk):
     """Ajax処理"""
     user = request.user
     context = {
         'user_id': f'{ request.user }',
     }
     wish_slug = slug
+    
     product = Product.objects.get(slug=wish_slug)
     wish_list = Wishlist.objects.filter(wished_item=product)
     like = False
