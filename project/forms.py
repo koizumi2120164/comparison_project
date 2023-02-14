@@ -39,6 +39,7 @@ class ProfileEditForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['user_birthday'].widget = forms.SelectDateWidget(years=[x for x in range(1990, 2030)])
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
 
