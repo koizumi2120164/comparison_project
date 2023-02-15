@@ -383,7 +383,7 @@ class ReviewEditView(LoginRequiredMixin, generic.UpdateView):
         review = form.save(commit=False)
         review.created_by = self.request.user
         review_list = Review.objects.get(pk=self.kwargs['pk'])
-        product = Product.objects.get(slug=review_list.productID)
+        product = Product.objects.get(pk=review_list.productID.pk)
         review.productID = product
         review.save()
         messages.success(self.request, 'レビューを編集しました。')
