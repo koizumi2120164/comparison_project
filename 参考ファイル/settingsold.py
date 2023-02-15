@@ -1,5 +1,6 @@
 from .settings_common import *
 
+
 # 本番運用環境用にセキュリティキーを生成し環境変数から読み込む
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
