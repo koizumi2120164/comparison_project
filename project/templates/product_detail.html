@@ -88,10 +88,6 @@
                         <div class="inline-block_test">
                             <p>☆{{ review.review }}</p>
                         </div>
-                        <div class="inline-block_test">
-                            <p>{{ review.review_text }}</p>
-                        </div>
-
                         {% for like in review.like_review.all %}
                             {% if forloop.last == True %}
                             <td>♡{{forloop.counter}}</td>
@@ -99,6 +95,9 @@
                             {% empty %}
                             <td>♡0</td>
                         {% endfor %}
+                        <div class="inline-block_test">
+                            <p>{{ review.review_text }}</p>
+                        </div>
                         
                         <hr>
                     </div>

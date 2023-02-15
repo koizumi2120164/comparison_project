@@ -135,7 +135,7 @@ def Ajax_ch_product(request, slug):
         wish.delete()
         context['method'] = 'delete'
     else:
-        wish_list.create(userID=user, wished_item=product)
+        wish_list.create(userID=user, wished_item=product, slug=wish_slug)
         context['method'] = 'create'
  
     return JsonResponse(context)
@@ -383,7 +383,7 @@ class ReviewEditView(LoginRequiredMixin, generic.UpdateView):
         review = form.save(commit=False)
         review.created_by = self.request.user
         review_list = Review.objects.get(pk=self.kwargs['pk'])
-        product = Product.objects.get(slug=review_list.productID)
+        product = Product.objects.get(pk=review_list.productID.pk)
         review.productID = product
         review.save()
         messages.success(self.request, 'レビューを編集しました。')
