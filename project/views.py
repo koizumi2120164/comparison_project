@@ -57,7 +57,8 @@ class ProductListView(generic.ListView):
     def product_all(request):
         products = Product.objects.all()
         page = request.GET.get('page', 1)
-        paginator = Paginator(products, 6)
+        paginator = Paginator(products, 9)
+        page_range = paginator.get_elided_page_range(number=page)
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
@@ -74,7 +75,8 @@ class ProductListView(generic.ListView):
         category = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=category)
         page = request.GET.get('page', 1)
-        paginator = Paginator(products, 3)
+        paginator = Paginator(products, 6)
+        page_range = paginator.get_elided_page_range(number=page)
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
@@ -475,7 +477,7 @@ class RecentlyViewedView(LoginRequiredMixin, generic.ListView):
 class RankListView(generic.ListView):
     model = Product
     template_name = 'rank_list.html'
-    paginate_by = 4
+    paginate_by = 10
 
     def get_queryset(self):
         ranking = Product.objects.order_by('-like_product', '-created_at')

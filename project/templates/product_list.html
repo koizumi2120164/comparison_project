@@ -38,6 +38,8 @@
                   <div class="card-body">
                     <p class="card-text"></p>
                     <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.product_name }}</a>
+                    <p class="card-text"></p>
+                    <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}"><span>{{ product.price1 }}</span> JPY</a>
                     <div class="d-flex justify-content-between align-items-center">
                     </div>
                   </div>
@@ -73,13 +75,18 @@
                         <span class="page-link" aria-hidden="true">&laquo;</span>
                     </li>
                   {% endif %}
-          
-                  {% for p in products.paginator.page_range %}
-                    {% if products.number == p %}
-                      <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
-                    {% else %}
-                      <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
-                    {% endif %}
+
+                  {% for i in page_range|default_if_none:products.paginator.get_elided_page_range %}
+                      {% if products.number == i %}
+                          <li class="active page-item"><span class="page-link">{{ i }}</span>
+                          </li>
+                      {% else %}
+                          {% if i == products.paginator.ELLIPSIS %}
+                              <li class="page-item"><span class="page-link">{{ i }}</span></li>
+                          {% else %}
+                              <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                      {% endif %}
                   {% endfor %}
           
                   {% if products.has_next %}
