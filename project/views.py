@@ -400,7 +400,10 @@ class ReviewEditView(LoginRequiredMixin, generic.UpdateView):
 class ReviewDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Review
     template_name = 'review_delete.html'
-    success_url = reverse_lazy('project:review_delete')
+
+    def get_success_url(self):
+        review = Review.objects.get(pk=self.kwargs['pk'])
+        return reverse_lazy('project:product_detail', kwargs={'slug': review.productID.slug})
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "レビューを削除しました。")
