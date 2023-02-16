@@ -58,7 +58,8 @@ class ProductListView(generic.ListView):
         products = Product.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(products, 9)
-        page_range = paginator.get_elided_page_range(number=page)
+        page_object = paginator.get_page(page)
+        page_object.adjusted_elided_pages = paginator.get_elided_page_range(page)
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
@@ -68,6 +69,7 @@ class ProductListView(generic.ListView):
 
         context = {
             'products': products, 
+            "page_obj": page_object
         }
         return render(request, 'product_list.html', context)
 
@@ -89,6 +91,7 @@ class ProductListView(generic.ListView):
             'category': category, 
         }
         return render(request, 'category.html', context)
+
 
 
 # 商品詳細ページ
