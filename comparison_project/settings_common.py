@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     'import_export',
-    'django_ses',
 
 ]
 

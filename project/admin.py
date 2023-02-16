@@ -9,22 +9,25 @@ from import_export.formats import base_formats
 from import_export.admin import ImportExportModelAdmin
 
 from .models import *
+class CategoryWidget(ForeignKeyWidget):
+    def clean(self, value, row=None, *args, **kwargs):
+        obj, created = self.model.objects.get_or_create(category=value)
+        return obj
 
 class CategoryResource(resources.ModelResource):
     class Meta:
         model = Category
+        category = fields.Field(
+        column_name='category',
+        attribute='category',
+        widget=CategoryWidget(Category, 'category')
+    )
 
 class ProductResource(resources.ModelResource):
-    category = fields.Field(
-        column_name='category_name',
-        attribute='category_name',
-        widget=ForeignKeyWidget(Category, 'category_name'))
     class Meta:
         model = Product
-        fields = ('id', 'product_name', 'category', 'category_id')
-        #import_order = ('id', 'category', 'product_name', 'description', 'image1', 'price1','link1', )
-        exclude = ('image2','image3', 'price2', 'link2','price3', 'link3', 'rating','slug', 'product_brand','is_active', 'like_product', 'created_at', 'updated_at', )
-        #import_id_fields = ['id']
+        resource_class = CategoryResource
+        fields = ('id', 'category', 'product_name', 'description', 'image1', 'image2','image3', 'price1','link1', 'slug', )
 
 @admin.register(Category)
 class CategoryAdmin(ImportExportModelAdmin):
