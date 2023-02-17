@@ -39,7 +39,7 @@
             <strong>投稿者</strong>
         </div>
         <div class="col-3">
-            <a href="ユーザー詳細ページへのリンク">{{ object.created_by }}</a>
+            <a href="{% url 'project:user_review_page' object.created_by.pk %}">{{ object.created_by }}</a>
         </div>
     </div>
 
