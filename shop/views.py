@@ -20,33 +20,3 @@ class IndexView(View):
             'form':form,
         })
     
-    def post(self, request, *args, **kwargs):
-        form = SearchForm(request.POST or None)
-
-        if form.is_valid():
-            keyword = form.cleaned_data['title']
-            params = {
-                'title': keyword,
-                'hits': 28
-            }
-            items = get_api_data(params)
-            book_data = []
-            for i in items:
-                item = i['Item']
-                title = item['title']
-                image = item['largeImageUrl']
-                isbn = item['isbn']
-                query = {
-                    'title': title,
-                    'image': image,
-                    'isbn': isbn,
-                }
-                book_data.append(query)
-
-            return render(request, 'book.html', {
-                'book_data': book_data,
-                'keyword': keyword
-            })
-        return render (request, 'testindex.html', {
-            'form': form
-        })
