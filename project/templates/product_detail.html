@@ -37,27 +37,34 @@
                     <p><span><a href="{{ product.link1 }}"><img src="{% static 'assets/img/Rakuten.png' %}" alt="RakutenLink"></a>Rakuten店舗に飛ぶ </span></p>
                 </div>
                 <p class="lead">{{ product.description }}</p>
-            </div>
+            
             {% if user.is_authenticated %}
                 {% for like in wish_list %}
                     {% if like.userID == user %}
                     <button type="button" id="ajax-like" style="border:none;background:none">
                         <!-- すでにいいねしている時はfasクラス -->
                         <i class="fas fa-heart text-danger" id="like-icon"></i>
+                        <span id="like-for-post-count">{{ like_for_post_count }}</span>
+                        <span>件のイイね</span>
                     </button>
                     {% else %}
                     <button type="button" id="ajax-like" style="border:none;background:none">
                         <!-- いいねしていないときはfarクラス -->
                         <i class="far fa-heart text-danger" id="like-icon"></i>
+                        <span id="like-for-post-count">{{ like_for_post_count }}</span>
+                        <span>件のイイね</span>
                     </button>
                     {% endif %}
                 {% empty %}
                     <button type="button" id="ajax-like" style="border:none;background:none">
                         <!-- いいねしていないときはfarクラス -->
                         <i class="far fa-heart text-danger" id="like-icon"></i>
+                        <span id="like-for-post-count">{{ like_for_post_count }}</span>
+                        <span>件のイイね</span>
                     </button>
                 {% endfor %}
             {% endif %}
+        </div>
         </div>
     </div>
 </section>
@@ -130,6 +137,9 @@
         }).then(response => {
         return response.json();
         }).then(response => {
+        // イイね数を書き換える
+        const counter = document.getElementById('like-for-post-count')
+        counter.textContent = response.like_for_post_count
         const icon = document.getElementById('like-icon')
         // いいねした時はハートを塗る
         if (response.method == 'create') {

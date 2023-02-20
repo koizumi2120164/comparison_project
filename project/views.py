@@ -105,8 +105,9 @@ class ProductDetailView(generic.DetailView):
         
         product = get_object_or_404(Product, slug=self.kwargs['slug'])
         review = Review.objects.filter(productID=product.pk).order_by('-created_at')
+        user = CustomUser.objects.filter(username=self.request.user)
 
-        if self.request.user:
+        if user:
             wish = Wishlist.objects.filter(userID=self.request.user, wished_item=product.pk)
         else:
             wish = None
@@ -115,6 +116,7 @@ class ProductDetailView(generic.DetailView):
             'product_list': product,
             'review_list' : review,
             'wish_list' : wish,
+            'like_for_post_count' : product.like_product.count()
         })
 
         return context
@@ -129,7 +131,6 @@ def Ajax_ch_product(request, slug):
     }
 
     product = Product.objects.get(slug=slug)
-    product_list = Product.objects.filter(slug=slug)
     wish_list = Wishlist.objects.filter(wished_item=product)
     like = False
 
@@ -145,6 +146,8 @@ def Ajax_ch_product(request, slug):
         wish_list.create(userID=user, wished_item=product)
         context['method'] = 'create'
         product.like_product.add(user)
+
+    context['like_for_post_count'] = product.like_product.count()
  
     return JsonResponse(context)
 

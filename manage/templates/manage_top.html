@@ -3,14 +3,6 @@
 
 {% block title %}チャート{% endblock %}
 
-{% block header %}
-<div class="input-group">
-    <form action="{% url 'manage:age' %}" method="get">
-        <label><input class="form-control" style="width: 500px; height: 39px;" type="text" name="keyword" id="keyword" placeholder="検索したい商品を入力" aria-label="Enter search term..." aria-describedby="button-search" required="required" /></label>
-        <input type="submit" class="btn btn-primary" value="検索">
-    </form>
-</div>
-{% endblock %}
 
 {% block contents %}
     <div class="container-fluid">
