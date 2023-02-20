@@ -27,10 +27,10 @@
                 <thead>
                     <tr>
                         <td>写真</td>
-                        <td>商品名</td>
-                        <td>商品の評価</td>
                         <td>レビュータイトル</td>
+                        <td>商品の評価</td>
                         <td>レビュー内容</td>
+                        <td>商品名</td>
                         <td>いいね数</td>
                         <td>投稿日時</td>
                     </tr>
@@ -52,12 +52,15 @@
                             </div>
 
                             <td>
-                                <a href="{% url 'project:product_detail' review.productID.slug %}">{{ review.productID|truncatechars:25 }}</a>
+                                <a href="{% url 'project:review' review.pk %}">{{ review.review_title|truncatechars:10 }}</a>
                             </td>
 
                             <td>{{ review.review }}</td>
-                            <td>{{ review.review_title|truncatechars:10 }}</td>
                             <td>{{ review.review_text|truncatechars:10 }}</td>
+
+                            <td>
+                                <a href="{% url 'project:product_detail' review.productID.slug %}">{{ review.productID|truncatechars:10 }}</a>
+                            </td>
 
                             {% for like in review.like_review.all %}
                                 {% if forloop.last == True %}
