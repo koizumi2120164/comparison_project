@@ -265,7 +265,7 @@ class WordDeleteView(LoginRequiredMixin, generic.DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "口コミを削除しました。")
         # アカウントテーブルの口コミ数を削除した状態で登録
-        target_data = Word.objects.filter(word_created_by=self.request.user).count()
+        target_data = Word.objects.filter(created_by=self.request.user).count()
         user = CustomUser.objects.filter(username=self.request.user)
         for customuser in user:
             customuser.no_of_word = target_data
