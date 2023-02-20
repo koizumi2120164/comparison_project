@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     'import_export',
+<<<<<<< HEAD
 
+=======
+>>>>>>> 53b4eb220ad9f16380f78cd3bd1e9b9a0782e147
 ]
 
 MIDDLEWARE = [
