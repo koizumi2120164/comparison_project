@@ -105,8 +105,9 @@ class ProductDetailView(generic.DetailView):
         
         product = get_object_or_404(Product, slug=self.kwargs['slug'])
         review = Review.objects.filter(productID=product.pk).order_by('-created_at')
+        user = CustomUser.objects.filter(username=self.request.user)
 
-        if self.request.user:
+        if user:
             wish = Wishlist.objects.filter(userID=self.request.user, wished_item=product.pk)
         else:
             wish = None
