@@ -60,5 +60,4 @@ class Recently_viewed(models.Model):
 class Wishlist(models.Model):
     userID = models.ForeignKey('accounts.CustomUser', verbose_name='ユーザーID', on_delete=models.PROTECT, default=1)
     wished_item = models.ForeignKey('shop.Product', verbose_name='商品ID', on_delete=models.PROTECT, default=1)
-    slug = models.SlugField(verbose_name='管理番号', max_length=255, unique=True)
     added_date = models.DateTimeField(verbose_name='追加された日時', auto_now=True)

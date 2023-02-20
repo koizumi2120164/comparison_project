@@ -36,7 +36,7 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context.update({
-            'product_list': Product.objects.order_by('-like_product'),
+            'product_list': Product.objects.all().annotate(Count('like_product')).order_by('-like_product__count', '-created_at'),
             'word_list': Word.objects.order_by('-created_at'),
         })
 
@@ -127,8 +127,9 @@ def Ajax_ch_product(request, slug):
     context = {
         'user_id': f'{ request.user }',
     }
-    wish_slug = slug
-    product = Product.objects.get(slug=wish_slug)
+
+    product = Product.objects.get(slug=slug)
+    product_list = Product.objects.filter(slug=slug)
     wish_list = Wishlist.objects.filter(wished_item=product)
     like = False
 
@@ -139,9 +140,11 @@ def Ajax_ch_product(request, slug):
     if like == True:
         wish.delete()
         context['method'] = 'delete'
+        product.like_product.remove(user)
     else:
-        wish_list.create(userID=user, wished_item=product, slug = wish_slug)
+        wish_list.create(userID=user, wished_item=product)
         context['method'] = 'create'
+        product.like_product.add(user)
  
     return JsonResponse(context)
 
@@ -155,7 +158,6 @@ def get_queryset(request):
         # Sessionに値がないか、新しくキーワードから値を取得した場合、GETから取得
         params = {
             "keyword" : request.GET.get("keyword"),
-            "brand" : request.GET.get("brand"),
             "value" : request.GET.get("value"),
             "display" : request.GET.get("display")
         }
@@ -486,7 +488,7 @@ class RankListView(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        ranking = Product.objects.order_by('-like_product', '-created_at')
+        ranking = Product.objects.all().annotate(Count('like_product')).order_by('-like_product__count', '-created_at')
         return ranking
         
         
