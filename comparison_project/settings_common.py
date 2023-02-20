@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
     'import_export',
 
-    'django_ses',
 ]
 
 MIDDLEWARE = [
