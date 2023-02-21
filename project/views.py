@@ -381,6 +381,7 @@ class ReviewCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_invalid(form)
         
 
+# レビュー編集ページ
 class ReviewEditView(LoginRequiredMixin, generic.UpdateView):
     model = Review
     template_name = 'review_edit.html'
