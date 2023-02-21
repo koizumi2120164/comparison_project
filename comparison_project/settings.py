@@ -16,14 +16,6 @@ MEDIA_ROOT = '/usr/share/nginx/html/media'
 # メール送信機能関連設定
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = '/home/app_admin/log'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'comparison.project2023@gmail.com'
-EMAIL_HOST_PASSWORD = 'ikb2120228'
-EMAIL_PORT = 587
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'comparison.project2023@gmail.com'
-EMAIL_FROM = 'comparison.project2023@gmail.com'
 
 # ロギング
 LOGGING = {
