@@ -40,7 +40,7 @@
                         
                         {% if user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'project:wish_list' user.pk %}">お気に入り</a></li>
-                            {% for object in review_list|slice:":4" %}
+                            {% for object in review_list|slice:":1" %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'project:user_review_page' user.pk %}">ユーザーレビュー・口コミ</a></li>
                             {% empty %}
                             {% endfor %}
