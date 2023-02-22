@@ -40,7 +40,7 @@
                         
                         {% if user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'project:wish_list' user.pk %}">お気に入り</a></li>
-                            
+                            <li class="nav-item"><a class="nav-link" href="{% url 'project:user_review_page' user.pk %}">ユーザーレビュー・口コミ</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'project:profile_edit' user.pk %}">アカウント</a></li>
                             {% if user.is_staff %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'manage:top' %}">マネージメントページ</a></li>
