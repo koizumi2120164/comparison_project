@@ -38,6 +38,7 @@ class IndexView(generic.ListView):
         context.update({
             'product_list': Product.objects.all().annotate(Count('like_product')).order_by('-like_product__count', '-created_at'),
             'word_list': Word.objects.order_by('-created_at'),
+
         })
 
         return context
@@ -439,9 +440,11 @@ class UserReviewPageView(generic.ListView):
         if word_list:
             for user in word_list:
                 user_list = CustomUser.objects.filter(username=user.created_by)
-        else:
+        elif review_list:
             for user in review_list:
                 user_list = CustomUser.objects.filter(username=user.created_by)
+        else:
+            user_list = CustomUser.objects.filter(username=self.request.user)
 
         context.update({
             'review_list': review_list,
