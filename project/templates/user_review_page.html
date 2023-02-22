@@ -17,7 +17,7 @@
         {% for object in user_list %}
         {% if object.user_photo %}
         <div  alt="" class="float-md-start">
-        <img src="{{ object.user_photo.url }}." width="328" height="328">
+        <img src="{{ object.user_photo.url }}" width="328" height="328">
         </div>
         {% else %}
             <img src="{% static 'assets/img/no_image.jpeg' %}" width="328" height="328" >
